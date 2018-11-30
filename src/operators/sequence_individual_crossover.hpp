@@ -7,6 +7,7 @@
 
 template<typename sequence_individual, typename fitness_value>
 class sequence_individual_crossover : public base_state {
+  using individual = std::vector<sequence_individual>;
  private:
   std::default_random_engine generator;
   std::uniform_int_distribution<std::size_t> distribution;
@@ -22,12 +23,12 @@ class sequence_individual_crossover : public base_state {
   }
 
   void operator()(
-      individual_collection<sequence_individual, fitness_value>& children,
-      const individual_wrapper_pair<sequence_individual, fitness_value>& parents) const {
+      individual_collection<individual, fitness_value>& children,
+      const individual_wrapper_pair<individual, fitness_value>& parents) const {
     auto ind_size = config->system_props.individual_size;
 
-    sequence_individual child1(ind_size);
-    sequence_individual child2(ind_size);
+    individual child1(ind_size);
+    individual child2(ind_size);
 
     auto rand = random();
 

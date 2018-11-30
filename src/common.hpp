@@ -29,6 +29,9 @@ static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
 static constexpr const char* const TIME_HEADERS_MIN[] = { "Start", "End",
     "Total (ms)" };
 
+static constexpr const char* const INDIVIDUAL_HEADERS_MIN[] = { "Generation",
+    "Island", "Individual", "Fitness value" };
+
 static constexpr const char* const ACTOR_PHASE_MAP[] = { "init_population",
     "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total" };
 
@@ -36,3 +39,16 @@ static inline auto now() {
   return std::chrono::high_resolution_clock::now();
 }
 }
+
+// aliases for common data structures
+template<typename individual, typename fitness_value>
+using individual_wrapper = std::pair<individual, fitness_value>;
+
+template<typename individual, typename fitness_value>
+using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>>;
+
+template<typename individual, typename fitness_value>
+using individual_collection = std::vector<individual_wrapper<individual, fitness_value>>;
+
+template<typename individual, typename fitness_value>
+using parent_collection = std::vector<individual_wrapper_pair<individual, fitness_value>>;

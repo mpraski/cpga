@@ -10,7 +10,7 @@ class onemax_fitness_evaluation : public base_state {
       : base_state { config } {
   }
 
-  int operator()(const std::vector<bool>& ind) const {
+  int operator()(const std::vector<bool>& ind) const noexcept {
     int i { 0 };
     for (const auto& b : ind)
       if (b)

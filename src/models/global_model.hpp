@@ -45,11 +45,12 @@ behavior global_model_worker(
     stateful_actor<global_model_worker_state<fitness_evaluation_operator>>* self,
     global_model_worker_state<fitness_evaluation_operator> state) {
   self->state = std::move(state);
+  auto& f = self->state.fitness_evaluation;
 
   return {
-    [=](compute_fitness, const individual& ind) {
-      return self->state.fitness_evaluation(ind);
-    },
+    [f](compute_fitness, const individual& ind) -> fitness_value {
+      return f(ind);
+    }
   };
 }
 
@@ -79,7 +80,7 @@ struct global_model_supervisor_state : public base_state {
     workers.reserve(pool_size);
   }
 
-  inline actor random_worker() {
+  inline auto random_worker() noexcept {
     return workers[random_f()];
   }
 };

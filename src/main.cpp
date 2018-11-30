@@ -29,13 +29,14 @@ int main() {
   system_props.actor_reporter_log = "actor_reporter.csv";
 
   user_properties user_props;
-  user_props[constants::POSSIBLE_VALUES_KEY] = std::vector<bool> { true, false };
+  user_props[constants::POSSIBLE_VALUES_KEY] =
+      std::vector<bool> { true, false };
   user_props[constants::STABLE_REQUIRED_KEY] = std::size_t { 10 };
   user_props[constants::MINIMUM_AVERAGE_KEY] = 8;
 
   global_model_driver<std::vector<bool>, int, onemax_fitness_evaluation,
-      sequence_individual_initialization<std::vector<bool>, int>,
-      sequence_individual_crossover<std::vector<bool>, int>, bitstring_mutation,
+      sequence_individual_initialization<bool, int>,
+      sequence_individual_crossover<bool, int>, bitstring_mutation,
       roulette_wheel_parent_selection<std::vector<bool>, int>,
       roulette_wheel_survival_selection<std::vector<bool>, int>,
       best_individual_elitism<std::vector<bool>, int>,

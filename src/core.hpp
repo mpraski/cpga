@@ -77,16 +77,3 @@ class base_driver {
   system_properties system_props;
   user_properties user_props;
 };
-
-// aliases for common data structures
-template<typename individual, typename fitness_value>
-using individual_wrapper = std::pair<individual, fitness_value>;
-
-template<typename individual, typename fitness_value>
-using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>>;
-
-template<typename individual, typename fitness_value>
-using individual_collection = std::vector<individual_wrapper<individual, fitness_value>>;
-
-template<typename individual, typename fitness_value>
-using parent_collection = std::vector<individual_wrapper_pair<individual, fitness_value>>;

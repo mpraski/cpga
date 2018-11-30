@@ -42,10 +42,9 @@ class roulette_wheel_parent_selection : base_state {
       total += wrapper.second;
     }
 
-    std::size_t first, second;
     for (std::size_t i = 0; i < couples_num; ++i) {
-      first = spin(total, population);
-      second = spin(total, population);
+      auto first = spin(total, population);
+      auto second = spin(total, population);
 
       if (second == first) {
         second = (second + 1) % population.size();

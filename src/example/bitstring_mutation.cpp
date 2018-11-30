@@ -4,6 +4,7 @@
 #include <vector>
 
 class bitstring_mutation : public base_state {
+  using wrapper = individual_wrapper<std::vector<bool>, int>;
  private:
   std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution;
@@ -18,7 +19,7 @@ class bitstring_mutation : public base_state {
         random { std::bind(distribution, generator) } {
   }
 
-  void operator()(individual_wrapper<std::vector<bool>, int>& wrapper) const {
+  void operator()(wrapper& wrapper) const noexcept {
     for (std::size_t i = 0; i < config->system_props.individual_size; ++i) {
       if (random() < config->system_props.mutation_probability) {
         wrapper.first[i].flip();
