@@ -37,6 +37,9 @@ struct system_properties {
 
   bool is_actor_reporter_active;
   std::string actor_reporter_log;
+
+  bool is_individual_reporter_active;
+  std::string individual_reporter_log;
 };
 
 /*
@@ -46,7 +49,10 @@ struct system_properties {
 struct configuration {
   system_properties system_props;
   user_properties user_props;
+
+  // reporter actor handles
   actor actor_reporter;
+  actor individual_reporter;
 
   configuration(const system_properties& system_props,
                 const user_properties& user_props);
@@ -65,12 +71,39 @@ struct base_state {
 class base_driver {
  private:
   std::vector<std::string> build_actor_reporter_headers() const;
+  std::vector<std::string> build_individual_reporter_headers() const;
  public:
   base_driver(const system_properties& system_props,
               const user_properties& user_props);
 
+  template<typename individual, typename fitness_value>
   void start_reporters(configuration& conf, actor_system& system,
-                       scoped_actor& self) const;
+                       scoped_actor& self) const {
+    if (system_props.is_actor_reporter_active) {
+      if (system_props.actor_reporter_log.empty()) {
+        throw std::runtime_error("actor_reporter_log is empty");
+      }
+
+      conf.actor_reporter = system.spawn(time_reporter);  // @suppress("Invalid arguments")
+
+      self->send(conf.actor_reporter, init_reporter::value,
+                 system_props.actor_reporter_log,
+                 build_actor_reporter_headers());
+    }
+
+    if (system_props.is_individual_reporter_active) {
+      if (system_props.individual_reporter_log.empty()) {
+        throw std::runtime_error("actor_reporter_log is empty");
+      }
+
+      conf.individual_reporter = system.spawn(
+          individual_reporter<individual, fitness_value>);
+
+      self->send(conf.individual_reporter, init_reporter::value,
+                 system_props.individual_reporter_log,
+                 build_individual_reporter_headers());
+    }
+  }
 
   void stop_reporters(configuration& conf, scoped_actor& self) const;
 

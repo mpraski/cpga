@@ -7,6 +7,7 @@
 #include "operators/sequence_individual_initialization.hpp"
 #include "operators/sequence_individual_crossover.hpp"
 #include "operators/average_fitness_global_termination_check.hpp"
+#include "example/definitions.hpp"
 #include "example/bitstring_mutation.cpp"
 #include "example/onemax_fitness_evaluation.cpp"
 
@@ -27,6 +28,8 @@ int main() {
   system_props.can_repeat_individual_elements = false;
   system_props.is_actor_reporter_active = true;
   system_props.actor_reporter_log = "actor_reporter.csv";
+  system_props.is_individual_reporter_active = true;
+  system_props.individual_reporter_log = "individual_reporter.csv";
 
   user_properties user_props;
   user_props[constants::POSSIBLE_VALUES_KEY] =

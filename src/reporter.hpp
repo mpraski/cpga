@@ -49,11 +49,20 @@ class individual_reporter_state : public reporter_state {
  public:
   using reporter_state::reporter_state;
 
-  void write_individual(
-      const individual_wrapper<individual, fitness_value>& wrapper);
+  inline void write_individual(
+      const individual_wrapper<individual, fitness_value>& wrapper,
+      std::size_t generation, std::size_t island) {
+    *out_stream << generation << delimiter << island << delimiter
+        << wrapper.first << delimiter << wrapper.second << std::endl;
+  }
 
   void write_population(
-      const individual_collection<individual, fitness_value>& population);
+      const individual_collection<individual, fitness_value>& population,
+      std::size_t generation, std::size_t island) {
+    for (const auto& member : population) {
+      write_individual(member, generation, island);
+    }
+  }
 };
 
 behavior reporter(stateful_actor<reporter_state>* self);
@@ -62,4 +71,28 @@ behavior time_reporter(stateful_actor<time_reporter_state>* self);
 
 template<typename individual, typename fitness_value>
 behavior individual_reporter(
-    stateful_actor<individual_reporter_state<individual, fitness_value>>* self);
+    stateful_actor<individual_reporter_state<individual, fitness_value>>* self) {
+  using member = individual_wrapper<individual, fitness_value>;
+  using population = individual_collection<individual, fitness_value>;
+  return {
+    [=](init_reporter, const std::string& file, const std::vector<std::string>& headers) {
+      self->state.open_stream(file, headers);
+    },
+    [=](report, const std::string& part) {
+      self->state.write_part(part);
+    },
+    [=](report_new_line) {
+      self->state.write_new_line();
+    },
+    [=](exit_reporter) {
+      self->state.close_stream();
+      self->quit();
+    },
+    [=](report_individual, const member& wrapper, std::size_t generation, std::size_t island) {
+      self->state.write_individual(wrapper, generation, island);
+    },
+    [=](report_population, const population& population, std::size_t generation, std::size_t island) {
+      self->state.write_population(population, generation, island);
+    }
+  };
+}

@@ -375,7 +375,7 @@ class global_model_driver : private base_driver {
     scoped_actor self { system };
     configuration* conf { new configuration { system_props, user_props } };
 
-    start_reporters(*conf, system, self);
+    start_reporters<individual, fitness_value>(*conf, system, self);
 
     shared_config config { conf };
     fitness_evaluation_operator fitness_evaluation { config };
