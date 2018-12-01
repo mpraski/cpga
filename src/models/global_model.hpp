@@ -306,7 +306,7 @@ behavior global_model_executor(
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
-      if(state.config->system_props.is_actor_reporter_active) {
+      if(props.is_actor_reporter_active) {
         self->send(state.config->actor_reporter, note_start::value, constants::now());
       }
 
@@ -335,16 +335,25 @@ behavior global_model_executor(
       }
     },
     [=](finish) {
+      auto& state = self->state;
+      auto& props = self->state.config->system_props;
+
       aout(self) << "Finished global" << std::endl;
-      for(const auto& member : self->state.population) {
+      for(const auto& member : state.population) {
         aout(self) << member << std::endl;
       }
 
-      if(self->state.config->system_props.is_actor_reporter_active) {
-        auto& actor_reporter = self->state.config->actor_reporter;
+      if(props.is_actor_reporter_active) {
+        auto& actor_reporter = state.config->actor_reporter;
 
         self->send(actor_reporter, note_end::value, constants::now());
-        self->send(actor_reporter, report_info::value, actor_phase::total, self->state.current_generation, self->state.current_island);
+        self->send(actor_reporter, report_info::value, actor_phase::total, state.current_generation, state.current_island);
+      }
+
+      if(props.is_individual_reporter_active) {
+        auto& individual_reporter = state.config->individual_reporter;
+
+        self->send(individual_reporter, report_population::value, state.population, state.current_generation, state.current_island);
       }
 
       self->quit();

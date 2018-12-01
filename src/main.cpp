@@ -37,13 +37,13 @@ int main() {
   user_props[constants::STABLE_REQUIRED_KEY] = std::size_t { 10 };
   user_props[constants::MINIMUM_AVERAGE_KEY] = 8;
 
-  global_model_driver<std::vector<bool>, int, onemax_fitness_evaluation,
+  global_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
       sequence_individual_initialization<bool, int>,
       sequence_individual_crossover<bool, int>, bitstring_mutation,
-      roulette_wheel_parent_selection<std::vector<bool>, int>,
-      roulette_wheel_survival_selection<std::vector<bool>, int>,
-      best_individual_elitism<std::vector<bool>, int>,
-      average_fitness_global_termination_check<std::vector<bool>, int>> driver {
+      roulette_wheel_parent_selection<sequence<bool>, int>,
+      roulette_wheel_survival_selection<sequence<bool>, int>,
+      best_individual_elitism<sequence<bool>, int>,
+      average_fitness_global_termination_check<sequence<bool>, int>> driver {
       system_props, user_props };
 
   driver.run();

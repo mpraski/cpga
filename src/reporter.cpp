@@ -94,12 +94,6 @@ behavior time_reporter(stateful_actor<time_reporter_state>* self) {
     [=](init_reporter, const std::string& file, const std::vector<std::string>& headers) {
       self->state.open_stream(file, headers);
     },
-    [=](report, const std::string& part) {
-      self->state.write_part(part);
-    },
-    [=](report_new_line) {
-      self->state.write_new_line();
-    },
     [=](exit_reporter) {
       self->state.close_stream();
       self->quit();

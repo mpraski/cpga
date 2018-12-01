@@ -69,9 +69,9 @@ struct base_state {
 };
 
 class base_driver {
- private:
-  std::vector<std::string> build_actor_reporter_headers() const;
-  std::vector<std::string> build_individual_reporter_headers() const;
+ protected:
+  system_properties system_props;
+  user_properties user_props;
  public:
   base_driver(const system_properties& system_props,
               const user_properties& user_props);
@@ -87,8 +87,7 @@ class base_driver {
       conf.actor_reporter = system.spawn(time_reporter);  // @suppress("Invalid arguments")
 
       self->send(conf.actor_reporter, init_reporter::value,
-                 system_props.actor_reporter_log,
-                 build_actor_reporter_headers());
+                 system_props.actor_reporter_log, constants::TIME_HEADERS);
     }
 
     if (system_props.is_individual_reporter_active) {
@@ -101,12 +100,9 @@ class base_driver {
 
       self->send(conf.individual_reporter, init_reporter::value,
                  system_props.individual_reporter_log,
-                 build_individual_reporter_headers());
+                 constants::INDIVIDUAL_HEADERS);
     }
   }
 
   void stop_reporters(configuration& conf, scoped_actor& self) const;
-
-  system_properties system_props;
-  user_properties user_props;
 };

@@ -10,27 +10,6 @@ base_state::base_state(const shared_config& config)
     : config { config } {
 }
 
-std::vector<std::string> base_driver::build_actor_reporter_headers() const {
-  auto& time_headers = constants::TIME_HEADERS_MIN;
-
-  std::vector<std::string> headers(std::begin(time_headers),
-                                   std::end(time_headers));
-  headers.push_back("Phase");
-  headers.push_back("Generation");
-  headers.push_back("Island");
-
-  return headers;
-}
-
-std::vector<std::string> base_driver::build_individual_reporter_headers() const {
-  auto& time_headers = constants::INDIVIDUAL_HEADERS_MIN;
-
-  std::vector<std::string> headers(std::begin(time_headers),
-                                   std::end(time_headers));
-
-  return headers;
-}
-
 base_driver::base_driver(const system_properties& system_props,
                          const user_properties& user_props)
     : system_props { system_props },

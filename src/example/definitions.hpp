@@ -4,9 +4,8 @@
 #include <vector>
 
 std::ostream& operator<<(std::ostream &os, const std::vector<bool>& vec) {
-  os << '[';
+  os << '|';
   for (const auto& b : vec)
-    os << b << ',';
-  os << ']';
+    os << b << '|';
   return os;
 }

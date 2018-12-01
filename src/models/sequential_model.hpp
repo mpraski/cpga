@@ -94,6 +94,13 @@ class sequential_model_driver : private base_driver {
       self->send(actor_reporter, report_info::value, actor_phase::total, 0, 0);
     }
 
+    if (props.is_individual_reporter_active) {
+      auto& individual_reporter = config->individual_reporter;
+
+      self->send(individual_reporter, report_population::value, population,
+                 std::size_t { 0 }, std::size_t { 0 });
+    }
+
     std::cout << "Finished sequential" << std::endl;
   }
 

@@ -26,21 +26,24 @@ static constexpr const char POSSIBLE_VALUES_KEY[] =
 static constexpr const char STABLE_REQUIRED_KEY[] = "stable_required";
 static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
 
-static constexpr const char* const TIME_HEADERS_MIN[] = { "Start", "End",
-    "Total (ms)" };
-
-static constexpr const char* const INDIVIDUAL_HEADERS_MIN[] = { "Generation",
-    "Island", "Individual", "Fitness value" };
-
 static constexpr const char* const ACTOR_PHASE_MAP[] = { "init_population",
     "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total" };
 
-static inline auto now() {
+static std::vector<std::string> TIME_HEADERS { "Start", "End", "Total (ms)",
+    "Phase", "Generation", "Island" };
+
+static std::vector<std::string> INDIVIDUAL_HEADERS { "Generation", "Island",
+    "Individual", "Fitness value" };
+
+inline auto now() noexcept {
   return std::chrono::high_resolution_clock::now();
 }
 }
 
 // aliases for common data structures
+template<typename individual_value>
+using sequence = std::vector<individual_value>;
+
 template<typename individual, typename fitness_value>
 using individual_wrapper = std::pair<individual, fitness_value>;
 
