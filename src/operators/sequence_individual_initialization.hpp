@@ -37,7 +37,7 @@ class sequence_individual_initialization : public base_state {
         auto r = distribution { 0, values.size() - 1 }(generator);
         ind[j] = values[r];
 
-        if (props.can_repeat_individual_elements) {
+        if (!props.can_repeat_individual_elements) {
           values.erase(values.begin() + r);
         }
       }

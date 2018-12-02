@@ -65,6 +65,13 @@ class individual_reporter_state : public reporter_state {
   }
 };
 
+class system_reporter_state : public reporter_state {
+ public:
+  using reporter_state::reporter_state;
+
+  void write_message(const time_point& time, const std::string& message);
+};
+
 behavior reporter(stateful_actor<reporter_state>* self);
 
 behavior time_reporter(stateful_actor<time_reporter_state>* self);
@@ -90,3 +97,5 @@ behavior individual_reporter(
     }
   };
 }
+
+behavior system_reporter(stateful_actor<system_reporter_state>* self);

@@ -1,5 +1,6 @@
 #include "core.hpp"
 #include "models/global_model.hpp"
+#include "models/island_model.hpp"
 #include "models/sequential_model.hpp"
 #include "operators/best_individual_elitism.hpp"
 #include "operators/roulette_wheel_parent_selection.hpp"
@@ -25,7 +26,9 @@ int main() {
   system_props.supervisor_seed = 0.5;
   system_props.is_elitism_active = true;
   system_props.is_survival_selection_active = false;
-  system_props.can_repeat_individual_elements = false;
+  system_props.can_repeat_individual_elements = true;
+  system_props.is_system_reporter_active = true;
+  system_props.system_reporter_log = "system_reporter.csv";
   system_props.is_actor_reporter_active = true;
   system_props.actor_reporter_log = "actor_reporter.csv";
   system_props.is_individual_reporter_active = true;

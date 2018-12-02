@@ -35,6 +35,9 @@ struct system_properties {
   double mutation_probability;
   double supervisor_seed;
 
+  bool is_system_reporter_active;
+  std::string system_reporter_log;
+
   bool is_actor_reporter_active;
   std::string actor_reporter_log;
 
@@ -51,6 +54,7 @@ struct configuration {
   user_properties user_props;
 
   // reporter actor handles
+  actor system_reporter;
   actor actor_reporter;
   actor individual_reporter;
 
@@ -79,6 +83,19 @@ class base_driver {
   template<typename individual, typename fitness_value>
   void start_reporters(configuration& conf, actor_system& system,
                        scoped_actor& self) const {
+    if (system_props.is_system_reporter_active) {
+      if (system_props.system_reporter_log.empty()) {
+        throw std::runtime_error("system_reporter_log is empty");
+      }
+
+      conf.system_reporter = system.spawn(system_reporter);  // @suppress("Invalid arguments")
+
+      self->send(conf.system_reporter, init_reporter::value,
+                 system_props.system_reporter_log, constants::SYSTEM_HEADERS);
+
+      system_message(self, conf.system_reporter, "Spawning reporters");
+    }
+
     if (system_props.is_actor_reporter_active) {
       if (system_props.actor_reporter_log.empty()) {
         throw std::runtime_error("actor_reporter_log is empty");

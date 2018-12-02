@@ -71,6 +71,14 @@ void time_reporter_state::write_info(actor_phase phase, std::size_t generation,
               << generation << delimiter << island << std::endl;
 }
 
+void system_reporter_state::write_message(const time_point& time,
+                                          const std::string& message) {
+  auto t = std::chrono::time_point_cast<std::chrono::milliseconds>(time);
+
+  *out_stream << t.time_since_epoch().count() << delimiter << message
+              << std::endl;
+}
+
 behavior reporter(stateful_actor<reporter_state>* self) {
   return {
     [=](init_reporter, const std::string& file, const std::vector<std::string>& headers) {
@@ -106,6 +114,21 @@ behavior time_reporter(stateful_actor<time_reporter_state>* self) {
     },
     [=](report_info, actor_phase phase, std::size_t generation, std::size_t island) {
       self->state.write_info(phase, generation, island);
+    },
+  };
+}
+
+behavior system_reporter(stateful_actor<system_reporter_state>* self) {
+  return {
+    [=](init_reporter, const std::string& file, const std::vector<std::string>& headers) {
+      self->state.open_stream(file, headers);
+    },
+    [=](exit_reporter) {
+      self->state.close_stream();
+      self->quit();
+    },
+    [=](report, const time_point& time, const std::string& message) {
+      self->state.write_message(time, message);
     },
   };
 }

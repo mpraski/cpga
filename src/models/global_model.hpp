@@ -93,18 +93,30 @@ behavior global_model_supervisor(
     const fitness_evaluation_operator& feo) {
   self->state = std::move(state);
 
+  system_message(self, "Spawning global model supervisor");
+
+  auto spawn_worker = [self, feo]() -> actor {
+    system_message(self, "Spawning new global worker");
+    return self->spawn<monitored + detached>(
+        global_model_worker<individual, fitness_value,
+        fitness_evaluation_operator>,
+        global_model_worker_state<fitness_evaluation_operator> {self->state
+          .config, feo});
+  };
+
   for (std::size_t i = 0; i < self->state.pool_size; ++i)
-    self->state.workers.push_back(
-        self->spawn<linked + detached>(
-            global_model_worker<individual, fitness_value,
-                fitness_evaluation_operator>,
-            global_model_worker_state<fitness_evaluation_operator> { self->state
-                .config, feo }));
+    self->state.workers.emplace_back(spawn_worker());
 
   return {
-    [=](compute_fitness cf, individual ind) {
+    [self](compute_fitness cf, individual ind) {
       self->delegate(self->state.random_worker(), cf, std::move(ind));
-    }
+    },
+    [self, spawn_worker](const down_msg& down) {
+      // Spawn a new one
+      self->state.workers.emplace_back(spawn_worker());
+      // Write system message
+      system_message(self, "Global worker with id: ", down.source.id(), " died");
+    },
   };
 }
 
@@ -190,8 +202,10 @@ behavior global_model_executor(
     const actor& supervisor) {
   self->state = std::move(state);
 
+  system_message(self, "Spawning global model executor");
+
   return {
-    [=](init_population) {
+    [self](init_population) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
@@ -212,7 +226,7 @@ behavior global_model_executor(
         self->send(actor_reporter, report_info::value, actor_phase::init_population, state.current_generation, state.current_island);
       }
     },
-    [=](execute_phase_1) {
+    [self, supervisor](execute_phase_1) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
@@ -243,7 +257,7 @@ behavior global_model_executor(
         );
       }
     },
-    [=](execute_phase_2) {
+    [self, supervisor](execute_phase_2) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
@@ -302,7 +316,7 @@ behavior global_model_executor(
         }
       }
     },
-    [=](execute_phase_3) {
+    [self](execute_phase_3) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
@@ -334,14 +348,9 @@ behavior global_model_executor(
         self->send(actor_reporter, report_info::value, actor_phase::execute_phase_3, state.current_generation, state.current_island);
       }
     },
-    [=](finish) {
+    [self](finish) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
-
-      aout(self) << "Finished global" << std::endl;
-      for(const auto& member : state.population) {
-        aout(self) << member << std::endl;
-      }
 
       if(props.is_actor_reporter_active) {
         auto& actor_reporter = state.config->actor_reporter;

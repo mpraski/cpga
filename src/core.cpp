@@ -19,6 +19,12 @@ base_driver::base_driver(const system_properties& system_props,
 
 void base_driver::stop_reporters(configuration& conf,
                                  scoped_actor& self) const {
+  if (system_props.is_system_reporter_active) {
+    system_message(self, conf.system_reporter, "Stopping reporters");
+
+    self->send(conf.system_reporter, exit_reporter::value);
+  }
+
   if (system_props.is_actor_reporter_active) {
     self->send(conf.actor_reporter, exit_reporter::value);
   }

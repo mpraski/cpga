@@ -2,13 +2,17 @@
 
 using namespace caf;
 
-// Atoms used by global models actors
+// Atoms used by global model actors
 using init_population = atom_constant<atom("ip")>;
 using execute_phase_1 = atom_constant<atom("exp1")>;
 using execute_phase_2 = atom_constant<atom("exp2")>;
 using execute_phase_3 = atom_constant<atom("exp3")>;
 using compute_fitness = atom_constant<atom("cf")>;
 using finish = atom_constant<atom("f")>;
+
+// Atoms used by island model actors
+using migrate_send = atom_constant<atom("mis")>;
+using migrate_receive = atom_constant<atom("mir")>;
 
 // Atoms used by reporter actors
 using init_reporter = atom_constant<atom("ir")>;
