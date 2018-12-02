@@ -11,6 +11,15 @@
 using namespace caf;
 using time_point = std::chrono::time_point<std::chrono::system_clock>;
 
+enum class actor_phase {
+  init_population,
+  execute_phase_1,
+  execute_phase_2,
+  execute_phase_3,
+  finish,
+  total
+};
+
 class reporter_state {
  private:
   void write_headers(const std::vector<std::string>& headers);

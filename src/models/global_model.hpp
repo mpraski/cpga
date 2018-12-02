@@ -212,8 +212,8 @@ behavior global_model_executor(
       if(props.is_actor_reporter_active) {
         auto& actor_reporter = state.config->actor_reporter;
 
-        self->send(actor_reporter, note_start::value, constants::now());
-        self->send(actor_reporter, note_start::value, constants::now());
+        self->send(actor_reporter, note_start::value, now());
+        self->send(actor_reporter, note_start::value, now());
       }
 
       state.initialization(state.population);
@@ -222,7 +222,7 @@ behavior global_model_executor(
       if(props.is_actor_reporter_active) {
         auto& actor_reporter = state.config->actor_reporter;
 
-        self->send(actor_reporter, note_end::value, constants::now());
+        self->send(actor_reporter, note_end::value, now());
         self->send(actor_reporter, report_info::value, actor_phase::init_population, state.current_generation, state.current_island);
       }
     },
@@ -231,7 +231,7 @@ behavior global_model_executor(
       auto& props = self->state.config->system_props;
 
       if(props.is_actor_reporter_active) {
-        self->send(state.config->actor_reporter, note_start::value, constants::now());
+        self->send(state.config->actor_reporter, note_start::value, now());
       }
 
       state.population_size_counter = state.population.size();
@@ -249,7 +249,7 @@ behavior global_model_executor(
                 if(self->state.config->system_props.is_actor_reporter_active) {
                   auto& actor_reporter = self->state.config->actor_reporter;
 
-                  self->send(actor_reporter, note_end::value, constants::now());
+                  self->send(actor_reporter, note_end::value, now());
                   self->send(actor_reporter, report_info::value, actor_phase::execute_phase_1, self->state.current_generation, self->state.current_island);
                 }
               }
@@ -262,7 +262,7 @@ behavior global_model_executor(
       auto& props = self->state.config->system_props;
 
       if(props.is_actor_reporter_active) {
-        self->send(state.config->actor_reporter, note_start::value, constants::now());
+        self->send(state.config->actor_reporter, note_start::value, now());
       }
 
       if(props.is_elitism_active) {
@@ -298,7 +298,7 @@ behavior global_model_executor(
                   if(self->state.config->system_props.is_actor_reporter_active) {
                     auto& actor_reporter = self->state.config->actor_reporter;
 
-                    self->send(actor_reporter, note_end::value, constants::now());
+                    self->send(actor_reporter, note_end::value, now());
                     self->send(actor_reporter, report_info::value, actor_phase::execute_phase_2, self->state.current_generation, self->state.current_island);
                   }
                 }
@@ -311,7 +311,7 @@ behavior global_model_executor(
         if(props.is_actor_reporter_active) {
           auto& actor_reporter = state.config->actor_reporter;
 
-          self->send(actor_reporter, note_end::value, constants::now());
+          self->send(actor_reporter, note_end::value, now());
           self->send(actor_reporter, report_info::value, actor_phase::execute_phase_2, state.current_generation, state.current_island);
         }
       }
@@ -321,7 +321,7 @@ behavior global_model_executor(
       auto& props = self->state.config->system_props;
 
       if(props.is_actor_reporter_active) {
-        self->send(state.config->actor_reporter, note_start::value, constants::now());
+        self->send(state.config->actor_reporter, note_start::value, now());
       }
 
       state.population.swap(state.offspring);
@@ -344,7 +344,7 @@ behavior global_model_executor(
       if(props.is_actor_reporter_active) {
         auto& actor_reporter = state.config->actor_reporter;
 
-        self->send(actor_reporter, note_end::value, constants::now());
+        self->send(actor_reporter, note_end::value, now());
         self->send(actor_reporter, report_info::value, actor_phase::execute_phase_3, state.current_generation, state.current_island);
       }
     },
@@ -355,7 +355,7 @@ behavior global_model_executor(
       if(props.is_actor_reporter_active) {
         auto& actor_reporter = state.config->actor_reporter;
 
-        self->send(actor_reporter, note_end::value, constants::now());
+        self->send(actor_reporter, note_end::value, now());
         self->send(actor_reporter, report_info::value, actor_phase::total, state.current_generation, state.current_island);
       }
 
