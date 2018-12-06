@@ -112,10 +112,19 @@ behavior global_model_supervisor(
       self->delegate(self->state.random_worker(), cf, std::move(ind));
     },
     [self, spawn_worker](const down_msg& down) {
-      // Spawn a new one
-      self->state.workers.emplace_back(spawn_worker());
-      // Write system message
-      system_message(self, "Global worker with id: ", down.source.id(), " died");
+      system_message(self, "Global worker with id: ", down.source.id(), " died, respawning...");
+
+      auto& workers = self->state.workers;
+      auto it = workers.begin();
+      auto id = down.source.id();
+
+      while(it != workers.end()) {
+        if(it->id() == id) break;
+        ++it;
+      }
+
+      workers.erase(it);
+      workers.emplace_back(spawn_worker());
     },
   };
 }
@@ -172,7 +181,6 @@ struct global_model_executor_state : public base_state {
   global_temination_check termination_check;
 
   parent_collection<individual, fitness_value> parents;
-
   individual_collection<individual, fitness_value> population;
   individual_collection<individual, fitness_value> offspring;
   individual_collection<individual, fitness_value> elitists;

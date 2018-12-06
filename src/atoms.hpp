@@ -11,8 +11,10 @@ using compute_fitness = atom_constant<atom("cf")>;
 using finish = atom_constant<atom("f")>;
 
 // Atoms used by island model actors
-using migrate_send = atom_constant<atom("mis")>;
-using migrate_receive = atom_constant<atom("mir")>;
+using migrate_request = atom_constant<atom("mireq")>;
+using migrate_receive = atom_constant<atom("mirec")>;
+using migrate = atom_constant<atom("mir")>;
+using execute_generation = atom_constant<atom("exge")>;
 
 // Atoms used by reporter actors
 using init_reporter = atom_constant<atom("ir")>;

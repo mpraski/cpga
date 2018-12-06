@@ -61,6 +61,8 @@ inline void system_message(const scoped_actor& self,
 }
 
 // aliases for common data structures
+using island_id = std::size_t;
+
 template<typename individual_value>
 using sequence = std::vector<individual_value>;
 
@@ -75,3 +77,6 @@ using individual_collection = std::vector<individual_wrapper<individual, fitness
 
 template<typename individual, typename fitness_value>
 using parent_collection = std::vector<individual_wrapper_pair<individual, fitness_value>>;
+
+template<typename individual, typename fitness_value>
+using migration_payload = std::vector<std::pair<island_id, individual_wrapper<individual, fitness_value>>>;
