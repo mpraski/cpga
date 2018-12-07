@@ -21,7 +21,7 @@ using user_properties = std::unordered_map<std::string, std::any>;
 struct system_properties {
   std::size_t population_size;
   std::size_t individual_size;
-  std::size_t island_number;
+  std::size_t islands_number;
   std::size_t generations_number;
   std::size_t elitists_number;
   bool is_elitism_active;

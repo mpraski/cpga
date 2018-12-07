@@ -10,52 +10,72 @@ template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,
     typename migration_operator, typename parent_selection_operator,
-    typename global_temination_check, typename survival_selection_operator,
-    typename elitism_operator>
+    typename survival_selection_operator, typename elitism_operator>
 struct island_model_worker_state : public base_state {
   island_model_worker_state() = default;
 
-  island_model_worker_state(const shared_config& config, island_id id)
+  island_model_worker_state(const shared_config& config, const island_id id,
+                            const initialization_operator& io,
+                            const fitness_evaluation_operator& feo,
+                            const crossover_operator& co,
+                            const mutation_operator& mo,
+                            const migration_operator& muo,
+                            const parent_selection_operator& pso,
+                            const survival_selection_operator& sso,
+                            const elitism_operator& eo)
       : base_state { config },
-        current_island { id } {
+        current_island { id },
+        initialization { io },
+        fitness_evaluation { feo },
+        crossover { co },
+        mutation { mo },
+        migration { muo },
+        parent_selection { pso },
+        survival_selection { sso },
+        elitism { eo },
+        current_generation { 0 } {
+    population.reserve(
+        config->system_props.population_size
+            + config->system_props.elitists_number);
+    offspring.reserve(config->system_props.population_size);
+    elitists.reserve(config->system_props.elitists_number);
   }
 
-  parent_collection<individual, fitness_value> parents;
-  individual_collection<individual, fitness_value> population;
-  individual_collection<individual, fitness_value> offspring;
-  individual_collection<individual, fitness_value> elitists;
+  island_id current_island;
 
   initialization_operator initialization;
+  fitness_evaluation_operator fitness_evaluation;
   crossover_operator crossover;
   mutation_operator mutation;
   migration_operator migration;
   parent_selection_operator parent_selection;
   survival_selection_operator survival_selection;
   elitism_operator elitism;
-  global_temination_check termination_check;
 
-  island_id current_island;
   std::size_t current_generation;
+
+  parent_collection<individual, fitness_value> parents;
+  individual_collection<individual, fitness_value> population;
+  individual_collection<individual, fitness_value> offspring;
+  individual_collection<individual, fitness_value> elitists;
 };
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,
     typename migration_operator, typename parent_selection_operator,
-    typename global_temination_check, typename survival_selection_operator,
-    typename elitism_operator>
+    typename survival_selection_operator, typename elitism_operator>
 behavior island_model_worker(
     stateful_actor<
         island_model_worker_state<individual, fitness_value,
             fitness_evaluation_operator, initialization_operator,
             crossover_operator, mutation_operator, migration_operator,
-            parent_selection_operator, global_temination_check,
-            survival_selection_operator, elitism_operator>>* self,
+            parent_selection_operator, survival_selection_operator,
+            elitism_operator>>* self,
     island_model_worker_state<individual, fitness_value,
         fitness_evaluation_operator, initialization_operator,
         crossover_operator, mutation_operator, migration_operator,
-        parent_selection_operator, global_temination_check,
-        survival_selection_operator, elitism_operator> state,
+        parent_selection_operator, survival_selection_operator, elitism_operator> state,
     const actor& dispatcher) {
   self->state = std::move(state);
   self->join(self->system().groups().get_local("islands"));
@@ -86,7 +106,7 @@ behavior island_model_worker(
       auto& props = self->state.config->system_props;
 
       for (auto& member : state.population) {
-        member.second = fitness_evaluation(member.first);
+        member.second = state.fitness_evaluation(member.first);
       }
 
       if (props.is_elitism_active) {
@@ -98,7 +118,7 @@ behavior island_model_worker(
 
       // This will fill offspring with newly created individual_wrappers
       for (const auto& parent : state.parents) {
-        crossover(state.offspring, parent);
+        state.crossover(state.offspring, parent);
       }
 
       // Clear parents for future use
@@ -106,12 +126,12 @@ behavior island_model_worker(
 
       // This will apply mutation to each child in offspring
       for (auto& child : state.offspring) {
-        mutation(child);
+        state.mutation(child);
       }
 
       if (props.is_survival_selection_active) {
         for (auto& child : state.offspring) {
-          child.second = fitness_evaluation(child.first);
+          child.second = state.fitness_evaluation(child.first);
         }
 
         state.survival_selection(state.population, state.offspring);
@@ -131,7 +151,7 @@ behavior island_model_worker(
     },
     [self, dispatcher](migrate_request) {
       auto& state = self->state;
-      self->send(dispatcher, migrate::value, state.migration(state->id, state->population));
+      self->send(dispatcher, migrate::value, state.migration(state.current_island, state.population));
     },
     [self](migrate_receive, individual_wrapper<individual, fitness_value> migrant) {
       self->state.population.emplace_back(std::move(migrant));
@@ -152,51 +172,109 @@ behavior island_model_worker(
 
         self->send(individual_reporter, report_population::value, state.population, state.current_generation, state.current_island);
       }
+
+      //self->quit();
     }
   };
 }
 
-template<typename individual, typename fitness_value>
+template<typename individual, typename fitness_value,
+    typename fitness_evaluation_operator, typename initialization_operator,
+    typename crossover_operator, typename mutation_operator,
+    typename migration_operator, typename parent_selection_operator,
+    typename survival_selection_operator, typename elitism_operator>
 struct island_model_dispatcher_state : public base_state {
-  std::unordered_map<island_id, actor> islands;
-  std::unordered_map<actor_id, island_id> actor_to_island;
-  group islands_group;
-
   island_model_dispatcher_state() = default;
 
-  island_model_dispatcher_state(const shared_config& config)
-      : base_state { config } {
+  island_model_dispatcher_state(const shared_config& config,
+                                initialization_operator io,
+                                fitness_evaluation_operator feo,
+                                crossover_operator co, mutation_operator mo,
+                                migration_operator muo,
+                                parent_selection_operator pso,
+                                survival_selection_operator sso,
+                                elitism_operator eo)
+      : base_state { config },
+        initialization { std::move(io) },
+        fitness_evaluation { std::move(feo) },
+        crossover { std::move(co) },
+        mutation { std::move(mo) },
+        migration { std::move(muo) },
+        parent_selection { std::move(pso) },
+        survival_selection { std::move(sso) },
+        elitism { std::move(eo) } {
   }
+
+  std::unordered_map<island_id, actor> islands;
+  std::unordered_map<actor_id, island_id> actor_to_island;
+
+  group islands_group;
+
+  initialization_operator initialization;
+  fitness_evaluation_operator fitness_evaluation;
+  crossover_operator crossover;
+  mutation_operator mutation;
+  migration_operator migration;
+  parent_selection_operator parent_selection;
+  survival_selection_operator survival_selection;
+  elitism_operator elitism;
 };
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,
     typename migration_operator, typename parent_selection_operator,
-    typename global_temination_check, typename survival_selection_operator,
-    typename elitism_operator>
+    typename survival_selection_operator, typename elitism_operator>
 behavior island_model_dispatcher(
-    stateful_actor<island_model_dispatcher_state<individual, fitness_value>>* self,
-    island_model_dispatcher_state<individual, fitness_value> state) {
+    stateful_actor<
+        island_model_dispatcher_state<individual, fitness_value,
+            fitness_evaluation_operator, initialization_operator,
+            crossover_operator, mutation_operator, migration_operator,
+            parent_selection_operator, survival_selection_operator,
+            elitism_operator>>* self,
+    island_model_dispatcher_state<individual, fitness_value,
+        fitness_evaluation_operator, initialization_operator,
+        crossover_operator, mutation_operator, migration_operator,
+        parent_selection_operator, survival_selection_operator, elitism_operator> state) {
   self->state = std::move(state);
   self->state.islands_group = self->system().groups().get_local("islands");
 
-  auto spawn_worker = [self](island_id id) -> actor {
-    return self->spawn<monitored + detached>(
-        island_model_worker,
-        island_model_worker_state<individual, fitness_value,
-        fitness_evaluation_operator, initialization_operator,
-        crossover_operator, mutation_operator, migration_operator,
-        parent_selection_operator, global_temination_check,
-        survival_selection_operator, elitism_operator> {self->state
-          .config, id}, self);
-  };
+  auto spawn_worker =
+      [self](island_id id) -> actor {
+        auto& state = self->state;
+        auto& config = state.config;
+        auto& io = state.initialization;
+        auto& feo = state.fitness_evaluation;
+        auto& co = state.crossover;
+        auto& mo = state.mutation;
+        auto& muo = state.migration;
+        auto& pso = state.parent_selection;
+        auto& sso = state.survival_selection;
+        auto& eo = state.elitism;
+
+        auto worker = self->spawn(
+            island_model_worker<individual, fitness_value,
+            fitness_evaluation_operator, initialization_operator,
+            crossover_operator, mutation_operator, migration_operator,
+            parent_selection_operator,
+            survival_selection_operator, elitism_operator>,
+            island_model_worker_state<individual, fitness_value,
+            fitness_evaluation_operator, initialization_operator,
+            crossover_operator, mutation_operator, migration_operator,
+            parent_selection_operator,
+            survival_selection_operator, elitism_operator> {config, id, io, feo, co, mo, muo, pso, sso, eo}, self);
+
+        self->monitor(worker);
+
+        return worker;
+      };
 
   // Islands are given id in range [0, islands_number-1]
   // An id is guaranteed to stay valid throughout the execution,
   // although the island it points to might be restarted as a new actor
   // if it goes down.
-  for (island_id i = 0; i < self->state.config->islands_number; ++i) {
+  for (island_id i = 0; i < self->state.config->system_props.islands_number;
+      ++i) {
     auto island = spawn_worker(i);
 
     self->state.actor_to_island.emplace(island.id(), i);
@@ -219,6 +297,7 @@ behavior island_model_dispatcher(
     },
     [self](finish atom) {
       self->send(self->state.islands_group, atom);
+      //self->quit();
     },
     /*
      * Upon receiving a migration payload from an island, send
@@ -259,10 +338,65 @@ struct island_model_executor_state : public base_state {
 template<typename individual, typename fitness_value>
 behavior island_model_executor(
     stateful_actor<island_model_executor_state<individual, fitness_value>>* self,
-    island_model_executor_state<individual, fitness_value> state) {
+    island_model_executor_state<individual, fitness_value> state,
+    const actor& dispatcher) {
   self->state = std::move(state);
 
   return {
 
   };
 }
+
+template<typename individual, typename fitness_value,
+    typename fitness_evaluation_operator, typename initialization_operator,
+    typename crossover_operator, typename mutation_operator,
+    typename migration_operator, typename parent_selection_operator,
+    typename survival_selection_operator, typename elitism_operator>
+class island_model_driver : private base_driver {
+ public:
+  using base_driver::base_driver;
+
+  void run() {
+    actor_system_config cfg;
+    actor_system system { cfg };
+    scoped_actor self { system };
+    configuration* conf { new configuration { system_props, user_props } };
+
+    start_reporters<individual, fitness_value>(*conf, system, self);
+
+    shared_config config { conf };
+    fitness_evaluation_operator fitness_evaluation { config };
+    initialization_operator initialization { config };
+    crossover_operator crossover { config };
+    mutation_operator mutation { config };
+    migration_operator migration { config };
+    parent_selection_operator parent_selection { config };
+    survival_selection_operator survival_selection { config };
+    elitism_operator elitism { config };
+
+    auto dispatcher = system.spawn(
+        island_model_dispatcher<individual, fitness_value,
+            fitness_evaluation_operator, initialization_operator,
+            crossover_operator, mutation_operator, migration_operator,
+            parent_selection_operator, survival_selection_operator,
+            elitism_operator>,
+        island_model_dispatcher_state<individual, fitness_value,
+            fitness_evaluation_operator, initialization_operator,
+            crossover_operator, mutation_operator, migration_operator,
+            parent_selection_operator, survival_selection_operator,
+            elitism_operator> { config, std::move(initialization), std::move(
+            fitness_evaluation), std::move(crossover), std::move(mutation),
+            std::move(migration), std::move(parent_selection), std::move(
+                survival_selection), std::move(elitism) });
+
+    self->send(dispatcher, init_population::value);
+    self->send(dispatcher, execute_generation::value);
+    self->send(dispatcher, finish::value);
+
+    self->wait_for(dispatcher);
+
+    // Quit reporters and supervisor
+    stop_reporters(*conf, self);
+    anon_send_exit(dispatcher, exit_reason::user_shutdown);
+  }
+};
