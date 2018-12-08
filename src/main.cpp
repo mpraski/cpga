@@ -19,7 +19,7 @@ int main() {
    * system_properties struct. See definition in core.hpp
    */
   system_properties system_props;
-  system_props.islands_number = 8;
+  system_props.islands_number = recommended_worker_number();
   system_props.population_size = 100;
   system_props.individual_size = 10;
   system_props.elitists_number = 5;
@@ -28,7 +28,7 @@ int main() {
   system_props.crossover_seed = 0.5;
   system_props.mutation_seed = 0.5;
   system_props.parent_selection_seed = 0.5;
-  system_props.mutation_probability = 0.015;
+  system_props.mutation_probability = 0.01;
   system_props.supervisor_seed = 0.5;
   system_props.is_elitism_active = true;
   system_props.is_survival_selection_active = false;

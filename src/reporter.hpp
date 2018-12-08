@@ -60,14 +60,14 @@ class individual_reporter_state : public reporter_state {
 
   inline void write_individual(
       const individual_wrapper<individual, fitness_value>& wrapper,
-      std::size_t generation, std::size_t island) {
+      std::size_t generation, island_id island) {
     *out_stream << generation << delimiter << island << delimiter
         << wrapper.first << delimiter << wrapper.second << std::endl;
   }
 
   void write_population(
       const individual_collection<individual, fitness_value>& population,
-      std::size_t generation, std::size_t island) {
+      std::size_t generation, island_id island) {
     for (const auto& member : population) {
       write_individual(member, generation, island);
     }
@@ -98,10 +98,10 @@ behavior individual_reporter(
       self->state.close_stream();
       self->quit();
     },
-    [=](report_individual, const member& wrapper, std::size_t generation, std::size_t island) {
+    [=](report_individual, const member& wrapper, std::size_t generation, island_id island) {
       self->state.write_individual(wrapper, generation, island);
     },
-    [=](report_population, const population& population, std::size_t generation, std::size_t island) {
+    [=](report_population, const population& population, std::size_t generation, island_id island) {
       self->state.write_population(population, generation, island);
     }
   };

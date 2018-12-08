@@ -112,7 +112,7 @@ behavior time_reporter(stateful_actor<time_reporter_state>* self) {
     [=](note_end, const time_point& end) {
       self->state.note_end(end);
     },
-    [=](report_info, actor_phase phase, std::size_t generation, std::size_t island) {
+    [=](report_info, actor_phase phase, std::size_t generation, island_id island) {
       self->state.write_info(phase, generation, island);
     },
   };

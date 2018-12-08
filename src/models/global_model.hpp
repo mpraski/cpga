@@ -106,7 +106,8 @@ behavior global_model_supervisor(
   for (std::size_t i = 0; i < self->state.pool_size; ++i) {
     auto worker = spawn_worker();
 
-    system_message(self, "Spawning new global worker with actor id: ", worker.id());
+    system_message(self, "Spawning new global worker with actor id: ",
+                   worker.id());
 
     self->state.workers.emplace_back(std::move(worker));
   }
@@ -421,7 +422,7 @@ class global_model_driver : private base_driver {
     elitism_operator elitism { config };
     global_temination_check termination_check { config };
 
-    auto cores = std::max(std::thread::hardware_concurrency() - 2, 2u);
+    auto cores = recommended_worker_number();
 
     auto supervisor = system.spawn(
         global_model_supervisor<individual, fitness_value,

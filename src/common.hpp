@@ -29,6 +29,10 @@ inline auto now() noexcept {
   return std::chrono::high_resolution_clock::now();
 }
 
+inline auto recommended_worker_number() noexcept {
+  return std::max(std::thread::hardware_concurrency() - 2, 2u);
+}
+
 template<typename E>
 constexpr auto to_underlying(E e) noexcept
 {
