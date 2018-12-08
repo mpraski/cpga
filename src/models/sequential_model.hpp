@@ -33,8 +33,8 @@ class sequential_model_driver : private base_driver {
     offspring.reserve(props.population_size);
     elitists.reserve(props.population_size);
 
-    if (props.is_actor_reporter_active) {
-      self->send(config->actor_reporter, note_start::value, now());
+    if (props.is_generation_reporter_active) {
+      self->send(config->generation_reporter, note_start::value, now());
     }
 
     initialization(population);
@@ -87,11 +87,10 @@ class sequential_model_driver : private base_driver {
       }
     }
 
-    if (props.is_actor_reporter_active) {
-      auto& actor_reporter = config->actor_reporter;
-
-      self->send(actor_reporter, note_end::value, now());
-      self->send(actor_reporter, report_info::value, actor_phase::total, 0, 0);
+    if (props.is_generation_reporter_active) {
+      auto& actor_reporter = config->generation_reporter;
+      self->send(actor_reporter, report_info::value, now(), actor_phase::total,
+                 0, 0);
     }
 
     if (props.is_individual_reporter_active) {

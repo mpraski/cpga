@@ -17,7 +17,8 @@ enum class actor_phase {
   execute_phase_2,
   execute_phase_3,
   finish,
-  total
+  total,
+  execute_generation
 };
 
 class reporter_state {
@@ -41,16 +42,14 @@ class reporter_state {
 
 class time_reporter_state : public reporter_state {
  private:
-  std::stack<time_point> start_times;
+  std::unordered_map<island_id, std::stack<time_point>> start_times;
  public:
   using reporter_state::reporter_state;
 
-  void note_start(const time_point& start);
+  void note_start(const time_point& start, island_id island);
 
-  void note_end(const time_point& end);
-
-  void write_info(actor_phase phase, std::size_t generation,
-                  std::size_t island);
+  void write_info(const time_point& end, actor_phase phase,
+                  std::size_t generation, island_id island);
 };
 
 template<typename individual, typename fitness_value>

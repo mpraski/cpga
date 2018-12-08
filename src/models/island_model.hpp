@@ -81,12 +81,28 @@ behavior island_model_worker(
   return {
     [self](init_population) {
       auto& state = self->state;
+      auto& props = self->state.config->system_props;
+
+      if(props.is_generation_reporter_active) {
+        auto& generation_reporter = state.config->generation_reporter;
+        self->send(generation_reporter, note_start::value, now(), state.current_island);
+        self->send(generation_reporter, note_start::value, now(), state.current_island);
+      }
 
       state.initialization(state.population);
+
+      if(props.is_generation_reporter_active) {
+        auto& generation_reporter = state.config->generation_reporter;
+        self->send(generation_reporter, report_info::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
+      }
     },
     [self](execute_generation) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
+
+      if(props.is_generation_reporter_active) {
+        self->send(state.config->generation_reporter, note_start::value, now(), state.current_island);
+      }
 
       for (auto& member : state.population) {
         member.second = state.fitness_evaluation(member.first);
@@ -127,6 +143,11 @@ behavior island_model_worker(
       }
 
       ++state.current_generation;
+
+      if(props.is_generation_reporter_active) {
+        auto& generation_reporter = state.config->generation_reporter;
+        self->send(generation_reporter, report_info::value, now(), actor_phase::execute_generation, self->state.current_generation, self->state.current_island);
+      }
     },
     [self, dispatcher](migrate_request) {
       auto& state = self->state;
@@ -139,9 +160,13 @@ behavior island_model_worker(
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
+      if(props.is_generation_reporter_active) {
+        auto& generation_reporter = state.config->generation_reporter;
+        self->send(generation_reporter, report_info::value, now(), actor_phase::total, state.current_generation, state.current_island);
+      }
+
       if(props.is_individual_reporter_active) {
         auto& individual_reporter = state.config->individual_reporter;
-
         self->send(individual_reporter, report_population::value, state.population, state.current_generation, state.current_island);
       }
 
@@ -284,7 +309,7 @@ behavior island_model_dispatcher(
 
     state.islands[id] = std::move(island);
     state.actor_to_island.erase(down.source.id());
-    state.actor_to_island.emplace(island_actor_id, id);
+    state.actor_to_island[island_actor_id] = id;
   });
 
   return {
@@ -323,7 +348,6 @@ behavior island_model_dispatcher(
     [self, islands](worker_finished) {
       if(++self->state.workers_done == islands) {
         system_message(self, "Quitting dispatcher as all ", islands, " island workers are done");
-
         self->quit();
       }
     }
@@ -346,7 +370,7 @@ behavior island_model_executor(
   system_message(self, "Spawning island model executor");
 
   self->set_down_handler([self, dispatcher](down_msg& down) {
-    if(down.source.id() == dispatcher.id()) {
+    if(down.source == dispatcher) {
       system_message(self, "Quitting executor as dispatcher already finished");
 
       self->quit();
@@ -419,7 +443,6 @@ class island_model_driver : private base_driver {
         dispatcher);
 
     self->send(executor, execute_phase_1::value);
-
     self->wait_for(executor);
 
     stop_reporters(*conf, self);

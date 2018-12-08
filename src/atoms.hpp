@@ -16,6 +16,7 @@ using migrate_receive = atom_constant<atom("mirec")>;
 using migrate = atom_constant<atom("mir")>;
 using execute_generation = atom_constant<atom("exge")>;
 using worker_finished = atom_constant<atom("wof")>;
+using finish_worker = atom_constant<atom("fiw")>;
 using dispatcher_finished = atom_constant<atom("dif")>;
 
 // Atoms used by reporter actors

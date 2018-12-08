@@ -43,17 +43,25 @@ void reporter_state::write_new_line() {
   *out_stream << std::endl;
 }
 
-void time_reporter_state::note_start(const time_point& start) {
-  start_times.push(start);
+void time_reporter_state::note_start(const time_point& start,
+                                     island_id island) {
+  if (start_times.find(island) == start_times.end()) {
+    start_times.emplace(island, std::stack<time_point> { });
+  }
+
+  start_times[island].push(start);
 }
 
-void time_reporter_state::note_end(const time_point& end) {
-  if (start_times.empty()) {
+void time_reporter_state::write_info(const time_point& end, actor_phase phase,
+                                     std::size_t generation, island_id island) {
+  auto& times = start_times[island];
+
+  if (times.empty()) {
     throw std::runtime_error("Start times stack is empty");
   }
 
-  auto start = start_times.top();
-  start_times.pop();
+  auto start = times.top();
+  times.pop();
 
   auto s = std::chrono::time_point_cast<std::chrono::milliseconds>(start);
   auto e = std::chrono::time_point_cast<std::chrono::milliseconds>(end);
@@ -62,13 +70,8 @@ void time_reporter_state::note_end(const time_point& end) {
 
   *out_stream << s.time_since_epoch().count() << delimiter
               << e.time_since_epoch().count() << delimiter << total.count()
-              << delimiter;
-}
-
-void time_reporter_state::write_info(actor_phase phase, std::size_t generation,
-                                     std::size_t island) {
-  *out_stream << constants::ACTOR_PHASE_MAP[to_underlying(phase)] << delimiter
-              << generation << delimiter << island << std::endl;
+              << delimiter << constants::ACTOR_PHASE_MAP[to_underlying(phase)]
+              << delimiter << generation << delimiter << island << std::endl;
 }
 
 void system_reporter_state::write_message(const time_point& time,
@@ -106,14 +109,11 @@ behavior time_reporter(stateful_actor<time_reporter_state>* self) {
       self->state.close_stream();
       self->quit();
     },
-    [=](note_start, const time_point& start) {
-      self->state.note_start(start);
+    [=](note_start, const time_point& start, island_id island) {
+      self->state.note_start(start, island);
     },
-    [=](note_end, const time_point& end) {
-      self->state.note_end(end);
-    },
-    [=](report_info, actor_phase phase, std::size_t generation, island_id island) {
-      self->state.write_info(phase, generation, island);
+    [=](report_info, const time_point& end, actor_phase phase, std::size_t generation, island_id island) {
+      self->state.write_info(end, phase, generation, island);
     },
   };
 }

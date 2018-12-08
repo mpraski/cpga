@@ -38,8 +38,8 @@ struct system_properties {
   bool is_system_reporter_active;
   std::string system_reporter_log;
 
-  bool is_actor_reporter_active;
-  std::string actor_reporter_log;
+  bool is_generation_reporter_active;
+  std::string generation_reporter_log;
 
   bool is_individual_reporter_active;
   std::string individual_reporter_log;
@@ -55,7 +55,7 @@ struct configuration {
 
   // reporter actor handles
   actor system_reporter;
-  actor actor_reporter;
+  actor generation_reporter;
   actor individual_reporter;
 
   configuration(const system_properties& system_props,
@@ -96,15 +96,15 @@ class base_driver {
       system_message(self, conf.system_reporter, "Spawning reporters");
     }
 
-    if (system_props.is_actor_reporter_active) {
-      if (system_props.actor_reporter_log.empty()) {
+    if (system_props.is_generation_reporter_active) {
+      if (system_props.generation_reporter_log.empty()) {
         throw std::runtime_error("actor_reporter_log is empty");
       }
 
-      conf.actor_reporter = system.spawn(time_reporter);  // @suppress("Invalid arguments")
+      conf.generation_reporter = system.spawn(time_reporter);  // @suppress("Invalid arguments")
 
-      self->send(conf.actor_reporter, init_reporter::value,
-                 system_props.actor_reporter_log, constants::TIME_HEADERS);
+      self->send(conf.generation_reporter, init_reporter::value,
+                 system_props.generation_reporter_log, constants::TIME_HEADERS);
     }
 
     if (system_props.is_individual_reporter_active) {

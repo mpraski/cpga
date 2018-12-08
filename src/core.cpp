@@ -25,8 +25,8 @@ void base_driver::stop_reporters(configuration& conf,
     self->send(conf.system_reporter, exit_reporter::value);
   }
 
-  if (system_props.is_actor_reporter_active) {
-    self->send(conf.actor_reporter, exit_reporter::value);
+  if (system_props.is_generation_reporter_active) {
+    self->send(conf.generation_reporter, exit_reporter::value);
   }
 
   if (system_props.is_individual_reporter_active) {

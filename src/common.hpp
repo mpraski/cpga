@@ -11,7 +11,8 @@ static constexpr const char STABLE_REQUIRED_KEY[] = "stable_required";
 static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
 
 static constexpr const char* const ACTOR_PHASE_MAP[] = { "init_population",
-    "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total" };
+    "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total",
+    "execute_generation" };
 
 static const std::vector<std::string> SYSTEM_HEADERS { "Time", "Message" };
 

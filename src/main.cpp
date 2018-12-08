@@ -35,8 +35,8 @@ int main() {
   system_props.can_repeat_individual_elements = true;
   system_props.is_system_reporter_active = true;
   system_props.system_reporter_log = "system_reporter.csv";
-  system_props.is_actor_reporter_active = false;
-  system_props.actor_reporter_log = "actor_reporter.csv";
+  system_props.is_generation_reporter_active = true;
+  system_props.generation_reporter_log = "generation_reporter.csv";
   system_props.is_individual_reporter_active = true;
   system_props.individual_reporter_log = "individual_reporter.csv";
 
