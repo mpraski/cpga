@@ -48,7 +48,7 @@ auto str(T&& t, Ts&&... ts) {
 
 template<typename T, typename A, typename ...As>
 inline void system_message(stateful_actor<T>* self, A&& a, As&&... as) {
-  if (self->state.config->system_props.is_actor_reporter_active)
+  if (self->state.config->system_props.is_system_reporter_active)
     self->send(self->state.config->system_reporter, report::value, now(),
                str(std::forward<A>(a), std::forward<As>(as)...));
 }

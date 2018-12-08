@@ -19,7 +19,7 @@ int main() {
    * system_properties struct. See definition in core.hpp
    */
   system_properties system_props;
-  system_props.islands_number = 10;
+  system_props.islands_number = 8;
   system_props.population_size = 100;
   system_props.individual_size = 10;
   system_props.elitists_number = 5;

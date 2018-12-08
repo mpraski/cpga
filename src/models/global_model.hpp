@@ -96,7 +96,6 @@ behavior global_model_supervisor(
   system_message(self, "Spawning global model supervisor");
 
   auto spawn_worker = [self, feo]() -> actor {
-    system_message(self, "Spawning new global worker");
     return self->spawn<monitored + detached>(
         global_model_worker<individual, fitness_value,
         fitness_evaluation_operator>,
@@ -104,28 +103,37 @@ behavior global_model_supervisor(
           .config, feo});
   };
 
-  for (std::size_t i = 0; i < self->state.pool_size; ++i)
-    self->state.workers.emplace_back(spawn_worker());
+  for (std::size_t i = 0; i < self->state.pool_size; ++i) {
+    auto worker = spawn_worker();
+
+    system_message(self, "Spawning new global worker with actor id: ", worker.id());
+
+    self->state.workers.emplace_back(std::move(worker));
+  }
+
+  self->set_down_handler(
+      [self, spawn_worker](down_msg& down) {
+        if(!down.reason) return;
+
+        system_message(self, "Global worker with actor id: ", down.source.id(), " died, respawning...");
+
+        auto& workers = self->state.workers;
+        auto it = workers.begin();
+        auto id = down.source.id();
+
+        while(it != workers.end()) {
+          if(it->id() == id) break;
+          ++it;
+        }
+
+        workers.erase(it);
+        workers.emplace_back(spawn_worker());
+      });
 
   return {
     [self](compute_fitness cf, individual ind) {
       self->delegate(self->state.random_worker(), cf, std::move(ind));
-    },
-    [self, spawn_worker](const down_msg& down) {
-      system_message(self, "Global worker with id: ", down.source.id(), " died, respawning...");
-
-      auto& workers = self->state.workers;
-      auto it = workers.begin();
-      auto id = down.source.id();
-
-      while(it != workers.end()) {
-        if(it->id() == id) break;
-        ++it;
-      }
-
-      workers.erase(it);
-      workers.emplace_back(spawn_worker());
-    },
+    }
   };
 }
 
