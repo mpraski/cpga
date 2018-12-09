@@ -88,9 +88,9 @@ class sequential_model_driver : private base_driver {
     }
 
     if (props.is_generation_reporter_active) {
-      auto& actor_reporter = config->generation_reporter;
-      self->send(actor_reporter, report_info::value, now(), actor_phase::total,
-                 0, 0);
+      auto& generation_reporter = config->generation_reporter;
+      self->send(generation_reporter, note_end::value, now(),
+                 actor_phase::total, std::size_t { 0 }, island_id { 0 });
     }
 
     if (props.is_individual_reporter_active) {

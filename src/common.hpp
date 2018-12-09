@@ -85,3 +85,4 @@ using parent_collection = std::vector<individual_wrapper_pair<individual, fitnes
 
 template<typename individual, typename fitness_value>
 using migration_payload = std::vector<std::pair<island_id, individual_wrapper<individual, fitness_value>>>;
+

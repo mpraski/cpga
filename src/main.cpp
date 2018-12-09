@@ -11,7 +11,6 @@
 #include "example/definitions.hpp"
 #include "example/bitstring_mutation.cpp"
 #include "example/onemax_fitness_evaluation.cpp"
-#include "example/sample_migration.cpp"
 
 int main() {
   /*
@@ -32,6 +31,7 @@ int main() {
   system_props.supervisor_seed = 0.5;
   system_props.is_elitism_active = true;
   system_props.is_survival_selection_active = false;
+  system_props.is_migration_active = false;
   system_props.can_repeat_individual_elements = true;
   system_props.is_system_reporter_active = true;
   system_props.system_reporter_log = "system_reporter.csv";
@@ -82,7 +82,7 @@ int main() {
   island_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
       sequence_individual_initialization<bool, int>,
       sequence_individual_crossover<bool, int>, bitstring_mutation,
-      sample_migration, roulette_wheel_parent_selection<sequence<bool>, int>,
+      roulette_wheel_parent_selection<sequence<bool>, int>,
       roulette_wheel_survival_selection<sequence<bool>, int>,
       best_individual_elitism<sequence<bool>, int>> driver { system_props,
       user_props };

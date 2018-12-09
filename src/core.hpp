@@ -24,8 +24,10 @@ struct system_properties {
   std::size_t islands_number;
   std::size_t generations_number;
   std::size_t elitists_number;
+  std::size_t migration_period;
   bool is_elitism_active;
   bool is_survival_selection_active;
+  bool is_migration_active;
   bool can_repeat_individual_elements;
   double initialization_seed;
   double mutation_seed;
@@ -122,4 +124,48 @@ class base_driver {
   }
 
   void stop_reporters(configuration& conf, scoped_actor& self) const;
+};
+
+// Default implementations of optional operators (for default template arguments)
+template<typename individual, typename fitness_value>
+struct default_survival_selection_operator {
+  void operator()(
+      individual_collection<individual, fitness_value>& parents,
+      individual_collection<individual, fitness_value>& offspring) const
+          noexcept {
+  }
+};
+
+template<typename individual, typename fitness_value>
+struct default_elitism_operator : public base_state {
+  using base_state::base_state;
+
+  void operator()(
+      individual_collection<individual, fitness_value>& population,
+      individual_collection<individual, fitness_value>& elitists) const
+          noexcept {
+  }
+};
+
+template<typename individual, typename fitness_value>
+struct default_migration_operator : public base_state {
+  using base_state::base_state;
+
+  migration_payload<individual, fitness_value> operator()(
+      island_id from,
+      individual_collection<individual, fitness_value>& population) const
+          noexcept {
+    return {};
+  }
+};
+
+template<typename individual, typename fitness_value>
+struct default_global_temination_check : public base_state {
+  using base_state::base_state;
+
+  bool operator()(
+      const individual_collection<individual, fitness_value>& population) const
+          noexcept {
+    return false;
+  }
 };

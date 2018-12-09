@@ -20,7 +20,8 @@ class sequence_individual_initialization : public base_state {
         generator { configuration->system_props.initialization_seed },
         possible_values { std::any_cast<std::vector<sequence_individual>>(
             config->user_props.at(constants::POSSIBLE_VALUES_KEY)) } {
-    if (possible_values.size() > config->system_props.individual_size) {
+    if (!config->system_props.can_repeat_individual_elements
+        && possible_values.size() < config->system_props.individual_size) {
       throw std::runtime_error("Less possible values than individual size");
     }
   }

@@ -84,7 +84,7 @@ struct global_model_supervisor_state : public base_state {
     workers.reserve(pool_size);
   }
 
-  inline auto random_worker() noexcept {
+  inline auto random_worker() const noexcept {
     return workers[random_f()];
   }
 };
@@ -248,7 +248,7 @@ behavior global_model_executor(
 
       if(props.is_generation_reporter_active) {
         auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, report_info::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
+        self->send(generation_reporter, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
       }
     },
     [self, supervisor](execute_phase_1) {
@@ -273,7 +273,7 @@ behavior global_model_executor(
 
                 if(self->state.config->system_props.is_generation_reporter_active) {
                   auto& generation_reporter = self->state.config->generation_reporter;
-                  self->send(generation_reporter, report_info::value, now(), actor_phase::execute_phase_1, self->state.current_generation, self->state.current_island);
+                  self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_1, self->state.current_generation, self->state.current_island);
                 }
               }
             }
@@ -320,7 +320,7 @@ behavior global_model_executor(
 
                   if(self->state.config->system_props.is_generation_reporter_active) {
                     auto& generation_reporter = self->state.config->generation_reporter;
-                    self->send(generation_reporter, report_info::value, now(), actor_phase::execute_phase_2, self->state.current_generation, self->state.current_island);
+                    self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_2, self->state.current_generation, self->state.current_island);
                   }
                 }
               }
@@ -331,7 +331,7 @@ behavior global_model_executor(
 
         if(props.is_generation_reporter_active) {
           auto& generation_reporter = state.config->generation_reporter;
-          self->send(generation_reporter, report_info::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
+          self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
         }
       }
     },
@@ -362,7 +362,7 @@ behavior global_model_executor(
 
       if(props.is_generation_reporter_active) {
         auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, report_info::value, now(), actor_phase::execute_phase_3, state.current_generation, state.current_island);
+        self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_3, state.current_generation, state.current_island);
       }
     },
     [self, supervisor](finish) {
@@ -371,7 +371,7 @@ behavior global_model_executor(
 
       if(props.is_generation_reporter_active) {
         auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, report_info::value, now(), actor_phase::total, state.current_generation, state.current_island);
+        self->send(generation_reporter, note_end::value, now(), actor_phase::total, state.current_generation, state.current_island);
       }
 
       if(props.is_individual_reporter_active) {
@@ -398,8 +398,13 @@ behavior global_model_executor(
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator, typename global_temination_check>
+    typename parent_selection_operator,
+    typename survival_selection_operator = default_survival_selection_operator<
+        individual, fitness_value>,
+    typename elitism_operator = default_elitism_operator<individual,
+        fitness_value>,
+    typename global_temination_check = default_global_temination_check<
+        individual, fitness_value>>
 class global_model_driver : private base_driver {
  public:
   using base_driver::base_driver;
