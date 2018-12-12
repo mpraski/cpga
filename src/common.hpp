@@ -65,6 +65,18 @@ inline void system_message(const scoped_actor& self,
              str(std::forward<A>(a), std::forward<As>(as)...));
 }
 
+template<typename T, typename ...As>
+inline void generation_message(stateful_actor<T>* self, As&&... as) {
+  if (self->state.config->system_props.is_generation_reporter_active)
+    self->send(self->state.config->generation_reporter, std::forward<As>(as)...);
+}
+
+template<typename T, typename ...As>
+inline void individual_message(stateful_actor<T>* self, As&&... as) {
+  if (self->state.config->system_props.is_individual_reporter_active)
+    self->send(self->state.config->individual_reporter, std::forward<As>(as)...);
+}
+
 // aliases for common data structures
 using island_id = std::size_t;
 

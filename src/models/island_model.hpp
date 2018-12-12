@@ -80,28 +80,19 @@ behavior island_model_worker(
   return {
     [self](init_population) {
       auto& state = self->state;
-      auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_start::value, now(), state.current_island);
-        self->send(generation_reporter, note_start::value, now(), state.current_island);
-      }
+      generation_message(self, note_start::value, now(), state.current_island);
+      generation_message(self, note_start::value, now(), state.current_island);
 
       state.initialization(state.population);
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
-      }
+      generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
     },
     [self](execute_generation) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        self->send(state.config->generation_reporter, note_start::value, now(), state.current_island);
-      }
+      generation_message(self, note_start::value, now(), state.current_island);
 
       for (auto& member : state.population) {
         member.second = state.fitness_evaluation(member.first);
@@ -143,10 +134,7 @@ behavior island_model_worker(
 
       ++state.current_generation;
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_end::value, now(), actor_phase::execute_generation, self->state.current_generation, self->state.current_island);
-      }
+      generation_message(self, note_end::value, now(), actor_phase::execute_generation, self->state.current_generation, self->state.current_island);
     },
     [self, dispatcher](execute_migration) {
       auto& state = self->state;
@@ -157,18 +145,9 @@ behavior island_model_worker(
     },
     [self, dispatcher](finish) {
       auto& state = self->state;
-      auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_end::value, now(), actor_phase::total, state.current_generation, state.current_island);
-      }
-
-      if(props.is_individual_reporter_active) {
-        auto& individual_reporter = state.config->individual_reporter;
-        self->send(individual_reporter, report_population::value, state.population, state.current_generation, state.current_island);
-      }
-
+      generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, state.current_island);
+      individual_message(self, report_population::value, state.population, state.current_generation, state.current_island);
       system_message(self, "Quitting island worker id: ", state.current_island);
 
       self->send(dispatcher, worker_finished::value);
@@ -222,7 +201,7 @@ struct island_model_dispatcher_state : public base_state {
 template<typename T, typename A>
 inline void forward(stateful_actor<T>* self, A&& atom) {
   for (const auto& x : self->state.islands) {
-    self->delegate(x.second, std::forward<A>(atom));
+    self->send(x.second, std::forward<A>(atom));
   }
 }
 
@@ -305,7 +284,8 @@ behavior island_model_dispatcher(
 
     system_message(self, "Island worker with id: ", id, " died, respawning..");
 
-    state.islands[id] = std::move(island);
+    state.islands.erase(id);
+    state.islands.emplace(id, std::move(island));
     state.actor_to_island.erase(down.source.id());
     state.actor_to_island[island_actor_id] = id;
   });
@@ -353,7 +333,14 @@ behavior island_model_dispatcher(
 }
 
 struct island_model_executor_state : public base_state {
-  std::size_t generations_so_far = 0;
+  std::size_t generations_so_far;
+
+  island_model_executor_state() = default;
+
+  island_model_executor_state(const shared_config& config)
+      : base_state { config },
+        generations_so_far { 0 } {
+  }
 };
 
 behavior island_model_executor(
@@ -364,16 +351,17 @@ behavior island_model_executor(
 
   system_message(self, "Spawning island model executor");
 
-  self->set_down_handler([self, dispatcher](down_msg& down) {
-    if(down.source == dispatcher) {
-      system_message(self, "Quitting executor as dispatcher already finished");
-      self->quit();
-    }
-  });
+  self->set_down_handler([self, dispatcher](down_msg& down) {  // @suppress("Invalid arguments")
+        if(down.source == dispatcher) {
+          system_message(self, "Quitting executor as dispatcher already finished");
+          self->quit();
+        }
+      });
+
+  const auto& props = self->state.config->system_props;
 
   return {
     [=](execute_phase_1) {
-      auto& props = self->state.config->system_props;
       self->send(dispatcher, init_population::value);
 
       if(props.is_migration_active) {
@@ -383,12 +371,10 @@ behavior island_model_executor(
       }
     },
     [=](execute_phase_2) {
-      auto& props = self->state.config->system_props;
       for (std::size_t i = 0; i < props.migration_period; ++i) {
         self->send(dispatcher, execute_generation::value);
       }
       self->send(dispatcher, execute_migration::value);
-
       self->state.generations_so_far += props.migration_period;
       if(self->state.generations_so_far <= props.generations_number) {
         self->send(self, execute_phase_2::value);
@@ -397,7 +383,6 @@ behavior island_model_executor(
       }
     },
     [=](execute_phase_3) {
-      auto& props = self->state.config->system_props;
       for (std::size_t i = 0; i < props.generations_number; ++i) {
         self->send(dispatcher, execute_generation::value);
       }

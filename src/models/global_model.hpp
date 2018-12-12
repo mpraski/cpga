@@ -236,28 +236,20 @@ behavior global_model_executor(
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-
-        self->send(generation_reporter, note_start::value, now(), state.current_island);
-        self->send(generation_reporter, note_start::value, now(), state.current_island);
-      }
+      generation_message(self, note_start::value, now(), state.current_island);
+      generation_message(self, note_start::value, now(), state.current_island);
 
       state.initialization(state.population);
+
       self->send(self, execute_phase_1::value);
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
-      }
+      generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
     },
     [self, supervisor](execute_phase_1) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        self->send(state.config->generation_reporter, note_start::value, now(), state.current_island);
-      }
+      generation_message(self, note_start::value, now(), state.current_island);
 
       state.population_size_counter = state.population.size();
 
@@ -271,10 +263,7 @@ behavior global_model_executor(
 
                 self->send(self, execute_phase_2::value);
 
-                if(self->state.config->system_props.is_generation_reporter_active) {
-                  auto& generation_reporter = self->state.config->generation_reporter;
-                  self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_1, self->state.current_generation, self->state.current_island);
-                }
+                generation_message(self, note_end::value, now(), actor_phase::execute_phase_1, state.current_generation, state.current_island);
               }
             }
         );
@@ -284,9 +273,7 @@ behavior global_model_executor(
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        self->send(state.config->generation_reporter, note_start::value, now(), state.current_island);
-      }
+      generation_message(self, note_start::value, now(), state.current_island);
 
       if(props.is_elitism_active) {
         state.elitism(state.population, state.elitists);
@@ -318,10 +305,7 @@ behavior global_model_executor(
 
                   self->send(self, execute_phase_3::value);
 
-                  if(self->state.config->system_props.is_generation_reporter_active) {
-                    auto& generation_reporter = self->state.config->generation_reporter;
-                    self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_2, self->state.current_generation, self->state.current_island);
-                  }
+                  generation_message(self, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
                 }
               }
           );
@@ -329,19 +313,14 @@ behavior global_model_executor(
       } else {
         self->send(self, execute_phase_3::value);
 
-        if(props.is_generation_reporter_active) {
-          auto& generation_reporter = state.config->generation_reporter;
-          self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
-        }
+        generation_message(self, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
       }
     },
     [self](execute_phase_3) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        self->send(state.config->generation_reporter, note_start::value, now(), state.current_island);
-      }
+      generation_message(self, note_start::value, now(), state.current_island);
 
       state.population.swap(state.offspring);
       state.offspring.clear();
@@ -360,25 +339,13 @@ behavior global_model_executor(
         self->send(self, execute_phase_1::value);
       }
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_end::value, now(), actor_phase::execute_phase_3, state.current_generation, state.current_island);
-      }
+      generation_message(self, note_end::value, now(), actor_phase::execute_phase_3, state.current_generation, state.current_island);
     },
     [self, supervisor](finish) {
       auto& state = self->state;
-      auto& props = self->state.config->system_props;
 
-      if(props.is_generation_reporter_active) {
-        auto& generation_reporter = state.config->generation_reporter;
-        self->send(generation_reporter, note_end::value, now(), actor_phase::total, state.current_generation, state.current_island);
-      }
-
-      if(props.is_individual_reporter_active) {
-        auto& individual_reporter = state.config->individual_reporter;
-        self->send(individual_reporter, report_population::value, state.population, state.current_generation, state.current_island);
-      }
-
+      generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, state.current_island);
+      individual_message(self, report_population::value, state.population, state.current_generation, state.current_island);
       system_message(self, "Quitting global model executor");
 
       self->send(supervisor, finish::value);
@@ -451,8 +418,7 @@ class global_model_driver : private base_driver {
     self->send(executor, init_population::value);
     self->wait_for(executor);
 
-    // Quit reporters and supervisor
+    // Quit reporters
     stop_reporters(*conf, self);
-    anon_send_exit(supervisor, exit_reason::user_shutdown);
   }
 };
