@@ -13,25 +13,16 @@ template<typename individual, typename fitness_value,
     typename elitism_operator, typename migration_operator>
 struct island_model_worker_state : public base_state {
   island_model_worker_state() = default;
-
-  island_model_worker_state(const shared_config& config, const island_id id,
-                            const initialization_operator& io,
-                            const fitness_evaluation_operator& feo,
-                            const crossover_operator& co,
-                            const mutation_operator& mo,
-                            const migration_operator& muo,
-                            const parent_selection_operator& pso,
-                            const survival_selection_operator& sso,
-                            const elitism_operator& eo)
+  island_model_worker_state(const shared_config& config, const island_id id)
       : base_state { config },
-        initialization { io },
-        fitness_evaluation { feo },
-        crossover { co },
-        mutation { mo },
-        migration { muo },
-        parent_selection { pso },
-        survival_selection { sso },
-        elitism { eo },
+        initialization { config, id },
+        fitness_evaluation { config, id },
+        crossover { config, id },
+        mutation { config, id },
+        migration { config, id },
+        parent_selection { config, id },
+        survival_selection { config, id },
+        elitism { config, id },
         current_island { id },
         current_generation { 0 } {
     population.reserve(
@@ -132,9 +123,9 @@ behavior island_model_worker(
         state.elitists.clear();
       }
 
-      ++state.current_generation;
-
       generation_message(self, note_end::value, now(), actor_phase::execute_generation, self->state.current_generation, self->state.current_island);
+
+      ++state.current_generation;
     },
     [self, dispatcher](execute_migration) {
       auto& state = self->state;
@@ -156,46 +147,16 @@ behavior island_model_worker(
   };
 }
 
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator, typename migration_operator>
 struct island_model_dispatcher_state : public base_state {
   island_model_dispatcher_state() = default;
-
-  island_model_dispatcher_state(const shared_config& config,
-                                fitness_evaluation_operator feo,
-                                initialization_operator io,
-                                crossover_operator co, mutation_operator mo,
-                                migration_operator muo,
-                                parent_selection_operator pso,
-                                survival_selection_operator sso,
-                                elitism_operator eo)
+  island_model_dispatcher_state(const shared_config& config)
       : base_state { config },
-        workers_done { 0 },
-        fitness_evaluation { std::move(feo) },
-        initialization { std::move(io) },
-        crossover { std::move(co) },
-        mutation { std::move(mo) },
-        migration { std::move(muo) },
-        parent_selection { std::move(pso) },
-        survival_selection { std::move(sso) },
-        elitism { std::move(eo) } {
+        workers_done { 0 } {
   }
 
   std::size_t workers_done;
   std::unordered_map<island_id, actor> islands;
   std::unordered_map<actor_id, island_id> actor_to_island;
-
-  fitness_evaluation_operator fitness_evaluation;
-  initialization_operator initialization;
-  crossover_operator crossover;
-  mutation_operator mutation;
-  migration_operator migration;
-  parent_selection_operator parent_selection;
-  survival_selection_operator survival_selection;
-  elitism_operator elitism;
 };
 
 template<typename T, typename A>
@@ -211,15 +172,8 @@ template<typename individual, typename fitness_value,
     typename parent_selection_operator, typename survival_selection_operator,
     typename elitism_operator, typename migration_operator>
 behavior island_model_dispatcher(
-    stateful_actor<
-        island_model_dispatcher_state<individual, fitness_value,
-            fitness_evaluation_operator, initialization_operator,
-            crossover_operator, mutation_operator, parent_selection_operator,
-            survival_selection_operator, elitism_operator, migration_operator>>* self,
-    island_model_dispatcher_state<individual, fitness_value,
-        fitness_evaluation_operator, initialization_operator,
-        crossover_operator, mutation_operator, parent_selection_operator,
-        survival_selection_operator, elitism_operator, migration_operator> state) {
+    stateful_actor<island_model_dispatcher_state>* self,
+    island_model_dispatcher_state state) {
   self->state = std::move(state);
 
   system_message(self, "Spawning island model dispatcher");
@@ -229,16 +183,8 @@ behavior island_model_dispatcher(
   auto spawn_worker = [self](island_id id) -> actor {
     const auto& state = self->state;
     const auto& config = state.config;
-    const auto& io = state.initialization;
-    const auto& feo = state.fitness_evaluation;
-    const auto& co = state.crossover;
-    const auto& mo = state.mutation;
-    const auto& muo = state.migration;
-    const auto& pso = state.parent_selection;
-    const auto& sso = state.survival_selection;
-    const auto& eo = state.elitism;
 
-    auto worker_fun = island_model_worker<individual, fitness_value,
+    auto& worker_fun = island_model_worker<individual, fitness_value,
     fitness_evaluation_operator, initialization_operator,
     crossover_operator, mutation_operator,
     parent_selection_operator,
@@ -251,7 +197,7 @@ behavior island_model_dispatcher(
     survival_selection_operator, elitism_operator, migration_operator>;
 
     return self->template spawn<monitored + detached>(worker_fun,
-        worker_state {config, id, io, feo, co, mo, muo, pso, sso, eo}, self);
+        worker_state {config, id}, self);
   };
 
   /*
@@ -333,14 +279,13 @@ behavior island_model_dispatcher(
 }
 
 struct island_model_executor_state : public base_state {
-  std::size_t generations_so_far;
-
   island_model_executor_state() = default;
-
   island_model_executor_state(const shared_config& config)
       : base_state { config },
         generations_so_far { 0 } {
   }
+
+  std::size_t generations_so_far;
 };
 
 behavior island_model_executor(
@@ -374,8 +319,10 @@ behavior island_model_executor(
       for (std::size_t i = 0; i < props.migration_period; ++i) {
         self->send(dispatcher, execute_generation::value);
       }
+
       self->send(dispatcher, execute_migration::value);
       self->state.generations_so_far += props.migration_period;
+
       if(self->state.generations_so_far <= props.generations_number) {
         self->send(self, execute_phase_2::value);
       } else {
@@ -413,32 +360,17 @@ class island_model_driver : private base_driver {
     actor_system system { cfg };
     scoped_actor self { system };
     configuration* conf { new configuration { system_props, user_props } };
+    shared_config config { conf };
 
     start_reporters<individual, fitness_value>(*conf, system, self);
 
-    shared_config config { conf };
-    fitness_evaluation_operator fitness_evaluation { config };
-    initialization_operator initialization { config };
-    crossover_operator crossover { config };
-    mutation_operator mutation { config };
-    migration_operator migration { config };
-    parent_selection_operator parent_selection { config };
-    survival_selection_operator survival_selection { config };
-    elitism_operator elitism { config };
+    auto& dispatcher_func = island_model_dispatcher<individual, fitness_value,
+        fitness_evaluation_operator, initialization_operator,
+        crossover_operator, mutation_operator, parent_selection_operator,
+        survival_selection_operator, elitism_operator, migration_operator>;
 
-    auto dispatcher = system.spawn(
-        island_model_dispatcher<individual, fitness_value,
-            fitness_evaluation_operator, initialization_operator,
-            crossover_operator, mutation_operator, parent_selection_operator,
-            survival_selection_operator, elitism_operator, migration_operator>,
-        island_model_dispatcher_state<individual, fitness_value,
-            fitness_evaluation_operator, initialization_operator,
-            crossover_operator, mutation_operator, parent_selection_operator,
-            survival_selection_operator, elitism_operator, migration_operator> {
-            config, std::move(fitness_evaluation), std::move(initialization),
-            std::move(crossover), std::move(mutation), std::move(migration),
-            std::move(parent_selection), std::move(survival_selection),
-            std::move(elitism) });
+    auto dispatcher = system.spawn(dispatcher_func,
+                                   island_model_dispatcher_state { config });
 
     auto executor = system.spawn(island_model_executor,
                                  island_model_executor_state { config },

@@ -11,6 +11,8 @@
 #include "example/definitions.hpp"
 #include "example/bitstring_mutation.cpp"
 #include "example/onemax_fitness_evaluation.cpp"
+#include "operators/ring_random_migration.hpp"
+#include "operators/star_random_migration.hpp"
 
 int main() {
   /*
@@ -23,12 +25,12 @@ int main() {
   system_props.individual_size = 10;
   system_props.elitists_number = 5;
   system_props.generations_number = 100;
-  system_props.initialization_seed = 0.5;
-  system_props.crossover_seed = 0.5;
-  system_props.mutation_seed = 0.5;
-  system_props.parent_selection_seed = 0.5;
+  system_props.initialization_seed = 345312;
+  system_props.crossover_seed = 654674;
+  system_props.mutation_seed = 73545;
+  system_props.parent_selection_seed = 764674;
   system_props.mutation_probability = 0.01;
-  system_props.supervisor_seed = 0.5;
+  system_props.supervisor_seed = 876533;
   system_props.is_elitism_active = true;
   system_props.is_survival_selection_active = false;
   system_props.is_migration_active = false;
@@ -51,6 +53,7 @@ int main() {
       std::vector<bool> { true, false };
   user_props[constants::STABLE_REQUIRED_KEY] = std::size_t { 10 };
   user_props[constants::MINIMUM_AVERAGE_KEY] = 8;
+  user_props[constants::ADD_POPULATION_SIZE_TO_SEED] = true;
 
   /*
    * The global_model_driver class encapsulates the global model genetic algorithm.

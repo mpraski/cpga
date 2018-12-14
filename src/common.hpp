@@ -9,6 +9,8 @@ static constexpr const char POSSIBLE_VALUES_KEY[] =
     "possible_initialization_values";
 static constexpr const char STABLE_REQUIRED_KEY[] = "stable_required";
 static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
+static constexpr const char ADD_POPULATION_SIZE_TO_SEED[] =
+    "add_population_size_to_seed";
 
 static constexpr const char* const ACTOR_PHASE_MAP[] = { "init_population",
     "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total",
@@ -24,8 +26,6 @@ static const std::vector<std::string> INDIVIDUAL_HEADERS { "Generation",
 }
 
 // Commonly used functions
-const constexpr auto timeout = std::chrono::seconds(10);
-
 inline auto now() noexcept {
   return std::chrono::high_resolution_clock::now();
 }
@@ -35,8 +35,7 @@ inline auto recommended_worker_number() noexcept {
 }
 
 template<typename E>
-constexpr auto to_underlying(E e) noexcept
-{
+constexpr auto to_underlying(E e) noexcept {
   return static_cast<std::underlying_type_t<E>>(e);
 }
 
@@ -53,9 +52,9 @@ auto str(T&& t, Ts&&... ts) {
 
 template<typename T, typename A, typename ...As>
 inline void system_message(stateful_actor<T>* self, A&& a, As&&... as) {
-  if (self->state.config->system_props.is_system_reporter_active)
-    self->send(self->state.config->system_reporter, report::value, now(),
-               str(std::forward<A>(a), std::forward<As>(as)...));
+  if (self->state.config->system_props.is_system_reporter_active) self->send(
+      self->state.config->system_reporter, report::value, now(),
+      str(std::forward<A>(a), std::forward<As>(as)...));
 }
 
 template<typename A, typename ...As>
@@ -67,14 +66,14 @@ inline void system_message(const scoped_actor& self,
 
 template<typename T, typename ...As>
 inline void generation_message(stateful_actor<T>* self, As&&... as) {
-  if (self->state.config->system_props.is_generation_reporter_active)
-    self->send(self->state.config->generation_reporter, std::forward<As>(as)...);
+  if (self->state.config->system_props.is_generation_reporter_active) self->send(
+      self->state.config->generation_reporter, std::forward<As>(as)...);
 }
 
 template<typename T, typename ...As>
 inline void individual_message(stateful_actor<T>* self, As&&... as) {
-  if (self->state.config->system_props.is_individual_reporter_active)
-    self->send(self->state.config->individual_reporter, std::forward<As>(as)...);
+  if (self->state.config->system_props.is_individual_reporter_active) self->send(
+      self->state.config->individual_reporter, std::forward<As>(as)...);
 }
 
 // aliases for common data structures
@@ -97,4 +96,7 @@ using parent_collection = std::vector<individual_wrapper_pair<individual, fitnes
 
 template<typename individual, typename fitness_value>
 using migration_payload = std::vector<std::pair<island_id, individual_wrapper<individual, fitness_value>>>;
+
+const constexpr auto timeout = std::chrono::seconds(10);
+const constexpr auto island_0 = island_id { 0 };
 

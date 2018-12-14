@@ -29,11 +29,9 @@
 template<typename fitness_evaluation_operator>
 struct global_model_worker_state : public base_state {
   global_model_worker_state() = default;
-
-  global_model_worker_state(const shared_config& config,
-                            const fitness_evaluation_operator& feo)
+  global_model_worker_state(const shared_config& config)
       : base_state { config },
-        fitness_evaluation { feo } {
+        fitness_evaluation { config, island_0 } {
   }
 
   fitness_evaluation_operator fitness_evaluation;
@@ -66,14 +64,7 @@ behavior global_model_worker(
  * worker.
  */
 struct global_model_supervisor_state : public base_state {
-  std::size_t pool_size;
-  std::vector<actor> workers;
-  std::default_random_engine generator;
-  std::uniform_int_distribution<std::size_t> distribution;
-  std::function<std::size_t()> random_f;
-
   global_model_supervisor_state() = default;
-
   global_model_supervisor_state(const shared_config& config,
                                 std::size_t pool_size)
       : base_state { config },
@@ -87,24 +78,29 @@ struct global_model_supervisor_state : public base_state {
   inline auto random_worker() const noexcept {
     return workers[random_f()];
   }
+
+  std::size_t pool_size;
+  std::vector<actor> workers;
+  std::default_random_engine generator;
+  std::uniform_int_distribution<std::size_t> distribution;
+  std::function<std::size_t()> random_f;
 };
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator>
 behavior global_model_supervisor(
     stateful_actor<global_model_supervisor_state>* self,
-    global_model_supervisor_state state,
-    const fitness_evaluation_operator& feo) {
+    global_model_supervisor_state state) {
   self->state = std::move(state);
 
   system_message(self, "Spawning global model supervisor");
 
-  auto spawn_worker = [self, feo]() -> actor {
+  auto spawn_worker = [self]() -> actor {
     return self->spawn<monitored + detached>(
         global_model_worker<individual, fitness_value,
         fitness_evaluation_operator>,
         global_model_worker_state<fitness_evaluation_operator> {self->state
-          .config, feo});
+          .config});
   };
 
   for (std::size_t i = 0; i < self->state.pool_size; ++i) {
@@ -164,21 +160,15 @@ template<typename individual, typename fitness_value,
     typename elitism_operator>
 struct global_model_executor_state : public base_state {
   global_model_executor_state() = default;
-
-  global_model_executor_state(const shared_config& config,
-                              initialization_operator io, crossover_operator co,
-                              mutation_operator mo,
-                              parent_selection_operator pso,
-                              survival_selection_operator sso,
-                              elitism_operator eo, global_temination_check gtc)
+  global_model_executor_state(const shared_config& config)
       : base_state { config },
-        initialization { std::move(io) },
-        crossover { std::move(co) },
-        mutation { std::move(mo) },
-        parent_selection { std::move(pso) },
-        survival_selection { std::move(sso) },
-        elitism { std::move(eo) },
-        termination_check { std::move(gtc) },
+        initialization { config, island_0 },
+        crossover { config, island_0 },
+        mutation { config, island_0 },
+        parent_selection { config, island_0 },
+        survival_selection { config, island_0 },
+        elitism { config, island_0 },
+        termination_check { config, island_0 },
         current_generation { 0 },
         current_island { 0 },
         compute_fitness_counter { 0 },
@@ -265,6 +255,16 @@ behavior global_model_executor(
 
                 generation_message(self, note_end::value, now(), actor_phase::execute_phase_1, state.current_generation, state.current_island);
               }
+            },
+            [=](error& err) {
+              if(err == sec::request_timeout) {
+                system_message(self, "Phase 1: Failed to compute fitness value for individual: ", self->state.population[i].first);
+              }
+
+              if(--self->state.population_size_counter == 0) {
+                system_message(self, "Phase 1: Complete failure to compute fitness values, quitting...");
+                self->send(self, finish::value);
+              }
             }
         );
       }
@@ -306,6 +306,16 @@ behavior global_model_executor(
                   self->send(self, execute_phase_3::value);
 
                   generation_message(self, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
+                }
+              },
+              [=](error& err) {
+                if(err == sec::request_timeout) {
+                  system_message(self, "Phase 2: Failed to compute fitness value for individual: ", self->state.offspring[i].first);
+                }
+
+                if(--self->state.offspring_size_counter == 0) {
+                  system_message(self, "Phase 2: Complete failure to compute fitness values, quitting...");
+                  self->send(self, finish::value);
                 }
               }
           );
@@ -381,25 +391,16 @@ class global_model_driver : private base_driver {
     actor_system system { cfg };
     scoped_actor self { system };
     configuration* conf { new configuration { system_props, user_props } };
+    shared_config config { conf };
 
     start_reporters<individual, fitness_value>(*conf, system, self);
-
-    shared_config config { conf };
-    fitness_evaluation_operator fitness_evaluation { config };
-    initialization_operator initialization { config };
-    crossover_operator crossover { config };
-    mutation_operator mutation { config };
-    parent_selection_operator parent_selection { config };
-    survival_selection_operator survival_selection { config };
-    elitism_operator elitism { config };
-    global_temination_check termination_check { config };
 
     auto cores = recommended_worker_number();
 
     auto supervisor = system.spawn(
         global_model_supervisor<individual, fitness_value,
             fitness_evaluation_operator>,
-        global_model_supervisor_state { config, cores }, fitness_evaluation);
+        global_model_supervisor_state { config, cores });
 
     auto executor = system.spawn(
         global_model_executor<individual, fitness_value,
@@ -409,10 +410,7 @@ class global_model_driver : private base_driver {
         global_model_executor_state<individual, fitness_value,
             initialization_operator, crossover_operator, mutation_operator,
             parent_selection_operator, global_temination_check,
-            survival_selection_operator, elitism_operator> { config, std::move(
-            initialization), std::move(crossover), std::move(mutation),
-            std::move(parent_selection), std::move(survival_selection),
-            std::move(elitism), std::move(termination_check) },
+            survival_selection_operator, elitism_operator> { config },
         supervisor);
 
     self->send(executor, init_population::value);

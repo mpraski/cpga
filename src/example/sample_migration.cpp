@@ -3,13 +3,9 @@
 #include <random>
 #include <vector>
 
-class sample_migration : public base_state {
+class sample_migration : public base_operator {
  public:
-  sample_migration() = default;
-
-  sample_migration(const shared_config& config)
-      : base_state { config } {
-  }
+  using base_operator::base_operator;
 
   migration_payload<sequence<bool>, int> operator()(
       island_id from,

@@ -6,7 +6,7 @@
 #include <vector>
 
 template<typename individual, typename fitness_value>
-class best_individual_elitism : public base_state {
+class best_individual_elitism : public base_operator {
   using Comparator = std::function<bool(individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>)>;
  private:
   Comparator compFunctor = [](const auto& w1, const auto& w2)
@@ -14,11 +14,7 @@ class best_individual_elitism : public base_state {
     return w1.second > w2.second;
   };
  public:
-  best_individual_elitism() = default;
-
-  best_individual_elitism(const shared_config& config)
-      : base_state { config } {
-  }
+  using base_operator::base_operator;
 
   void operator()(
       individual_collection<individual, fitness_value>& population,

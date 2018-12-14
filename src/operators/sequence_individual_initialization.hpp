@@ -6,19 +6,19 @@
 #include <vector>
 
 template<typename sequence_individual, typename fitness_value>
-class sequence_individual_initialization : public base_state {
-  using individual = std::vector<sequence_individual>;
+class sequence_individual_initialization : public base_operator {
+  using individual = sequence<sequence_individual>;
   using distribution = std::uniform_int_distribution<std::size_t>;
  private:
   std::default_random_engine generator;
   std::vector<sequence_individual> possible_values;
  public:
   sequence_individual_initialization() = default;
-
-  sequence_individual_initialization(const shared_config& configuration)
-      : base_state { configuration },
-        generator { configuration->system_props.initialization_seed },
-        possible_values { std::any_cast<std::vector<sequence_individual>>(
+  sequence_individual_initialization(const shared_config& config,
+                                     island_id island_no)
+      : base_operator { config, island_no },
+        generator { config->system_props.initialization_seed },
+        possible_values { std::any_cast<sequence<sequence_individual>>(
             config->user_props.at(constants::POSSIBLE_VALUES_KEY)) } {
     if (!config->system_props.can_repeat_individual_elements
         && possible_values.size() < config->system_props.individual_size) {

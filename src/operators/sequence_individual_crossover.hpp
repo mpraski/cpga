@@ -6,7 +6,7 @@
 #include <vector>
 
 template<typename sequence_individual, typename fitness_value>
-class sequence_individual_crossover : public base_state {
+class sequence_individual_crossover : public base_operator {
   using individual = std::vector<sequence_individual>;
  private:
   std::default_random_engine generator;
@@ -14,9 +14,9 @@ class sequence_individual_crossover : public base_state {
   std::function<std::size_t()> random;
  public:
   sequence_individual_crossover() = default;
-
-  sequence_individual_crossover(const shared_config& config)
-      : base_state { config },
+  sequence_individual_crossover(const shared_config& config,
+                                island_id island_no)
+      : base_operator { config, island_no },
         generator { config->system_props.crossover_seed },
         distribution { 0, config->system_props.individual_size },
         random { std::bind(distribution, generator) } {

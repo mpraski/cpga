@@ -12,15 +12,17 @@ template<typename individual, typename fitness_value,
     typename elitism_operator, typename global_temination_check>
 class sequential_model_driver : private base_driver {
  private:
-  void run_pga(const scoped_actor& self, const shared_config& config,
-               fitness_evaluation_operator& fitness_evaluation,
-               initialization_operator& initialization,
-               crossover_operator& crossover, mutation_operator& mutation,
-               parent_selection_operator& parent_selection,
-               survival_selection_operator& survival_selection,
-               elitism_operator& elitism,
-               global_temination_check& termination_check) {
+  void run_pga(const scoped_actor& self, const shared_config& config) {
     auto& props = config->system_props;
+
+    fitness_evaluation_operator fitness_evaluation { config, island_0 };
+    initialization_operator initialization { config, island_0 };
+    crossover_operator crossover { config, island_0 };
+    mutation_operator mutation { config, island_0 };
+    parent_selection_operator parent_selection { config, island_0 };
+    survival_selection_operator survival_selection { config, island_0 };
+    elitism_operator elitism { config, island_0 };
+    global_temination_check termination_check { config, island_0 };
 
     parent_collection<individual, fitness_value> parents;
 
@@ -111,22 +113,11 @@ class sequential_model_driver : private base_driver {
     actor_system system { cfg };
     scoped_actor self { system };
     configuration* conf { new configuration { system_props, user_props } };
+    shared_config config { conf };
 
     start_reporters<individual, fitness_value>(*conf, system, self);
 
-    shared_config config { conf };
-    fitness_evaluation_operator fitness_evaluation { config };
-    initialization_operator initialization { config };
-    crossover_operator crossover { config };
-    mutation_operator mutation { config };
-    parent_selection_operator parent_selection { config };
-    survival_selection_operator survival_selection { config };
-    elitism_operator elitism { config };
-    global_temination_check termination_check { config };
-
-    run_pga(self, config, fitness_evaluation, initialization, crossover,
-            mutation, parent_selection, survival_selection, elitism,
-            termination_check);
+    run_pga(self, config);
 
     stop_reporters(*conf, self);
   }

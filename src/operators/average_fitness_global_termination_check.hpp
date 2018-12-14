@@ -1,16 +1,16 @@
 #include "../core.hpp"
 
 template<typename individual, typename fitness_value>
-class average_fitness_global_termination_check : public base_state {
+class average_fitness_global_termination_check : public base_operator {
  private:
   std::size_t stable_so_far;
   std::size_t stable_required;
   fitness_value minimun_average;
  public:
   average_fitness_global_termination_check() = default;
-
-  average_fitness_global_termination_check(const shared_config& config)
-      : base_state { config },
+  average_fitness_global_termination_check(const shared_config& config,
+                                           island_id island_no)
+      : base_operator { config, island_no },
         stable_so_far { 0 },
         stable_required { std::any_cast<std::size_t>(
             config->user_props.at(constants::STABLE_REQUIRED_KEY)) },

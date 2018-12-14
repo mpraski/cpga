@@ -5,7 +5,7 @@
 #include <random>
 
 template<typename individual, typename fitness_value>
-class roulette_wheel_parent_selection : base_state {
+class roulette_wheel_parent_selection : base_operator {
  private:
   std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution;
@@ -24,9 +24,9 @@ class roulette_wheel_parent_selection : base_state {
   }
  public:
   roulette_wheel_parent_selection() = default;
-
-  roulette_wheel_parent_selection(const shared_config& config)
-      : base_state { config },
+  roulette_wheel_parent_selection(const shared_config& config,
+                                  island_id island_no)
+      : base_operator { config, island_no },
         generator { config->system_props.parent_selection_seed },
         distribution { 0.0, 1.0 },
         random_one { std::bind(distribution, generator) } {
