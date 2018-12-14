@@ -12,10 +12,9 @@ using compute_fitness = atom_constant<atom("cf")>;
 using finish = atom_constant<atom("f")>;
 
 // Atoms used by island model actors
-using migrate_receive = atom_constant<atom("mirec")>;
-using migrate = atom_constant<atom("mir")>;
 using execute_migration = atom_constant<atom("mireq")>;
 using execute_generation = atom_constant<atom("exge")>;
+using receive_migration = atom_constant<atom("mirec")>;
 using worker_finished = atom_constant<atom("wof")>;
 using finish_worker = atom_constant<atom("fiw")>;
 using dispatcher_finished = atom_constant<atom("dif")>;

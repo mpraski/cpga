@@ -257,9 +257,7 @@ behavior global_model_executor(
               }
             },
             [=](error& err) {
-              if(err == sec::request_timeout) {
-                system_message(self, "Phase 1: Failed to compute fitness value for individual: ", self->state.population[i].first);
-              }
+              system_message(self, "Phase 1: Failed to compute fitness value for individual: ", self->state.offspring[i].first, " with error code: ", err.code());
 
               if(--self->state.population_size_counter == 0) {
                 system_message(self, "Phase 1: Complete failure to compute fitness values, quitting...");
@@ -309,9 +307,7 @@ behavior global_model_executor(
                 }
               },
               [=](error& err) {
-                if(err == sec::request_timeout) {
-                  system_message(self, "Phase 2: Failed to compute fitness value for individual: ", self->state.offspring[i].first);
-                }
+                system_message(self, "Phase 2: Failed to compute fitness value for individual: ", self->state.offspring[i].first, " with error code: ", err.code());
 
                 if(--self->state.offspring_size_counter == 0) {
                   system_message(self, "Phase 2: Complete failure to compute fitness values, quitting...");

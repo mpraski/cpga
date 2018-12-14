@@ -31,7 +31,7 @@ class random_migration : public base_operator {
 
   migration_payload<individual, fitness_value> operator()(
       island_id from,
-      individual_collection<individual, fitness_value>& population) const {
+      individual_collection<individual, fitness_value>& population) {
     migration_payload<individual, fitness_value> payload;
     auto quota = config->system_props.migration_quota;
 

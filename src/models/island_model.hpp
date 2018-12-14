@@ -127,11 +127,10 @@ behavior island_model_worker(
 
       ++state.current_generation;
     },
-    [self, dispatcher](execute_migration) {
-      auto& state = self->state;
-      self->send(dispatcher, migrate::value, state.migration(state.current_island, state.population));
+    [self](execute_migration) {
+      return self->state.migration(self->state.current_island, self->state.population);
     },
-    [self](migrate_receive, individual_wrapper<individual, fitness_value> migrant) {
+    [self](receive_migration, individual_wrapper<individual, fitness_value> migrant) {
       self->state.population.emplace_back(std::move(migrant));
     },
     [self, dispatcher](finish) {
@@ -151,10 +150,14 @@ struct island_model_dispatcher_state : public base_state {
   island_model_dispatcher_state() = default;
   island_model_dispatcher_state(const shared_config& config)
       : base_state { config },
-        workers_done { 0 } {
+        workers_done { 0 },
+        migrations_done { 0 },
+        migrations_counter { 0 } {
   }
 
   std::size_t workers_done;
+  std::size_t migrations_done;
+  std::size_t migrations_counter;
   std::unordered_map<island_id, actor> islands;
   std::unordered_map<actor_id, island_id> actor_to_island;
 };
@@ -247,23 +250,45 @@ behavior island_model_dispatcher(
     [self](execute_generation atom) {
       forward(self, atom);
     },
-    [self](execute_migration atom) {
-      forward(self, atom);
+    /*
+     * Run the migration step, that is request migrants from islands and
+     * route them to their destinations, then notify the executor by
+     * delivering the reponse promise.
+     */
+    [self, islands](execute_migration atom) -> result<bool> {
+      self->state.migrations_counter = islands;
+
+      auto rp = self->make_response_promise<bool>();
+      for (const auto& x : self->state.islands) {
+        self->request(x.second, timeout, atom).then(
+            [=](const migration_payload<individual, fitness_value>& payload) mutable {
+              for (const auto& pair : payload) {
+                auto& island = self->state.islands[pair.first];
+                auto& migrant = pair.second;
+
+                self->send(island, receive_migration::value, migrant);
+              }
+
+              if(++self->state.migrations_done == self->state.migrations_counter) {
+                self->state.migrations_done = 0;
+                rp.deliver(true);
+              }
+            },
+            [=](error& err) {
+              system_message(self, "Failed to execute migration for island: ", x.first, " with error code: ", err.code());
+
+              if(--self->state.migrations_counter == 0) {
+                system_message(self, "Complete failure to perform migration, quitting...");
+                self->send(self, finish::value);
+              }
+            }
+        );
+      }
+
+      return rp;
     },
     [self](finish atom) {
       forward(self, atom);
-    },
-    /*
-     * Upon receiving a migration payload from an island, send
-     * each migrant to appropriate island
-     */
-    [self](migrate, const migration_payload<individual, fitness_value>& payload) {
-      for (const auto& pair : payload) {
-        auto& island = self->state.islands[pair.first];
-        auto& migrant = pair.second;
-
-        self->send(island, migrate_receive::value, migrant);
-      }
     },
     /*
      * Receive 'end-of-work' signals from workers and
@@ -320,14 +345,16 @@ behavior island_model_executor(
         self->send(dispatcher, execute_generation::value);
       }
 
-      self->send(dispatcher, execute_migration::value);
-      self->state.generations_so_far += props.migration_period;
+      self->request(dispatcher, infinite, execute_migration::value).await([=](bool flag) {
+            self->state.generations_so_far += props.migration_period;
 
-      if(self->state.generations_so_far <= props.generations_number) {
-        self->send(self, execute_phase_2::value);
-      } else {
-        self->send(self, execute_phase_4::value);
-      }
+            if(self->state.generations_so_far + props.migration_period <= props.generations_number) {
+              self->send(self, execute_phase_2::value);
+            } else {
+              self->send(self, execute_phase_4::value);
+            }
+          }
+      );
     },
     [=](execute_phase_3) {
       for (std::size_t i = 0; i < props.generations_number; ++i) {

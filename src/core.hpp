@@ -54,6 +54,9 @@ struct system_properties {
  * settings as well as some utitlites (access to reporter actors)
  */
 struct configuration {
+  configuration(const system_properties& system_props,
+                const user_properties& user_props);
+
   system_properties system_props;
   user_properties user_props;
 
@@ -61,9 +64,6 @@ struct configuration {
   actor system_reporter;
   actor generation_reporter;
   actor individual_reporter;
-
-  configuration(const system_properties& system_props,
-                const user_properties& user_props);
 };
 
 using shared_config = std::shared_ptr<const configuration>;

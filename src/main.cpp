@@ -25,6 +25,8 @@ int main() {
   system_props.individual_size = 10;
   system_props.elitists_number = 5;
   system_props.generations_number = 100;
+  system_props.migration_period = 10;
+  system_props.migration_quota = 10;
   system_props.initialization_seed = 345312;
   system_props.crossover_seed = 654674;
   system_props.mutation_seed = 73545;
@@ -33,7 +35,7 @@ int main() {
   system_props.supervisor_seed = 876533;
   system_props.is_elitism_active = true;
   system_props.is_survival_selection_active = false;
-  system_props.is_migration_active = false;
+  system_props.is_migration_active = true;
   system_props.can_repeat_individual_elements = true;
   system_props.is_system_reporter_active = true;
   system_props.system_reporter_log = "system_reporter.csv";
@@ -87,7 +89,8 @@ int main() {
       sequence_individual_crossover<bool, int>, bitstring_mutation,
       roulette_wheel_parent_selection<sequence<bool>, int>,
       roulette_wheel_survival_selection<sequence<bool>, int>,
-      best_individual_elitism<sequence<bool>, int>> driver { system_props,
+      best_individual_elitism<sequence<bool>, int>,
+      ring_random_migration<sequence<bool>, int>> driver { system_props,
       user_props };
 
   driver.run();
