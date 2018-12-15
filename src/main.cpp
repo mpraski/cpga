@@ -21,10 +21,10 @@ int main() {
    */
   system_properties system_props;
   system_props.islands_number = recommended_worker_number();
-  system_props.population_size = 100;
+  system_props.population_size = 1000;
   system_props.individual_size = 10;
-  system_props.elitists_number = 5;
-  system_props.generations_number = 100;
+  system_props.elitists_number = 10;
+  system_props.generations_number = 1000;
   system_props.migration_period = 10;
   system_props.migration_quota = 10;
   system_props.initialization_seed = 345312;
@@ -37,6 +37,7 @@ int main() {
   system_props.is_survival_selection_active = false;
   system_props.is_migration_active = true;
   system_props.can_repeat_individual_elements = true;
+  system_props.add_island_no_to_seed = true;
   system_props.is_system_reporter_active = true;
   system_props.system_reporter_log = "system_reporter.csv";
   system_props.is_generation_reporter_active = true;

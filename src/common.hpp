@@ -3,6 +3,27 @@
 #include <chrono>
 #include <type_traits>
 
+// aliases for common data structures
+using island_id = std::size_t;
+
+template<typename individual_value>
+using sequence = std::vector<individual_value>;
+
+template<typename individual, typename fitness_value>
+using individual_wrapper = std::pair<individual, fitness_value>;
+
+template<typename individual, typename fitness_value>
+using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>>;
+
+template<typename individual, typename fitness_value>
+using individual_collection = std::vector<individual_wrapper<individual, fitness_value>>;
+
+template<typename individual, typename fitness_value>
+using parent_collection = std::vector<individual_wrapper_pair<individual, fitness_value>>;
+
+template<typename individual, typename fitness_value>
+using migration_payload = std::vector<std::pair<island_id, individual_wrapper<individual, fitness_value>>>;
+
 // Commonly used data
 namespace constants {
 static constexpr const char POSSIBLE_VALUES_KEY[] =
@@ -24,6 +45,9 @@ static const std::vector<std::string> TIME_HEADERS { "Start", "End",
 static const std::vector<std::string> INDIVIDUAL_HEADERS { "Generation",
     "Island", "Individual", "Fitness value" };
 }
+
+const constexpr auto timeout = std::chrono::seconds(10);
+const constexpr auto island_0 = island_id { 0 };
 
 // Commonly used functions
 inline auto now() noexcept {
@@ -75,28 +99,4 @@ inline void individual_message(stateful_actor<T>* self, As&&... as) {
   if (self->state.config->system_props.is_individual_reporter_active) self->send(
       self->state.config->individual_reporter, std::forward<As>(as)...);
 }
-
-// aliases for common data structures
-using island_id = std::size_t;
-
-template<typename individual_value>
-using sequence = std::vector<individual_value>;
-
-template<typename individual, typename fitness_value>
-using individual_wrapper = std::pair<individual, fitness_value>;
-
-template<typename individual, typename fitness_value>
-using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>>;
-
-template<typename individual, typename fitness_value>
-using individual_collection = std::vector<individual_wrapper<individual, fitness_value>>;
-
-template<typename individual, typename fitness_value>
-using parent_collection = std::vector<individual_wrapper_pair<individual, fitness_value>>;
-
-template<typename individual, typename fitness_value>
-using migration_payload = std::vector<std::pair<island_id, individual_wrapper<individual, fitness_value>>>;
-
-const constexpr auto timeout = std::chrono::seconds(10);
-const constexpr auto island_0 = island_id { 0 };
 

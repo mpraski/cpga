@@ -17,7 +17,7 @@ class sequence_individual_initialization : public base_operator {
   sequence_individual_initialization(const shared_config& config,
                                      island_id island_no)
       : base_operator { config, island_no },
-        generator { config->system_props.initialization_seed },
+        generator { get_seed(config->system_props.initialization_seed) },
         possible_values { std::any_cast<sequence<sequence_individual>>(
             config->user_props.at(constants::POSSIBLE_VALUES_KEY)) } {
     if (!config->system_props.can_repeat_individual_elements

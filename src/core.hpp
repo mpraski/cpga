@@ -30,13 +30,14 @@ struct system_properties {
   bool is_survival_selection_active;
   bool is_migration_active;
   bool can_repeat_individual_elements;
-  unsigned long long initialization_seed;
-  unsigned long long mutation_seed;
-  unsigned long long crossover_seed;
-  unsigned long long parent_selection_seed;
-  unsigned long long survival_selection_seed;
-  unsigned long long supervisor_seed;
-  unsigned long long migration_seed;
+  bool add_island_no_to_seed;
+  unsigned long initialization_seed;
+  unsigned long mutation_seed;
+  unsigned long crossover_seed;
+  unsigned long parent_selection_seed;
+  unsigned long survival_selection_seed;
+  unsigned long supervisor_seed;
+  unsigned long migration_seed;
   double mutation_probability;
 
   bool is_system_reporter_active;
@@ -80,6 +81,13 @@ struct base_operator : public base_state {
   base_operator(const shared_config& config, island_id island_no);
 
   island_id island_no;
+
+  inline auto get_seed(unsigned long seed) const {
+    if(config->system_props.add_island_no_to_seed) {
+      seed += island_no;
+    }
+    return seed;
+  }
 };
 
 class base_driver {

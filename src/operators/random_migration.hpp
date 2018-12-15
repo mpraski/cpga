@@ -10,16 +10,11 @@ class random_migration : public base_operator {
   using distribution = std::uniform_int_distribution<std::size_t>;
  private:
   std::default_random_engine generator;
-  bool add_seed;
  public:
   random_migration() = default;
   random_migration(const shared_config& config, island_id island_no)
       : base_operator { config, island_no },
-        add_seed { std::any_cast<bool>(
-            config->user_props.at(constants::ADD_POPULATION_SIZE_TO_SEED)) } {
-    auto seed = config->system_props.migration_seed;
-    if (add_seed) seed += island_no;
-    generator = std::default_random_engine { seed };
+        generator { get_seed(config->system_props.migration_seed) } {
   }
 
   virtual ~random_migration() {

@@ -274,11 +274,12 @@ behavior island_model_dispatcher(
                 rp.deliver(true);
               }
             },
-            [=](error& err) {
+            [=](error& err) mutable {
               system_message(self, "Failed to execute migration for island: ", x.first, " with error code: ", err.code());
 
               if(--self->state.migrations_counter == 0) {
                 system_message(self, "Complete failure to perform migration, quitting...");
+                rp.deliver(false);
                 self->send(self, finish::value);
               }
             }
@@ -345,7 +346,10 @@ behavior island_model_executor(
         self->send(dispatcher, execute_generation::value);
       }
 
-      self->request(dispatcher, infinite, execute_migration::value).await([=](bool flag) {
+      self->request(dispatcher, infinite, execute_migration::value).await(
+          [&](bool flag) {
+            if(!flag) return;
+
             self->state.generations_so_far += props.migration_period;
 
             if(self->state.generations_so_far + props.migration_period <= props.generations_number) {

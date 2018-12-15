@@ -27,7 +27,7 @@ class roulette_wheel_parent_selection : base_operator {
   roulette_wheel_parent_selection(const shared_config& config,
                                   island_id island_no)
       : base_operator { config, island_no },
-        generator { config->system_props.parent_selection_seed },
+        generator { get_seed(config->system_props.parent_selection_seed) },
         distribution { 0.0, 1.0 },
         random_one { std::bind(distribution, generator) } {
 
