@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <random>
 #include <chrono>
 #include <type_traits>
 
@@ -56,6 +58,20 @@ inline auto now() noexcept {
 
 inline auto recommended_worker_number() noexcept {
   return std::max(std::thread::hardware_concurrency() - 2, 2u);
+}
+
+template<typename T>
+inline auto shuffle(T begin, T end) noexcept {
+  auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(begin, end, std::default_random_engine(seed));
+}
+
+inline auto shuffled(std::size_t n) {
+  std::vector<std::size_t> nums(n);
+  std::iota(std::begin(nums), std::end(nums), 0);
+  shuffle(std::begin(nums), std::end(nums));
+
+  return nums;
 }
 
 template<typename E>

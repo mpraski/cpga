@@ -19,6 +19,9 @@ using worker_finished = atom_constant<atom("wof")>;
 using finish_worker = atom_constant<atom("fiw")>;
 using dispatcher_finished = atom_constant<atom("dif")>;
 
+// Atoms used by grid model actors
+using execute_computation = atom_constant<atom("excomp")>;
+
 // Atoms used by reporter actors
 using init_reporter = atom_constant<atom("ir")>;
 using report = atom_constant<atom("re")>;
