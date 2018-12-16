@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "../core.hpp"
 
 template<typename individual, typename fitness_value,
@@ -9,22 +10,19 @@ template<typename individual, typename fitness_value,
     typename elitism_operator>
 struct grid_model_worker_state : public base_state {
   grid_model_worker_state() = default;
-  grid_model_worker_state(const shared_config& config, const std::size_t id)
+  grid_model_worker_state(const shared_config& config, island_id id)
       : base_state { config },
-        initialization { config, id },
         fitness_evaluation { config, id },
         crossover { config, id },
         mutation { config, id },
         parent_selection { config, id },
         survival_selection { config, id },
         elitism { config, id },
-        current_island { id },
-        current_generation { 0 } {
+        current_island { id } {
     offspring.reserve(config->system_props.population_size);
     elitists.reserve(config->system_props.elitists_number);
   }
 
-  initialization_operator initialization;
   fitness_evaluation_operator fitness_evaluation;
   crossover_operator crossover;
   mutation_operator mutation;
@@ -32,8 +30,7 @@ struct grid_model_worker_state : public base_state {
   survival_selection_operator survival_selection;
   elitism_operator elitism;
 
-  std::size_t current_island;
-  std::size_t current_generation;
+  island_id current_island;
 
   parent_collection<individual, fitness_value> parents;
   individual_collection<individual, fitness_value> offspring;
@@ -64,18 +61,12 @@ behavior grid_model_worker(
   self->state = std::move(state);
 
   return {
-    [self](individual_collection<individual, fitness_value> pop) -> individual_collection<individual, fitness_value> {
+    [self](execute_computation, individual_collection<individual, fitness_value>& pop) -> individual_collection<individual, fitness_value> {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
 
       auto population = std::move(pop);
-      state.clear();
-
-      generation_message(self, note_start::value, now(), state.current_island);
-
-      for (auto& member : population) {
-        member.second = state.fitness_evaluation(member.first);
-      }
+      state.reset();
 
       if (props.is_elitism_active) {
         state.elitism(population, state.elitists);
@@ -110,14 +101,10 @@ behavior grid_model_worker(
         state.elitists.clear();
       }
 
-      generation_message(self, note_end::value, now(), actor_phase::execute_generation, self->state.current_generation, self->state.current_island);
-
-      ++state.current_generation;
-
       return population;
     },
     [self](finish_worker) {
-      system_message(self, "Quitting global model worker (actor id: ", self->id(), ")");
+      system_message(self, "Quitting grid model worker (id: ", self->state.current_island, ")");
       self->quit();
     }
   };
@@ -125,14 +112,15 @@ behavior grid_model_worker(
 
 struct grid_model_dispatcher_state : public base_state {
   grid_model_dispatcher_state() = default;
-  grid_model_dispatcher_state(const shared_config& config,
-                              std::size_t pool_size)
+  grid_model_dispatcher_state(const shared_config& config)
       : base_state { config },
-        pool_size { pool_size } {
+        pool_size { config->system_props.islands_number },
+        counter { 0 } {
     workers.reserve(pool_size);
   }
 
   std::size_t pool_size;
+  std::size_t counter;
   std::vector<actor> workers;
 };
 
@@ -191,12 +179,13 @@ behavior grid_model_dispatcher(
         }
 
         workers.erase(it);
-        workers.emplace_back(spawn_worker());
+        workers.emplace_back(spawn_worker(0));
       });
 
   return {
-    [self](execute_computation atom, std::size_t id, individual_collection<individual, fitness_value> pop) {
-      self->delegate(self->state.workers[id], atom, std::move(pop));
+    [self](execute_computation atom, individual_collection<individual, fitness_value>& pop) {
+      auto& state = self->state;
+      self->delegate(state.workers[state.counter++ % state.pool_size], atom, std::move(pop));
     },
     [self](finish) {
       for(const auto& worker : self->state.workers) {
@@ -209,23 +198,38 @@ behavior grid_model_dispatcher(
   };
 }
 
-template<typename individual, typename fitness_value>
+template<typename individual, typename fitness_value,
+    typename initialization_operator, typename fitness_evaluation_operator>
 struct grid_model_executor_state : public base_state {
   grid_model_executor_state() = default;
   grid_model_executor_state(const shared_config& config)
-      : base_state { config } {
+      : base_state { config },
+        computation_counter { 0 },
+        current_generation { 0 },
+        initialization { config, island_special },
+        fitness_evaluation { config, island_special } {
     population.reserve(config->system_props.population_size);
     result.reserve(config->system_props.population_size);
   }
+
+  std::size_t computation_counter;
+  std::size_t current_generation;
+
+  initialization_operator initialization;
+  fitness_evaluation_operator fitness_evaluation;
 
   individual_collection<individual, fitness_value> population;
   individual_collection<individual, fitness_value> result;
 };
 
-template<typename individual, typename fitness_value>
+template<typename individual, typename fitness_value,
+    typename initialization_operator, typename fitness_evaluation_operator>
 behavior grid_model_executor(
-    stateful_actor<grid_model_executor_state<individual, fitness_value>>* self,
-    grid_model_executor_state<individual, fitness_value> state,
+    stateful_actor<
+        grid_model_executor_state<individual, fitness_value,
+            initialization_operator, fitness_evaluation_operator>>* self,
+    grid_model_executor_state<individual, fitness_value,
+        initialization_operator, fitness_evaluation_operator> state,
     const actor& dispatcher) {
   self->state = std::move(state);
   self->monitor(dispatcher);
@@ -242,36 +246,118 @@ behavior grid_model_executor(
   const auto& props = self->state.config->system_props;
 
   return {
-    [=](execute_phase_1) {
+    [=](init_population) {
+      auto& state = self->state;
 
+      generation_message(self, note_start::value, now(), island_special);
+      generation_message(self, note_start::value, now(), island_special);
+
+      state.initialization(state.population);
+      self->send(self, execute_phase_1::value);
+
+      generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation, island_special);
     },
-    [=](execute_phase_2) {
-      for (island_id i = 0; i < props.islands_number; ++i) {
-        self->send(dispatcher, execute_generation::value);
+    [=](execute_phase_1) {
+      auto& state = self->state;
+      auto islands = props.islands_number;
+      auto generations = props.generations_number;
+      auto size = state.population.size();
+      auto times = size / props.islands_number;
+      auto random_nums = shuffled(size);
+
+      generation_message(self, note_start::value, now(), island_special);
+
+      for (auto& member : state.population) {
+        member.second = state.fitness_evaluation(member.first);
       }
 
-      auto times = props.population_size / props.islands_number;
-      auto rem = props.population_size % props.islands_number;
-      auto random_nums = shuffled(props.population_size);
-      std::size_t c = 0;
-
-      for(island_id i = 0; i < props.islands_number; ++i) {
-        individual_collection<individual, fitness_value> pop(times);
-        for(std::size_t j = 0; j < times; ++j) {
-          pop[j] = self->state.population[random_nums[c++]];
+      for(std::size_t i = 0; i < props.population_size; i += times) {
+        if(i + times >= props.population_size) {
+          break;
         }
 
-        self->request(dispatcher, timeout, pop,
+        individual_collection<individual, fitness_value> pop;
+        pop.reserve(times);
+
+        for(std::size_t j = i; j < i + times; ++j) {
+          pop.emplace_back(std::move(self->state.population[random_nums[j]]));
+        }
+
+        self->request(dispatcher, timeout, execute_computation::value, pop).then(
             [=](individual_collection<individual, fitness_value>& result) {
-              self->state.population.insert(self->state.population.end(),
+              self->state.result.insert(self->state.result.end(),
                   std::make_move_iterator(result.begin()),
                   std::make_move_iterator(result.end()));
+
+              if(++self->state.computation_counter == islands) {
+                self->state.computation_counter = 0;
+                self->state.population.clear();
+                self->state.population.swap(self->state.result);
+
+                if(++self->state.current_generation <= generations) {
+                  self->send(self, execute_phase_1::value);
+                } else {
+                  self->send(self, execute_phase_2::value);
+                }
+
+                generation_message(self, note_end::value, now(), actor_phase::execute_phase_1, state.current_generation, island_special);
+              }
             }
         );
       }
     },
-    [=](execute_phase_4) {
+    [=](execute_phase_2) {
+      auto& state = self->state;
+
+      generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, island_special);
+      individual_message(self, report_population::value, state.population, state.current_generation, island_special);
+      system_message(self, "Quitting grid model executor");
+
       self->send(dispatcher, finish::value);
+      self->quit();
     },
   };
 }
+
+template<typename individual, typename fitness_value,
+    typename fitness_evaluation_operator, typename initialization_operator,
+    typename crossover_operator, typename mutation_operator,
+    typename parent_selection_operator,
+    typename survival_selection_operator = default_survival_selection_operator<
+        individual, fitness_value>,
+    typename elitism_operator = default_elitism_operator<individual,
+        fitness_value>>
+class grid_model_driver : private base_driver {
+ public:
+  using base_driver::base_driver;
+
+  void run() {
+    actor_system_config cfg;
+    actor_system system { cfg };
+    scoped_actor self { system };
+    configuration* conf { new configuration { system_props, user_props } };
+    shared_config config { conf };
+
+    start_reporters<individual, fitness_value>(*conf, system, self);
+
+    auto dispatcher = system.spawn(
+        grid_model_dispatcher<individual, fitness_value,
+            fitness_evaluation_operator, initialization_operator,
+            crossover_operator, mutation_operator, parent_selection_operator,
+            survival_selection_operator, elitism_operator>,
+        grid_model_dispatcher_state { config });
+
+    auto executor = system.spawn(
+        grid_model_executor<individual, fitness_value, initialization_operator,
+            fitness_evaluation_operator>,
+        grid_model_executor_state<individual, fitness_value,
+            initialization_operator, fitness_evaluation_operator> { config },
+        dispatcher);
+
+    self->send(executor, init_population::value);
+    self->wait_for(executor);
+
+    stop_reporters(*conf, self);
+  }
+};
+

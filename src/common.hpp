@@ -50,6 +50,7 @@ static const std::vector<std::string> INDIVIDUAL_HEADERS { "Generation",
 
 const constexpr auto timeout = std::chrono::seconds(10);
 const constexpr auto island_0 = island_id { 0 };
+const constexpr auto island_special = std::numeric_limits<island_id>::max();
 
 // Commonly used functions
 inline auto now() noexcept {
@@ -60,16 +61,11 @@ inline auto recommended_worker_number() noexcept {
   return std::max(std::thread::hardware_concurrency() - 2, 2u);
 }
 
-template<typename T>
-inline auto shuffle(T begin, T end) noexcept {
-  auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-  std::shuffle(begin, end, std::default_random_engine(seed));
-}
-
 inline auto shuffled(std::size_t n) {
   std::vector<std::size_t> nums(n);
   std::iota(std::begin(nums), std::end(nums), 0);
-  shuffle(std::begin(nums), std::end(nums));
+  auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(std::begin(nums), std::end(nums), std::default_random_engine{seed});
 
   return nums;
 }

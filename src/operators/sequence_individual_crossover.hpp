@@ -11,7 +11,7 @@ class sequence_individual_crossover : public base_operator {
  private:
   std::default_random_engine generator;
   std::uniform_int_distribution<std::size_t> distribution;
-  std::function<std::size_t()> random;
+  std::function<std::size_t()> random_f;
  public:
   sequence_individual_crossover() = default;
   sequence_individual_crossover(const shared_config& config,
@@ -19,7 +19,7 @@ class sequence_individual_crossover : public base_operator {
       : base_operator { config, island_no },
         generator { get_seed(config->system_props.crossover_seed) },
         distribution { 0, config->system_props.individual_size },
-        random { std::bind(distribution, generator) } {
+        random_f { std::bind(distribution, generator) } {
   }
 
   void operator()(
@@ -30,7 +30,7 @@ class sequence_individual_crossover : public base_operator {
     individual child1(ind_size);
     individual child2(ind_size);
 
-    auto rand = random();
+    auto rand = random_f();
 
     for (std::size_t i = 0; i < ind_size; ++i) {
       if (i <= rand) {

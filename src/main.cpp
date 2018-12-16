@@ -1,6 +1,7 @@
 #include "core.hpp"
 #include "models/global_model.hpp"
 #include "models/island_model.hpp"
+#include "models/grid_model.hpp"
 #include "models/sequential_model.hpp"
 #include "operators/best_individual_elitism.hpp"
 #include "operators/roulette_wheel_parent_selection.hpp"
@@ -85,14 +86,22 @@ int main() {
    average_fitness_global_termination_check<sequence<bool>, int>> driver {
    system_props, user_props };*/
 
-  island_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
+  /*island_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
       sequence_individual_initialization<bool, int>,
       sequence_individual_crossover<bool, int>, bitstring_mutation,
       roulette_wheel_parent_selection<sequence<bool>, int>,
       roulette_wheel_survival_selection<sequence<bool>, int>,
       best_individual_elitism<sequence<bool>, int>,
       ring_random_migration<sequence<bool>, int>> driver { system_props,
-      user_props };
+      user_props };*/
+
+  grid_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
+        sequence_individual_initialization<bool, int>,
+        sequence_individual_crossover<bool, int>, bitstring_mutation,
+        roulette_wheel_parent_selection<sequence<bool>, int>,
+        roulette_wheel_survival_selection<sequence<bool>, int>,
+        best_individual_elitism<sequence<bool>, int>> driver { system_props,
+        user_props };
 
   driver.run();
 }

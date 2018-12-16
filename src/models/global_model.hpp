@@ -230,7 +230,6 @@ behavior global_model_executor(
       generation_message(self, note_start::value, now(), state.current_island);
 
       state.initialization(state.population);
-
       self->send(self, execute_phase_1::value);
 
       generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
