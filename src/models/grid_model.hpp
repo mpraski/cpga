@@ -4,10 +4,9 @@
 #include "../core.hpp"
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator>
+    typename fitness_evaluation_operator, typename crossover_operator,
+    typename mutation_operator, typename parent_selection_operator,
+    typename survival_selection_operator, typename elitism_operator>
 struct grid_model_worker_state : public base_state {
   grid_model_worker_state() = default;
   grid_model_worker_state(const shared_config& config, island_id id)
@@ -44,20 +43,18 @@ struct grid_model_worker_state : public base_state {
 };
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator>
+    typename fitness_evaluation_operator, typename crossover_operator,
+    typename mutation_operator, typename parent_selection_operator,
+    typename survival_selection_operator, typename elitism_operator>
 behavior grid_model_worker(
     stateful_actor<
         grid_model_worker_state<individual, fitness_value,
-            fitness_evaluation_operator, initialization_operator,
-            crossover_operator, mutation_operator, parent_selection_operator,
-            survival_selection_operator, elitism_operator>>* self,
+            fitness_evaluation_operator, crossover_operator, mutation_operator,
+            parent_selection_operator, survival_selection_operator,
+            elitism_operator>>* self,
     grid_model_worker_state<individual, fitness_value,
-        fitness_evaluation_operator, initialization_operator,
-        crossover_operator, mutation_operator, parent_selection_operator,
-        survival_selection_operator, elitism_operator> state) {
+        fitness_evaluation_operator, crossover_operator, mutation_operator,
+        parent_selection_operator, survival_selection_operator, elitism_operator> state) {
   self->state = std::move(state);
 
   return {
@@ -125,10 +122,9 @@ struct grid_model_dispatcher_state : public base_state {
 };
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator>
+    typename fitness_evaluation_operator, typename crossover_operator,
+    typename mutation_operator, typename parent_selection_operator,
+    typename survival_selection_operator, typename elitism_operator>
 behavior grid_model_dispatcher(
     stateful_actor<grid_model_dispatcher_state>* self,
     grid_model_dispatcher_state state) {
@@ -141,13 +137,13 @@ behavior grid_model_dispatcher(
     const auto& config = state.config;
 
     auto& worker_fun = grid_model_worker<individual, fitness_value,
-    fitness_evaluation_operator, initialization_operator,
+    fitness_evaluation_operator,
     crossover_operator, mutation_operator,
     parent_selection_operator,
     survival_selection_operator, elitism_operator>;
 
     using worker_state = grid_model_worker_state<individual, fitness_value,
-    fitness_evaluation_operator, initialization_operator,
+    fitness_evaluation_operator,
     crossover_operator, mutation_operator,
     parent_selection_operator,
     survival_selection_operator, elitism_operator>;
@@ -236,12 +232,12 @@ behavior grid_model_executor(
 
   system_message(self, "Spawning grid model executor");
 
-  self->set_down_handler([self, dispatcher](down_msg& down) {  // @suppress("Invalid arguments")
-        if(down.source == dispatcher) {
-          system_message(self, "Quitting executor as dispatcher already finished");
-          self->quit();
-        }
-      });
+  self->set_down_handler([self, dispatcher](down_msg& down) {
+    if(down.source == dispatcher) {
+      system_message(self, "Quitting executor as dispatcher already finished");
+      self->quit();
+    }
+  });
 
   const auto& props = self->state.config->system_props;
 
@@ -258,29 +254,29 @@ behavior grid_model_executor(
       generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation, island_special);
     },
     [=](execute_phase_1) {
+      generation_message(self, note_start::value, now(), island_special);
+
       auto& state = self->state;
       auto islands = props.islands_number;
       auto generations = props.generations_number;
-      auto size = state.population.size();
-      auto times = size / props.islands_number;
-      auto random_nums = shuffled(size);
-
-      generation_message(self, note_start::value, now(), island_special);
+      auto rem = props.population_size % props.islands_number;
+      auto times = props.population_size / props.islands_number;
+      auto random_nums = shuffled(props.population_size);
 
       for (auto& member : state.population) {
         member.second = state.fitness_evaluation(member.first);
       }
 
       for(std::size_t i = 0; i < props.population_size; i += times) {
-        if(i + times >= props.population_size) {
-          break;
+        if(i + times + rem >= props.population_size) {
+          times += rem;
         }
 
         individual_collection<individual, fitness_value> pop;
         pop.reserve(times);
 
         for(std::size_t j = i; j < i + times; ++j) {
-          pop.emplace_back(std::move(self->state.population[random_nums[j]]));
+          pop.emplace_back(std::move(state.population[random_nums[j]]));
         }
 
         self->request(dispatcher, timeout, execute_computation::value, pop).then(
@@ -342,9 +338,9 @@ class grid_model_driver : private base_driver {
 
     auto dispatcher = system.spawn(
         grid_model_dispatcher<individual, fitness_value,
-            fitness_evaluation_operator, initialization_operator,
-            crossover_operator, mutation_operator, parent_selection_operator,
-            survival_selection_operator, elitism_operator>,
+            fitness_evaluation_operator, crossover_operator, mutation_operator,
+            parent_selection_operator, survival_selection_operator,
+            elitism_operator>,
         grid_model_dispatcher_state { config });
 
     auto executor = system.spawn(
@@ -355,7 +351,7 @@ class grid_model_driver : private base_driver {
         dispatcher);
 
     self->send(executor, init_population::value);
-    self->wait_for(executor);
+    self->wait_for(executor, dispatcher);
 
     stop_reporters(*conf, self);
   }

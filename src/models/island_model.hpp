@@ -322,12 +322,12 @@ behavior island_model_executor(
 
   system_message(self, "Spawning island model executor");
 
-  self->set_down_handler([self, dispatcher](down_msg& down) {  // @suppress("Invalid arguments")
-        if(down.source == dispatcher) {
-          system_message(self, "Quitting executor as dispatcher already finished");
-          self->quit();
-        }
-      });
+  self->set_down_handler([self, dispatcher](down_msg& down) {
+    if(down.source == dispatcher) {
+      system_message(self, "Quitting executor as dispatcher already finished");
+      self->quit();
+    }
+  });
 
   const auto& props = self->state.config->system_props;
 

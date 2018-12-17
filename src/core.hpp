@@ -83,7 +83,7 @@ struct base_operator : public base_state {
   island_id island_no;
 
   inline auto get_seed(unsigned long seed) const {
-    if(config->system_props.add_island_no_to_seed) {
+    if (config->system_props.add_island_no_to_seed) {
       seed += island_no;
     }
     return seed;

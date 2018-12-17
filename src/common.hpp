@@ -65,7 +65,8 @@ inline auto shuffled(std::size_t n) {
   std::vector<std::size_t> nums(n);
   std::iota(std::begin(nums), std::end(nums), 0);
   auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-  std::shuffle(std::begin(nums), std::end(nums), std::default_random_engine{seed});
+  std::shuffle(std::begin(nums), std::end(nums), std::default_random_engine {
+                   seed });
 
   return nums;
 }

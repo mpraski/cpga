@@ -409,7 +409,7 @@ class global_model_driver : private base_driver {
         supervisor);
 
     self->send(executor, init_population::value);
-    self->wait_for(executor);
+    self->wait_for(executor, supervisor);
 
     // Quit reporters
     stop_reporters(*conf, self);

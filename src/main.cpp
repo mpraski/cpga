@@ -87,21 +87,21 @@ int main() {
    system_props, user_props };*/
 
   /*island_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
+   sequence_individual_initialization<bool, int>,
+   sequence_individual_crossover<bool, int>, bitstring_mutation,
+   roulette_wheel_parent_selection<sequence<bool>, int>,
+   roulette_wheel_survival_selection<sequence<bool>, int>,
+   best_individual_elitism<sequence<bool>, int>,
+   ring_random_migration<sequence<bool>, int>> driver { system_props,
+   user_props };*/
+
+  grid_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
       sequence_individual_initialization<bool, int>,
       sequence_individual_crossover<bool, int>, bitstring_mutation,
       roulette_wheel_parent_selection<sequence<bool>, int>,
       roulette_wheel_survival_selection<sequence<bool>, int>,
-      best_individual_elitism<sequence<bool>, int>,
-      ring_random_migration<sequence<bool>, int>> driver { system_props,
-      user_props };*/
-
-  grid_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-        sequence_individual_initialization<bool, int>,
-        sequence_individual_crossover<bool, int>, bitstring_mutation,
-        roulette_wheel_parent_selection<sequence<bool>, int>,
-        roulette_wheel_survival_selection<sequence<bool>, int>,
-        best_individual_elitism<sequence<bool>, int>> driver { system_props,
-        user_props };
+      best_individual_elitism<sequence<bool>, int>> driver { system_props,
+      user_props };
 
   driver.run();
 }
