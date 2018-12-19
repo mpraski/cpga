@@ -82,7 +82,7 @@ struct base_operator : public base_state {
 
   island_id island_no;
 
-  inline auto get_seed(unsigned long seed) const {
+  inline auto get_seed(unsigned long seed) const noexcept {
     if (config->system_props.add_island_no_to_seed) {
       seed += island_no;
     }
@@ -90,15 +90,14 @@ struct base_operator : public base_state {
   }
 };
 
+template<typename individual, typename fitness_value>
 class base_driver {
- protected:
+ private:
+  configuration* conf;
+  shared_config config;
   system_properties system_props;
   user_properties user_props;
- public:
-  base_driver(const system_properties& system_props,
-              const user_properties& user_props);
 
-  template<typename individual, typename fitness_value>
   void start_reporters(configuration& conf, actor_system& system,
                        scoped_actor& self) const {
     if (system_props.is_system_reporter_active) {
@@ -139,7 +138,45 @@ class base_driver {
     }
   }
 
-  void stop_reporters(configuration& conf, scoped_actor& self) const;
+  void stop_reporters(configuration& conf, scoped_actor& self) const {
+    if (system_props.is_system_reporter_active) {
+      system_message(self, conf.system_reporter, "Stopping reporters");
+
+      self->send(conf.system_reporter, exit_reporter::value);
+    }
+
+    if (system_props.is_generation_reporter_active) {
+      self->send(conf.generation_reporter, exit_reporter::value);
+    }
+
+    if (system_props.is_individual_reporter_active) {
+      self->send(conf.individual_reporter, exit_reporter::value);
+    }
+  }
+ protected:
+  virtual void perform(shared_config& config, actor_system& system,
+                       scoped_actor& self) = 0;
+ public:
+  base_driver(const system_properties& system_props,
+              const user_properties& user_props)
+      : conf { new configuration { system_props, user_props } },
+        config { conf },
+        system_props { system_props },
+        user_props { user_props } {
+  }
+
+  virtual ~base_driver() {
+  }
+
+  void run() {
+    actor_system_config cfg;
+    actor_system system { cfg };
+    scoped_actor self { system };
+
+    start_reporters(*conf, system, self);
+    perform(config, system, self);
+    stop_reporters(*conf, self);
+  }
 };
 
 // Default implementations of optional operators (for default template arguments)

@@ -377,19 +377,12 @@ template<typename individual, typename fitness_value,
         fitness_value>,
     typename global_temination_check = default_global_temination_check<
         individual, fitness_value>>
-class global_model_driver : private base_driver {
+class global_model_driver : public base_driver<individual, fitness_value> {
  public:
-  using base_driver::base_driver;
+  using base_driver<individual, fitness_value>::base_driver;
 
-  void run() {
-    actor_system_config cfg;
-    actor_system system { cfg };
-    scoped_actor self { system };
-    configuration* conf { new configuration { system_props, user_props } };
-    shared_config config { conf };
-
-    start_reporters<individual, fitness_value>(*conf, system, self);
-
+  void perform(shared_config& config, actor_system& system, scoped_actor& self)
+      override {
     auto cores = recommended_worker_number();
 
     auto supervisor = system.spawn(
@@ -410,8 +403,5 @@ class global_model_driver : private base_driver {
 
     self->send(executor, init_population::value);
     self->wait_for(executor, supervisor);
-
-    // Quit reporters
-    stop_reporters(*conf, self);
   }
 };

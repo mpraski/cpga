@@ -384,19 +384,12 @@ template<typename individual, typename fitness_value,
         fitness_value>,
     typename migration_operator = default_migration_operator<individual,
         fitness_value>>
-class island_model_driver : private base_driver {
+class island_model_driver : public base_driver<individual, fitness_value> {
  public:
-  using base_driver::base_driver;
+  using base_driver<individual, fitness_value>::base_driver;
 
-  void run() {
-    actor_system_config cfg;
-    actor_system system { cfg };
-    scoped_actor self { system };
-    configuration* conf { new configuration { system_props, user_props } };
-    shared_config config { conf };
-
-    start_reporters<individual, fitness_value>(*conf, system, self);
-
+  void perform(shared_config& config, actor_system& system, scoped_actor& self)
+      override {
     auto& dispatcher_func = island_model_dispatcher<individual, fitness_value,
         fitness_evaluation_operator, initialization_operator,
         crossover_operator, mutation_operator, parent_selection_operator,
@@ -411,7 +404,5 @@ class island_model_driver : private base_driver {
 
     self->send(executor, execute_phase_1::value);
     self->wait_for(executor, dispatcher);
-
-    stop_reporters(*conf, self);
   }
 };

@@ -15,7 +15,7 @@ template<typename individual, typename fitness_value,
         fitness_value>,
     typename global_temination_check = default_global_temination_check<
         individual, fitness_value>>
-class sequential_model_driver : private base_driver {
+class sequential_model_driver : public base_driver<individual, fitness_value> {
  private:
   void run_pga(const scoped_actor& self, const shared_config& config) {
     auto& props = config->system_props;
@@ -97,33 +97,22 @@ class sequential_model_driver : private base_driver {
     if (props.is_generation_reporter_active) {
       auto& generation_reporter = config->generation_reporter;
       self->send(generation_reporter, note_end::value, now(),
-                 actor_phase::total, std::size_t { 0 }, island_id { 0 });
+                 actor_phase::total, props.generations_number, island_0);
     }
 
     if (props.is_individual_reporter_active) {
       auto& individual_reporter = config->individual_reporter;
 
       self->send(individual_reporter, report_population::value, population,
-                 std::size_t { 0 }, std::size_t { 0 });
+                 props.generations_number, island_0);
     }
-
-    std::cout << "Finished sequential" << std::endl;
   }
 
  public:
-  using base_driver::base_driver;
+  using base_driver<individual, fitness_value>::base_driver;
 
-  void run() {
-    actor_system_config cfg;
-    actor_system system { cfg };
-    scoped_actor self { system };
-    configuration* conf { new configuration { system_props, user_props } };
-    shared_config config { conf };
-
-    start_reporters<individual, fitness_value>(*conf, system, self);
-
+  void perform(shared_config& config, actor_system& system, scoped_actor& self)
+      override {
     run_pga(self, config);
-
-    stop_reporters(*conf, self);
   }
 };
