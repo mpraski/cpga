@@ -244,7 +244,7 @@ behavior global_model_executor(
 
       for (std::size_t i = 0; i < state.population_size_counter; ++i) {
         self->request(supervisor, timeout, compute_fitness::value, state.population[i].first).then(
-            [=](fitness_value fv) {
+            [=](fitness_value& fv) {
               self->state.population[i].second = std::move(fv);
 
               if(++self->state.compute_fitness_counter == self->state.population_size_counter) {

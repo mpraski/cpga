@@ -130,7 +130,7 @@ behavior island_model_worker(
     [self](execute_migration) {
       return self->state.migration(self->state.current_island, self->state.population);
     },
-    [self](receive_migration, individual_wrapper<individual, fitness_value> migrant) {
+    [self](receive_migration, individual_wrapper<individual, fitness_value>& migrant) {
       self->state.population.emplace_back(std::move(migrant));
     },
     [self, dispatcher](finish) {
@@ -153,6 +153,8 @@ struct island_model_dispatcher_state : public base_state {
         workers_done { 0 },
         migrations_done { 0 },
         migrations_counter { 0 } {
+    islands.reserve(config->system_props.islands_number);
+    actor_to_island.reserve(config->system_props.islands_number);
   }
 
   std::size_t workers_done;
@@ -204,7 +206,7 @@ behavior island_model_dispatcher(
   };
 
   /*
-   * Islands are given id in range [0, islands_number-1]
+   * Islands are given id in range [0, islands_number)
    * An id is guaranteed to stay valid throughout the execution,
    * although the island it points to might be restarted as a new actor
    * if it goes down.
@@ -266,7 +268,7 @@ behavior island_model_dispatcher(
                 auto& island = self->state.islands[pair.first];
                 auto& migrant = pair.second;
 
-                self->send(island, receive_migration::value, migrant);
+                self->send(island, receive_migration::value, std::move(migrant));
               }
 
               if(++self->state.migrations_done == self->state.migrations_counter) {
@@ -408,7 +410,7 @@ class island_model_driver : private base_driver {
                                  dispatcher);
 
     self->send(executor, execute_phase_1::value);
-    self->wait_for(executor);
+    self->wait_for(executor, dispatcher);
 
     stop_reporters(*conf, self);
   }

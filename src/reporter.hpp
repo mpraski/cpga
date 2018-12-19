@@ -18,7 +18,8 @@ enum class actor_phase {
   execute_phase_3,
   finish,
   total,
-  execute_generation
+  execute_generation,
+  execute_computation
 };
 
 class reporter_state {

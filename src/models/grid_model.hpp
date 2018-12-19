@@ -58,9 +58,11 @@ behavior grid_model_worker(
   self->state = std::move(state);
 
   return {
-    [self](execute_computation, individual_collection<individual, fitness_value>& pop) -> individual_collection<individual, fitness_value> {
+    [self](execute_computation, std::size_t gen, individual_collection<individual, fitness_value>& pop) {
       auto& state = self->state;
       auto& props = self->state.config->system_props;
+
+      generation_message(self, note_start::value, now(), state.current_island);
 
       auto population = std::move(pop);
       state.reset();
@@ -97,6 +99,8 @@ behavior grid_model_worker(
             std::make_move_iterator(state.elitists.end()));
         state.elitists.clear();
       }
+
+      generation_message(self, note_end::value, now(), actor_phase::execute_computation, gen, state.current_island);
 
       return population;
     },
@@ -179,9 +183,9 @@ behavior grid_model_dispatcher(
       });
 
   return {
-    [self](execute_computation atom, individual_collection<individual, fitness_value>& pop) {
+    [self](execute_computation atom, std::size_t gen, individual_collection<individual, fitness_value>& pop) {
       auto& state = self->state;
-      self->delegate(state.workers[state.counter++ % state.pool_size], atom, std::move(pop));
+      self->delegate(state.workers[state.counter++ % state.pool_size], atom, gen, std::move(pop));
     },
     [self](finish) {
       for(const auto& worker : self->state.workers) {
@@ -200,20 +204,27 @@ struct grid_model_executor_state : public base_state {
   grid_model_executor_state() = default;
   grid_model_executor_state(const shared_config& config)
       : base_state { config },
+        computation_done { 0 },
         computation_counter { 0 },
         current_generation { 0 },
         initialization { config, island_special },
-        fitness_evaluation { config, island_special } {
+        fitness_evaluation { config, island_special },
+        random_nums(config->system_props.population_size),
+        generator(now().time_since_epoch().count()) {
     population.reserve(config->system_props.population_size);
     result.reserve(config->system_props.population_size);
+    std::iota(std::begin(random_nums), std::end(random_nums), 0);
   }
 
+  std::size_t computation_done;
   std::size_t computation_counter;
   std::size_t current_generation;
 
   initialization_operator initialization;
   fitness_evaluation_operator fitness_evaluation;
 
+  std::vector<std::size_t> random_nums;
+  std::default_random_engine generator;
   individual_collection<individual, fitness_value> population;
   individual_collection<individual, fitness_value> result;
 };
@@ -261,7 +272,10 @@ behavior grid_model_executor(
       auto generations = props.generations_number;
       auto rem = props.population_size % props.islands_number;
       auto times = props.population_size / props.islands_number;
-      auto random_nums = shuffled(props.population_size);
+      auto& gen = state.generator;
+      auto& random_nums = state.random_nums;
+
+      std::shuffle(random_nums.begin(), random_nums.end(), gen);
 
       for (auto& member : state.population) {
         member.second = state.fitness_evaluation(member.first);
@@ -279,14 +293,22 @@ behavior grid_model_executor(
           pop.emplace_back(std::move(state.population[random_nums[j]]));
         }
 
-        self->request(dispatcher, timeout, execute_computation::value, pop).then(
+        state.computation_counter = islands;
+
+        self->request(
+            dispatcher,
+            timeout,
+            execute_computation::value,
+            self->state.current_generation,
+            pop
+        ).then(
             [=](individual_collection<individual, fitness_value>& result) {
               self->state.result.insert(self->state.result.end(),
                   std::make_move_iterator(result.begin()),
                   std::make_move_iterator(result.end()));
 
-              if(++self->state.computation_counter == islands) {
-                self->state.computation_counter = 0;
+              if(++self->state.computation_done == self->state.computation_counter) {
+                self->state.computation_done = 0;
                 self->state.population.clear();
                 self->state.population.swap(self->state.result);
 
@@ -297,6 +319,14 @@ behavior grid_model_executor(
                 }
 
                 generation_message(self, note_end::value, now(), actor_phase::execute_phase_1, state.current_generation, island_special);
+              }
+            },
+            [=](error& err) {
+              system_message(self, "Failed to execute computation for batch no: ", i, " with error code: ", err.code());
+
+              if(--self->state.computation_counter == 0) {
+                system_message(self, "Complete failure to perform computations, quitting...");
+                self->send(self, execute_phase_2::value);
               }
             }
         );

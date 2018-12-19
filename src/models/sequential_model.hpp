@@ -8,8 +8,13 @@ using namespace caf;
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator, typename global_temination_check>
+    typename parent_selection_operator,
+    typename survival_selection_operator = default_survival_selection_operator<
+        individual, fitness_value>,
+    typename elitism_operator = default_elitism_operator<individual,
+        fitness_value>,
+    typename global_temination_check = default_global_temination_check<
+        individual, fitness_value>>
 class sequential_model_driver : private base_driver {
  private:
   void run_pga(const scoped_actor& self, const shared_config& config) {

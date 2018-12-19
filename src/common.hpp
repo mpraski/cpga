@@ -37,7 +37,7 @@ static constexpr const char ADD_POPULATION_SIZE_TO_SEED[] =
 
 static constexpr const char* const ACTOR_PHASE_MAP[] = { "init_population",
     "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total",
-    "execute_generation" };
+    "execute_generation", "execute_computation" };
 
 static const std::vector<std::string> SYSTEM_HEADERS { "Time", "Message" };
 
@@ -59,16 +59,6 @@ inline auto now() noexcept {
 
 inline auto recommended_worker_number() noexcept {
   return std::max(std::thread::hardware_concurrency() - 2, 2u);
-}
-
-inline auto shuffled(std::size_t n) {
-  std::vector<std::size_t> nums(n);
-  std::iota(std::begin(nums), std::end(nums), 0);
-  auto seed = std::chrono::system_clock::now().time_since_epoch().count();
-  std::shuffle(std::begin(nums), std::end(nums), std::default_random_engine {
-                   seed });
-
-  return nums;
 }
 
 template<typename E>
