@@ -55,7 +55,7 @@ int main() {
   user_properties user_props;
   user_props[constants::POSSIBLE_VALUES_KEY] =
       std::vector<bool> { true, false };
-  user_props[constants::STABLE_REQUIRED_KEY] = std::size_t { 10 };
+  user_props[constants::STABLE_REQUIRED_KEY] = size_t { 10 };
   user_props[constants::MINIMUM_AVERAGE_KEY] = 8;
   user_props[constants::ADD_POPULATION_SIZE_TO_SEED] = true;
 
@@ -67,7 +67,7 @@ int main() {
    * 3. fitness evaluation operator type
    * 4. initialization operator type
    * 5. crossover operator type
-   * 6. mutatation operator type
+   * 6. mutation operator type
    * 7. parent selection operator type
    * 8. survival selection operator type
    * 9. elitist operator type

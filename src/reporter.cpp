@@ -53,7 +53,7 @@ void time_reporter_state::note_start(const time_point& start,
 }
 
 void time_reporter_state::write_info(const time_point& end, actor_phase phase,
-                                     std::size_t generation, island_id island) {
+                                     size_t generation, island_id island) {
   auto& times = start_times[island];
 
   if (times.empty()) {
@@ -112,7 +112,7 @@ behavior time_reporter(stateful_actor<time_reporter_state>* self) {
     [=](note_start, const time_point& start, island_id island) {
       self->state.note_start(start, island);
     },
-    [=](note_end, const time_point& end, actor_phase phase, std::size_t generation, island_id island) {
+    [=](note_end, const time_point& end, actor_phase phase, size_t generation, island_id island) {
       self->state.write_info(end, phase, generation, island);
     },
   };

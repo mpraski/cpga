@@ -8,7 +8,7 @@
 template<typename sequence_individual, typename fitness_value>
 class sequence_individual_initialization : public base_operator {
   using individual = sequence<sequence_individual>;
-  using distribution = std::uniform_int_distribution<std::size_t>;
+  using distribution = std::uniform_int_distribution<size_t>;
  private:
   std::default_random_engine generator;
   std::vector<sequence_individual> possible_values;
@@ -31,10 +31,10 @@ class sequence_individual_initialization : public base_operator {
     auto& props = config->system_props;
     auto values = possible_values;
 
-    for (std::size_t i = 0; i < props.population_size; ++i) {
+    for (size_t i = 0; i < props.population_size; ++i) {
       individual ind(props.individual_size);
 
-      for (std::size_t j = 0; j < props.individual_size; ++j) {
+      for (size_t j = 0; j < props.individual_size; ++j) {
         auto r = distribution { 0, values.size() - 1 }(generator);
         ind[j] = values[r];
 

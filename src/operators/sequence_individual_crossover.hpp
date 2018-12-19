@@ -10,8 +10,8 @@ class sequence_individual_crossover : public base_operator {
   using individual = std::vector<sequence_individual>;
  private:
   std::default_random_engine generator;
-  std::uniform_int_distribution<std::size_t> distribution;
-  std::function<std::size_t()> random_f;
+  std::uniform_int_distribution<size_t> distribution;
+  std::function<size_t()> random_f;
  public:
   sequence_individual_crossover() = default;
   sequence_individual_crossover(const shared_config& config,
@@ -32,7 +32,7 @@ class sequence_individual_crossover : public base_operator {
 
     auto rand = random_f();
 
-    for (std::size_t i = 0; i < ind_size; ++i) {
+    for (size_t i = 0; i < ind_size; ++i) {
       if (i <= rand) {
         child1[i] = parents.first.first[i];
         child2[i] = parents.second.first[i];

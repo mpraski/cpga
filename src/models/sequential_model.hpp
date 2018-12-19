@@ -13,7 +13,7 @@ template<typename individual, typename fitness_value,
         individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
         fitness_value>,
-    typename global_temination_check = default_global_temination_check<
+    typename global_termination_check = default_global_termination_check<
         individual, fitness_value>>
 class sequential_model_driver : public base_driver<individual, fitness_value> {
  private:
@@ -27,7 +27,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
     parent_selection_operator parent_selection { config, island_0 };
     survival_selection_operator survival_selection { config, island_0 };
     elitism_operator elitism { config, island_0 };
-    global_temination_check termination_check { config, island_0 };
+    global_termination_check termination_check { config, island_0 };
 
     parent_collection<individual, fitness_value> parents;
 
@@ -46,7 +46,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
 
     initialization(population);
 
-    for (std::size_t g = 0; g < props.generations_number; ++g) {
+    for (size_t g = 0; g < props.generations_number; ++g) {
       for (auto& member : population) {
         member.second = fitness_evaluation(member.first);
       }

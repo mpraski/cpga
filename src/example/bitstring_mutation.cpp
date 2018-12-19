@@ -19,7 +19,7 @@ class bitstring_mutation : public base_operator {
   }
 
   void operator()(wrapper& wrapper) const noexcept {
-    for (std::size_t i = 0; i < config->system_props.individual_size; ++i) {
+    for (size_t i = 0; i < config->system_props.individual_size; ++i) {
       if (random_f() < config->system_props.mutation_probability) {
         wrapper.first[i].flip();
       }

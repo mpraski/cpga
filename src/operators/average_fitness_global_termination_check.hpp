@@ -3,18 +3,18 @@
 template<typename individual, typename fitness_value>
 class average_fitness_global_termination_check : public base_operator {
  private:
-  std::size_t stable_so_far;
-  std::size_t stable_required;
-  fitness_value minimun_average;
+  size_t stable_so_far;
+  size_t stable_required;
+  fitness_value minimum_average;
  public:
   average_fitness_global_termination_check() = default;
   average_fitness_global_termination_check(const shared_config& config,
                                            island_id island_no)
       : base_operator { config, island_no },
         stable_so_far { 0 },
-        stable_required { std::any_cast<std::size_t>(
+        stable_required { std::any_cast<size_t>(
             config->user_props.at(constants::STABLE_REQUIRED_KEY)) },
-        minimun_average { std::any_cast<fitness_value>(
+        minimum_average { std::any_cast<fitness_value>(
             config->user_props.at(constants::MINIMUM_AVERAGE_KEY)) } {
   }
 
@@ -32,7 +32,7 @@ class average_fitness_global_termination_check : public base_operator {
 
     total = total / population.size();
 
-    if (total >= minimun_average) {
+    if (total >= minimum_average) {
       return ++stable_so_far == stable_required;
     }
 

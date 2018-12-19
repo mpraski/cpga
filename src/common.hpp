@@ -6,7 +6,7 @@
 #include <type_traits>
 
 // aliases for common data structures
-using island_id = std::size_t;
+using island_id = size_t;
 
 template<typename individual_value>
 using sequence = std::vector<individual_value>;
@@ -51,7 +51,6 @@ static const std::vector<std::string> INDIVIDUAL_HEADERS { "Generation",
 const constexpr auto timeout = std::chrono::seconds(10);
 const constexpr auto island_0 = island_id { 0 };
 const constexpr auto island_special = std::numeric_limits<island_id>::max();
-const constexpr auto generation_0 = std::size_t { 0 };
 
 // Commonly used functions
 inline auto now() noexcept {

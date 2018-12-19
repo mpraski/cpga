@@ -11,12 +11,12 @@ class roulette_wheel_parent_selection : base_operator {
   std::uniform_real_distribution<double> distribution;
   std::function<double()> random_one;
 
-  inline std::size_t spin(
+  inline size_t spin(
       fitness_value total_fitness,
       const individual_collection<individual, fitness_value>& population) const
           noexcept {
     auto rand_fitness = random_one() * total_fitness;
-    auto start = 0;
+    size_t start = 0;
     while (rand_fitness > 0) {
       rand_fitness -= population[start++].second;
     }
@@ -42,7 +42,7 @@ class roulette_wheel_parent_selection : base_operator {
       total += wrapper.second;
     }
 
-    for (std::size_t i = 0; i < couples_num; ++i) {
+    for (size_t i = 0; i < couples_num; ++i) {
       auto first = spin(total, population);
       auto second = spin(total, population);
 

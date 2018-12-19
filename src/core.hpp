@@ -19,13 +19,13 @@ using user_properties = std::unordered_map<std::string, std::any>;
  * by the framework.
  */
 struct system_properties {
-  std::size_t population_size;
-  std::size_t individual_size;
-  std::size_t islands_number;
-  std::size_t generations_number;
-  std::size_t elitists_number;
-  std::size_t migration_period;
-  std::size_t migration_quota;
+  size_t population_size;
+  size_t individual_size;
+  size_t islands_number;
+  size_t generations_number;
+  size_t elitists_number;
+  size_t migration_period;
+  size_t migration_quota;
   bool is_elitism_active;
   bool is_survival_selection_active;
   bool is_migration_active;
@@ -52,7 +52,7 @@ struct system_properties {
 
 /*
  * configuration struct represents the user-defined
- * settings as well as some utitlites (access to reporter actors)
+ * settings as well as some utilities (access to reporter actors)
  */
 struct configuration {
   configuration(const system_properties& system_props,
@@ -71,7 +71,7 @@ using shared_config = std::shared_ptr<const configuration>;
 
 struct base_state {
   base_state() = default;
-  base_state(const shared_config& config);
+  explicit base_state(const shared_config& config);
 
   shared_config config;
 };
@@ -105,7 +105,7 @@ class base_driver {
         throw std::runtime_error("system_reporter_log is empty");
       }
 
-      conf.system_reporter = system.spawn(system_reporter);  // @suppress("Invalid arguments")
+      conf.system_reporter = system.spawn(system_reporter);
 
       self->send(conf.system_reporter, init_reporter::value,
                  system_props.system_reporter_log, constants::SYSTEM_HEADERS);
@@ -118,7 +118,7 @@ class base_driver {
         throw std::runtime_error("actor_reporter_log is empty");
       }
 
-      conf.generation_reporter = system.spawn(time_reporter);  // @suppress("Invalid arguments")
+      conf.generation_reporter = system.spawn(time_reporter);
 
       self->send(conf.generation_reporter, init_reporter::value,
                  system_props.generation_reporter_log, constants::TIME_HEADERS);
@@ -165,8 +165,7 @@ class base_driver {
         user_props { user_props } {
   }
 
-  virtual ~base_driver() {
-  }
+  virtual ~base_driver() = default;
 
   void run() {
     actor_system_config cfg;
@@ -215,7 +214,7 @@ struct default_migration_operator : base_operator {
 };
 
 template<typename individual, typename fitness_value>
-struct default_global_temination_check : base_operator {
+struct default_global_termination_check : base_operator {
   using base_operator::base_operator;
 
   bool operator()(

@@ -29,7 +29,7 @@
 template<typename fitness_evaluation_operator>
 struct global_model_worker_state : public base_state {
   global_model_worker_state() = default;
-  global_model_worker_state(const shared_config& config)
+  explicit global_model_worker_state(const shared_config& config)
       : base_state { config },
         fitness_evaluation { config, island_0 } {
   }
@@ -66,7 +66,7 @@ behavior global_model_worker(
 struct global_model_supervisor_state : public base_state {
   global_model_supervisor_state() = default;
   global_model_supervisor_state(const shared_config& config,
-                                std::size_t pool_size)
+                                size_t pool_size)
       : base_state { config },
         pool_size { pool_size },
         generator { config->system_props.supervisor_seed },
@@ -79,11 +79,11 @@ struct global_model_supervisor_state : public base_state {
     return workers[random_f()];
   }
 
-  std::size_t pool_size;
+  size_t pool_size;
   std::vector<actor> workers;
   std::default_random_engine generator;
-  std::uniform_int_distribution<std::size_t> distribution;
-  std::function<std::size_t()> random_f;
+  std::uniform_int_distribution<size_t> distribution;
+  std::function<size_t()> random_f;
 };
 
 template<typename individual, typename fitness_value,
@@ -103,7 +103,7 @@ behavior global_model_supervisor(
           .config});
   };
 
-  for (std::size_t i = 0; i < self->state.pool_size; ++i) {
+  for (size_t i = 0; i < self->state.pool_size; ++i) {
     auto worker = spawn_worker();
 
     system_message(self, "Spawning new global worker with actor id: ",
@@ -156,7 +156,7 @@ behavior global_model_supervisor(
 template<typename individual, typename fitness_value,
     typename initialization_operator, typename crossover_operator,
     typename mutation_operator, typename parent_selection_operator,
-    typename global_temination_check, typename survival_selection_operator,
+    typename global_termination_check, typename survival_selection_operator,
     typename elitism_operator>
 struct global_model_executor_state : public base_state {
   global_model_executor_state() = default;
@@ -187,34 +187,34 @@ struct global_model_executor_state : public base_state {
   parent_selection_operator parent_selection;
   survival_selection_operator survival_selection;
   elitism_operator elitism;
-  global_temination_check termination_check;
+  global_termination_check termination_check;
 
   parent_collection<individual, fitness_value> parents;
   individual_collection<individual, fitness_value> population;
   individual_collection<individual, fitness_value> offspring;
   individual_collection<individual, fitness_value> elitists;
 
-  std::size_t current_generation;
-  std::size_t current_island;
-  std::size_t compute_fitness_counter;
-  std::size_t population_size_counter;
-  std::size_t offspring_size_counter;
+  size_t current_generation;
+  size_t current_island;
+  size_t compute_fitness_counter;
+  size_t population_size_counter;
+  size_t offspring_size_counter;
 };
 
 template<typename individual, typename fitness_value,
     typename initialization_operator, typename crossover_operator,
     typename mutation_operator, typename parent_selection_operator,
-    typename global_temination_check, typename survival_selection_operator,
+    typename global_termination_check, typename survival_selection_operator,
     typename elitism_operator>
 behavior global_model_executor(
     stateful_actor<
         global_model_executor_state<individual, fitness_value,
             initialization_operator, crossover_operator, mutation_operator,
-            parent_selection_operator, global_temination_check,
+            parent_selection_operator, global_termination_check,
             survival_selection_operator, elitism_operator>>* self,
     global_model_executor_state<individual, fitness_value,
         initialization_operator, crossover_operator, mutation_operator,
-        parent_selection_operator, global_temination_check,
+        parent_selection_operator, global_termination_check,
         survival_selection_operator, elitism_operator> state,
     const actor& supervisor) {
   self->state = std::move(state);
@@ -242,7 +242,7 @@ behavior global_model_executor(
 
       state.population_size_counter = state.population.size();
 
-      for (std::size_t i = 0; i < state.population_size_counter; ++i) {
+      for (size_t i = 0; i < state.population_size_counter; ++i) {
         self->request(supervisor, timeout, compute_fitness::value, state.population[i].first).then(
             [=](fitness_value& fv) {
               self->state.population[i].second = std::move(fv);
@@ -291,7 +291,7 @@ behavior global_model_executor(
       if(props.is_survival_selection_active) {
         state.offspring_size_counter = state.offspring.size();
 
-        for (std::size_t i = 0; i < state.offspring_size_counter; ++i) {
+        for (size_t i = 0; i < state.offspring_size_counter; ++i) {
           self->request(supervisor, timeout, compute_fitness::value, state.offspring[i].first).then(
               [=](fitness_value fv) {
                 self->state.offspring[i].second = std::move(fv);
@@ -375,7 +375,7 @@ template<typename individual, typename fitness_value,
         individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
         fitness_value>,
-    typename global_temination_check = default_global_temination_check<
+    typename global_termination_check = default_global_termination_check<
         individual, fitness_value>>
 class global_model_driver : public base_driver<individual, fitness_value> {
  public:
@@ -393,11 +393,11 @@ class global_model_driver : public base_driver<individual, fitness_value> {
     auto executor = system.spawn(
         global_model_executor<individual, fitness_value,
             initialization_operator, crossover_operator, mutation_operator,
-            parent_selection_operator, global_temination_check,
+            parent_selection_operator, global_termination_check,
             survival_selection_operator, elitism_operator>,
         global_model_executor_state<individual, fitness_value,
             initialization_operator, crossover_operator, mutation_operator,
-            parent_selection_operator, global_temination_check,
+            parent_selection_operator, global_termination_check,
             survival_selection_operator, elitism_operator> { config },
         supervisor);
 
