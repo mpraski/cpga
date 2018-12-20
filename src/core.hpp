@@ -55,8 +55,8 @@ struct system_properties {
  * settings as well as some utilities (access to reporter actors)
  */
 struct configuration {
-  configuration(const system_properties& system_props,
-                const user_properties& user_props);
+  configuration(const system_properties &system_props,
+                const user_properties &user_props);
 
   system_properties system_props;
   user_properties user_props;
@@ -71,14 +71,14 @@ using shared_config = std::shared_ptr<const configuration>;
 
 struct base_state {
   base_state() = default;
-  explicit base_state(const shared_config& config);
+  explicit base_state(const shared_config &config);
 
   shared_config config;
 };
 
 struct base_operator : public base_state {
   base_operator() = default;
-  base_operator(const shared_config& config, island_id island_no);
+  base_operator(const shared_config &config, island_id island_no);
 
   island_id island_no;
 
@@ -93,24 +93,23 @@ struct base_operator : public base_state {
 template<typename individual, typename fitness_value>
 class base_driver {
  private:
-  configuration* conf;
-  shared_config config;
+  std::shared_ptr<configuration> config;
   system_properties system_props;
   user_properties user_props;
 
-  void start_reporters(configuration& conf, actor_system& system,
-                       scoped_actor& self) const {
+  void start_reporters(std::shared_ptr<configuration> &config, actor_system &system,
+                       scoped_actor &self) const {
     if (system_props.is_system_reporter_active) {
       if (system_props.system_reporter_log.empty()) {
         throw std::runtime_error("system_reporter_log is empty");
       }
 
-      conf.system_reporter = system.spawn(system_reporter);
+      config->system_reporter = system.spawn(system_reporter);
 
-      self->send(conf.system_reporter, init_reporter::value,
+      self->send(config->system_reporter, init_reporter::value,
                  system_props.system_reporter_log, constants::SYSTEM_HEADERS);
 
-      system_message(self, conf.system_reporter, "Spawning reporters");
+      system_message(self, config->system_reporter, "Spawning reporters");
     }
 
     if (system_props.is_generation_reporter_active) {
@@ -118,9 +117,9 @@ class base_driver {
         throw std::runtime_error("actor_reporter_log is empty");
       }
 
-      conf.generation_reporter = system.spawn(time_reporter);
+      config->generation_reporter = system.spawn(time_reporter);
 
-      self->send(conf.generation_reporter, init_reporter::value,
+      self->send(config->generation_reporter, init_reporter::value,
                  system_props.generation_reporter_log, constants::TIME_HEADERS);
     }
 
@@ -129,52 +128,53 @@ class base_driver {
         throw std::runtime_error("actor_reporter_log is empty");
       }
 
-      conf.individual_reporter = system.spawn(
+      config->individual_reporter = system.spawn(
           individual_reporter<individual, fitness_value>);
 
-      self->send(conf.individual_reporter, init_reporter::value,
+      self->send(config->individual_reporter, init_reporter::value,
                  system_props.individual_reporter_log,
                  constants::INDIVIDUAL_HEADERS);
     }
   }
 
-  void stop_reporters(configuration& conf, scoped_actor& self) const {
+  void stop_reporters(std::shared_ptr<configuration> &config, scoped_actor &self) const {
     if (system_props.is_system_reporter_active) {
-      system_message(self, conf.system_reporter, "Stopping reporters");
+      system_message(self, config->system_reporter, "Stopping reporters");
 
-      self->send(conf.system_reporter, exit_reporter::value);
+      self->send(config->system_reporter, exit_reporter::value);
     }
 
     if (system_props.is_generation_reporter_active) {
-      self->send(conf.generation_reporter, exit_reporter::value);
+      self->send(config->generation_reporter, exit_reporter::value);
     }
 
     if (system_props.is_individual_reporter_active) {
-      self->send(conf.individual_reporter, exit_reporter::value);
+      self->send(config->individual_reporter, exit_reporter::value);
     }
   }
  protected:
-  virtual void perform(shared_config& config, actor_system& system,
-                       scoped_actor& self) = 0;
+  virtual void perform(shared_config &config, actor_system &system,
+                       scoped_actor &self) = 0;
  public:
-  base_driver(const system_properties& system_props,
-              const user_properties& user_props)
-      : conf { new configuration { system_props, user_props } },
-        config { conf },
-        system_props { system_props },
-        user_props { user_props } {
+  base_driver(const system_properties &system_props,
+              const user_properties &user_props)
+      : config{std::make_shared<configuration>(system_props, user_props)},
+        system_props{system_props},
+        user_props{user_props} {
   }
 
   virtual ~base_driver() = default;
 
   void run() {
     actor_system_config cfg;
-    actor_system system { cfg };
-    scoped_actor self { system };
+    actor_system system{cfg};
+    scoped_actor self{system};
 
-    start_reporters(*conf, system, self);
-    perform(config, system, self);
-    stop_reporters(*conf, self);
+    shared_config const_config{std::const_pointer_cast<const configuration>(config)};
+
+    start_reporters(config, system, self);
+    perform(const_config, system, self);
+    stop_reporters(config, self);
   }
 };
 
@@ -184,9 +184,9 @@ struct default_survival_selection_operator : base_operator {
   using base_operator::base_operator;
 
   void operator()(
-      individual_collection<individual, fitness_value>& parents,
-      individual_collection<individual, fitness_value>& offspring) const
-          noexcept {
+      individual_collection<individual, fitness_value> &parents,
+      individual_collection<individual, fitness_value> &offspring) const
+  noexcept {
   }
 };
 
@@ -195,9 +195,9 @@ struct default_elitism_operator : base_operator {
   using base_operator::base_operator;
 
   void operator()(
-      individual_collection<individual, fitness_value>& population,
-      individual_collection<individual, fitness_value>& elitists) const
-          noexcept {
+      individual_collection<individual, fitness_value> &population,
+      individual_collection<individual, fitness_value> &elitists) const
+  noexcept {
   }
 };
 
@@ -207,8 +207,8 @@ struct default_migration_operator : base_operator {
 
   migration_payload<individual, fitness_value> operator()(
       island_id from,
-      individual_collection<individual, fitness_value>& population) const
-          noexcept {
+      individual_collection<individual, fitness_value> &population) const
+  noexcept {
     return {};
   }
 };
@@ -218,8 +218,8 @@ struct default_global_termination_check : base_operator {
   using base_operator::base_operator;
 
   bool operator()(
-      const individual_collection<individual, fitness_value>& population) const
-          noexcept {
+      const individual_collection<individual, fitness_value> &population) const
+  noexcept {
     return false;
   }
 };

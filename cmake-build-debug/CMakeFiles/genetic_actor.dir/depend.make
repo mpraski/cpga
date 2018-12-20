@@ -29,7 +29,6 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/models/global_model.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/models/grid_model.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/models/island_model.hpp
-CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/models/sequential_model.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/average_fitness_global_termination_check.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/best_individual_elitism.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/random_migration.hpp
@@ -37,8 +36,8 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/ring_random_migrat
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/roulette_wheel_parent_selection.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/roulette_wheel_survival_selection.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/sequence_individual_crossover.hpp
+CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/sequence_individual_factory.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/sequence_individual_initialization.hpp
-CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/star_random_migration.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/reporter.hpp
 
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o: ../src/atoms.hpp

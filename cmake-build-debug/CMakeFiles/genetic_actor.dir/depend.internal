@@ -30,7 +30,6 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  /home/marcin/eclipse-workspace/genetic-actor/src/models/global_model.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/models/grid_model.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/models/island_model.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/models/sequential_model.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/average_fitness_global_termination_check.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/best_individual_elitism.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/random_migration.hpp
@@ -38,8 +37,8 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_parent_selection.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_survival_selection.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp
+ /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_factory.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/star_random_migration.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/reporter.hpp
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o
  /home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp

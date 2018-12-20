@@ -7,18 +7,18 @@
 
 template<typename individual, typename fitness_value>
 class best_individual_elitism : public base_operator {
-  using Comparator = std::function<bool(individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>)>;
+  using Comparator = std::function<bool(individual_wrapper<individual, fitness_value>,
+                                        individual_wrapper<individual, fitness_value>)>;
  private:
-  Comparator compFunctor = [](const auto& w1, const auto& w2)
-  {
+  Comparator compFunctor = [](const auto &w1, const auto &w2) {
     return w1.second > w2.second;
   };
  public:
   using base_operator::base_operator;
 
   void operator()(
-      individual_collection<individual, fitness_value>& population,
-      individual_collection<individual, fitness_value>& elitists) const {
+      individual_collection<individual, fitness_value> &population,
+      individual_collection<individual, fitness_value> &elitists) const {
     std::sort(population.begin(), population.end(), compFunctor);
 
     elitists.insert(

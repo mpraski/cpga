@@ -87,7 +87,7 @@ behavior island_model_worker(
 
         generation_message(self, note_start::value, now(), state.current_island);
 
-        for (auto& [ind, value] : state.population) {
+        for (auto&[ind, value] : state.population) {
           value = state.fitness_evaluation(ind);
         }
 

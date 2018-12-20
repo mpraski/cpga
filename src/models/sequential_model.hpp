@@ -12,22 +12,22 @@ template<typename individual, typename fitness_value,
     typename survival_selection_operator = default_survival_selection_operator<
         individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
-        fitness_value>,
+                                                         fitness_value>,
     typename global_termination_check = default_global_termination_check<
         individual, fitness_value>>
 class sequential_model_driver : public base_driver<individual, fitness_value> {
  private:
-  void run_pga(const scoped_actor& self, const shared_config& config) {
-    auto& props = config->system_props;
+  void run_pga(const scoped_actor &self, const shared_config &config) {
+    auto &props = config->system_props;
 
-    fitness_evaluation_operator fitness_evaluation { config, island_0 };
-    initialization_operator initialization { config, island_0 };
-    crossover_operator crossover { config, island_0 };
-    mutation_operator mutation { config, island_0 };
-    parent_selection_operator parent_selection { config, island_0 };
-    survival_selection_operator survival_selection { config, island_0 };
-    elitism_operator elitism { config, island_0 };
-    global_termination_check termination_check { config, island_0 };
+    fitness_evaluation_operator fitness_evaluation{config, island_0};
+    initialization_operator initialization{config, island_0};
+    crossover_operator crossover{config, island_0};
+    mutation_operator mutation{config, island_0};
+    parent_selection_operator parent_selection{config, island_0};
+    survival_selection_operator survival_selection{config, island_0};
+    elitism_operator elitism{config, island_0};
+    global_termination_check termination_check{config, island_0};
 
     parent_collection<individual, fitness_value> parents;
 
@@ -47,7 +47,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
     initialization(population);
 
     for (size_t g = 0; g < props.generations_number; ++g) {
-      for (auto& member : population) {
+      for (auto &member : population) {
         member.second = fitness_evaluation(member.first);
       }
 
@@ -59,7 +59,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
       parent_selection(population, parents);
 
       // This will fill offspring with newly created individual_wrappers
-      for (const auto& parent : parents) {
+      for (const auto &parent : parents) {
         crossover(offspring, parent);
       }
 
@@ -67,12 +67,12 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
       parents.clear();
 
       // This will apply mutation to each child in offspring
-      for (auto& child : offspring) {
+      for (auto &child : offspring) {
         mutation(child);
       }
 
       if (props.is_survival_selection_active) {
-        for (auto& child : offspring) {
+        for (auto &child : offspring) {
           child.second = fitness_evaluation(child.first);
         }
 
@@ -95,13 +95,13 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
     }
 
     if (props.is_generation_reporter_active) {
-      auto& generation_reporter = config->generation_reporter;
+      auto &generation_reporter = config->generation_reporter;
       self->send(generation_reporter, note_end::value, now(),
                  actor_phase::total, props.generations_number, island_0);
     }
 
     if (props.is_individual_reporter_active) {
-      auto& individual_reporter = config->individual_reporter;
+      auto &individual_reporter = config->individual_reporter;
 
       self->send(individual_reporter, report_population::value, population,
                  props.generations_number, island_0);
@@ -111,8 +111,8 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
  public:
   using base_driver<individual, fitness_value>::base_driver;
 
-  void perform(shared_config& config, actor_system& system, scoped_actor& self)
-      override {
+  void perform(shared_config &config, actor_system &system, scoped_actor &self)
+  override {
     run_pga(self, config);
   }
 };

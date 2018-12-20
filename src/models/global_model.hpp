@@ -29,9 +29,9 @@
 template<typename fitness_evaluation_operator>
 struct global_model_worker_state : public base_state {
   global_model_worker_state() = default;
-  explicit global_model_worker_state(const shared_config& config)
-      : base_state { config },
-        fitness_evaluation { config, island_0 } {
+  explicit global_model_worker_state(const shared_config &config)
+      : base_state{config},
+        fitness_evaluation{config, island_0} {
   }
 
   fitness_evaluation_operator fitness_evaluation;
@@ -40,19 +40,19 @@ struct global_model_worker_state : public base_state {
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator>
 behavior global_model_worker(
-    stateful_actor<global_model_worker_state<fitness_evaluation_operator>>* self,
+    stateful_actor<global_model_worker_state<fitness_evaluation_operator>> *self,
     global_model_worker_state<fitness_evaluation_operator> state) {
   self->state = std::move(state);
-  auto& f = self->state.fitness_evaluation;
+  auto &f = self->state.fitness_evaluation;
 
   return {
-    [f](compute_fitness, const individual& ind) -> fitness_value {
-      return f(ind);
-    },
-    [self](finish_worker) {
-      system_message(self, "Quitting global model worker (actor id: ", self->id(), ")");
-      self->quit();
-    }
+      [f](compute_fitness, const individual &ind) -> fitness_value {
+        return f(ind);
+      },
+      [self](finish_worker) {
+        system_message(self, "Quitting global model worker (actor id: ", self->id(), ")");
+        self->quit();
+      }
   };
 }
 
@@ -65,13 +65,13 @@ behavior global_model_worker(
  */
 struct global_model_supervisor_state : public base_state {
   global_model_supervisor_state() = default;
-  global_model_supervisor_state(const shared_config& config,
+  global_model_supervisor_state(const shared_config &config,
                                 size_t pool_size)
-      : base_state { config },
-        pool_size { pool_size },
-        generator { config->system_props.supervisor_seed },
-        distribution { 0, pool_size - 1 },
-        random_f { std::bind(distribution, generator) } {
+      : base_state{config},
+        pool_size{pool_size},
+        generator{config->system_props.supervisor_seed},
+        distribution{0, pool_size - 1},
+        random_f{std::bind(distribution, generator)} {
     workers.reserve(pool_size);
   }
 
@@ -89,7 +89,7 @@ struct global_model_supervisor_state : public base_state {
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator>
 behavior global_model_supervisor(
-    stateful_actor<global_model_supervisor_state>* self,
+    stateful_actor<global_model_supervisor_state> *self,
     global_model_supervisor_state state) {
   self->state = std::move(state);
 
@@ -98,9 +98,9 @@ behavior global_model_supervisor(
   auto spawn_worker = [self]() -> actor {
     return self->spawn<monitored + detached>(
         global_model_worker<individual, fitness_value,
-        fitness_evaluation_operator>,
-        global_model_worker_state<fitness_evaluation_operator> {self->state
-          .config});
+                            fitness_evaluation_operator>,
+        global_model_worker_state<fitness_evaluation_operator>{self->state
+                                                                   .config});
   };
 
   for (size_t i = 0; i < self->state.pool_size; ++i) {
@@ -113,16 +113,16 @@ behavior global_model_supervisor(
   }
 
   self->set_down_handler(
-      [self, spawn_worker](down_msg& down) {
-        if(!down.reason) return;
+      [self, spawn_worker](down_msg &down) {
+        if (!down.reason) return;
 
         system_message(self, "Global worker with actor id: ", down.source.id(), " died, respawning...");
 
-        auto& workers = self->state.workers;
+        auto &workers = self->state.workers;
         auto it = workers.begin();
 
-        for(;it != workers.end(); ++it) {
-          if(*it == down.source) break;
+        for (; it != workers.end(); ++it) {
+          if (*it == down.source) break;
         }
 
         workers.erase(it);
@@ -130,17 +130,17 @@ behavior global_model_supervisor(
       });
 
   return {
-    [self](compute_fitness cf, individual ind) {
-      self->delegate(self->state.random_worker(), cf, std::move(ind));
-    },
-    [self](finish) {
-      for(const auto& worker : self->state.workers) {
-        self->send(worker, finish_worker::value);
-      }
+      [self](compute_fitness cf, individual ind) {
+        self->delegate(self->state.random_worker(), cf, std::move(ind));
+      },
+      [self](finish) {
+        for (const auto &worker : self->state.workers) {
+          self->send(worker, finish_worker::value);
+        }
 
-      system_message(self, "Quitting global model supervisor");
-      self->quit();
-    }
+        system_message(self, "Quitting global model supervisor");
+        self->quit();
+      }
   };
 }
 
@@ -160,20 +160,20 @@ template<typename individual, typename fitness_value,
     typename elitism_operator>
 struct global_model_executor_state : public base_state {
   global_model_executor_state() = default;
-  global_model_executor_state(const shared_config& config)
-      : base_state { config },
-        initialization { config, island_0 },
-        crossover { config, island_0 },
-        mutation { config, island_0 },
-        parent_selection { config, island_0 },
-        survival_selection { config, island_0 },
-        elitism { config, island_0 },
-        termination_check { config, island_0 },
-        current_generation { 0 },
-        current_island { 0 },
-        compute_fitness_counter { 0 },
-        population_size_counter { 0 },
-        offspring_size_counter { 0 } {
+  global_model_executor_state(const shared_config &config)
+      : base_state{config},
+        initialization{config, island_0},
+        crossover{config, island_0},
+        mutation{config, island_0},
+        parent_selection{config, island_0},
+        survival_selection{config, island_0},
+        elitism{config, island_0},
+        termination_check{config, island_0},
+        current_generation{0},
+        current_island{0},
+        compute_fitness_counter{0},
+        population_size_counter{0},
+        offspring_size_counter{0} {
     population.reserve(
         config->system_props.population_size
             + config->system_props.elitists_number);
@@ -209,153 +209,193 @@ template<typename individual, typename fitness_value,
 behavior global_model_executor(
     stateful_actor<
         global_model_executor_state<individual, fitness_value,
-            initialization_operator, crossover_operator, mutation_operator,
-            parent_selection_operator, global_termination_check,
-            survival_selection_operator, elitism_operator>>* self,
+                                    initialization_operator, crossover_operator, mutation_operator,
+                                    parent_selection_operator, global_termination_check,
+                                    survival_selection_operator, elitism_operator>> *self,
     global_model_executor_state<individual, fitness_value,
-        initialization_operator, crossover_operator, mutation_operator,
-        parent_selection_operator, global_termination_check,
-        survival_selection_operator, elitism_operator> state,
-    const actor& supervisor) {
+                                initialization_operator, crossover_operator, mutation_operator,
+                                parent_selection_operator, global_termination_check,
+                                survival_selection_operator, elitism_operator> state,
+    const actor &supervisor) {
   self->state = std::move(state);
 
   system_message(self, "Spawning global model executor");
 
   return {
-    [self](init_population) {
-      auto& state = self->state;
-      auto& props = self->state.config->system_props;
+      [self](init_population) {
+        auto &state = self->state;
 
-      generation_message(self, note_start::value, now(), state.current_island);
-      generation_message(self, note_start::value, now(), state.current_island);
+        generation_message(self, note_start::value, now(), state.current_island);
+        generation_message(self, note_start::value, now(), state.current_island);
 
-      state.initialization(state.population);
-      self->send(self, execute_phase_1::value);
+        state.initialization(state.population);
+        self->send(self, execute_phase_1::value);
 
-      generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation, state.current_island);
-    },
-    [self, supervisor](execute_phase_1) {
-      auto& state = self->state;
-      auto& props = self->state.config->system_props;
+        generation_message(self,
+                           note_end::value,
+                           now(),
+                           actor_phase::init_population,
+                           state.current_generation,
+                           state.current_island);
+      },
+      [self, supervisor](execute_phase_1) {
+        auto &state = self->state;
 
-      generation_message(self, note_start::value, now(), state.current_island);
+        generation_message(self, note_start::value, now(), state.current_island);
 
-      state.population_size_counter = state.population.size();
+        state.population_size_counter = state.population.size();
 
-      for (size_t i = 0; i < state.population_size_counter; ++i) {
-        self->request(supervisor, timeout, compute_fitness::value, state.population[i].first).then(
-            [=](fitness_value& fv) {
-              self->state.population[i].second = std::move(fv);
+        for (size_t i = 0; i < state.population_size_counter; ++i) {
+          self->request(supervisor, timeout, compute_fitness::value, state.population[i].first).then(
+              [=](fitness_value &fv) {
+                self->state.population[i].second = std::move(fv);
 
-              if(++self->state.compute_fitness_counter == self->state.population_size_counter) {
-                self->state.compute_fitness_counter = 0;
-
-                self->send(self, execute_phase_2::value);
-
-                generation_message(self, note_end::value, now(), actor_phase::execute_phase_1, state.current_generation, state.current_island);
-              }
-            },
-            [=](error& err) {
-              system_message(self, "Phase 1: Failed to compute fitness value for individual: ", self->state.offspring[i].first, " with error code: ", err.code());
-
-              if(--self->state.population_size_counter == 0) {
-                system_message(self, "Phase 1: Complete failure to compute fitness values, quitting...");
-                self->send(self, finish::value);
-              }
-            }
-        );
-      }
-    },
-    [self, supervisor](execute_phase_2) {
-      auto& state = self->state;
-      auto& props = self->state.config->system_props;
-
-      generation_message(self, note_start::value, now(), state.current_island);
-
-      if(props.is_elitism_active) {
-        state.elitism(state.population, state.elitists);
-      }
-
-      state.parent_selection(state.population, state.parents);
-
-      for(const auto& parent : state.parents) {
-        state.crossover(state.offspring, parent);
-      }
-
-      state.parents.clear();
-
-      for (auto& child : state.offspring) {
-        state.mutation(child);
-      }
-
-      if(props.is_survival_selection_active) {
-        state.offspring_size_counter = state.offspring.size();
-
-        for (size_t i = 0; i < state.offspring_size_counter; ++i) {
-          self->request(supervisor, timeout, compute_fitness::value, state.offspring[i].first).then(
-              [=](fitness_value fv) {
-                self->state.offspring[i].second = std::move(fv);
-
-                if(++self->state.compute_fitness_counter == self->state.offspring_size_counter) {
+                if (++self->state.compute_fitness_counter == self->state.population_size_counter) {
                   self->state.compute_fitness_counter = 0;
-                  self->state.survival_selection(self->state.population, self->state.offspring);
 
-                  self->send(self, execute_phase_3::value);
+                  self->send(self, execute_phase_2::value);
 
-                  generation_message(self, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
+                  generation_message(self,
+                                     note_end::value,
+                                     now(),
+                                     actor_phase::execute_phase_1,
+                                     state.current_generation,
+                                     state.current_island);
                 }
               },
-              [=](error& err) {
-                system_message(self, "Phase 2: Failed to compute fitness value for individual: ", self->state.offspring[i].first, " with error code: ", err.code());
+              [=](error &err) {
+                system_message(self,
+                               "Phase 1: Failed to compute fitness value for individual: ",
+                               self->state.offspring[i].first,
+                               " with error code: ",
+                               err.code());
 
-                if(--self->state.offspring_size_counter == 0) {
-                  system_message(self, "Phase 2: Complete failure to compute fitness values, quitting...");
+                if (--self->state.population_size_counter == 0) {
+                  system_message(self, "Phase 1: Complete failure to compute fitness values, quitting...");
                   self->send(self, finish::value);
                 }
               }
           );
         }
-      } else {
-        self->send(self, execute_phase_3::value);
+      },
+      [self, supervisor](execute_phase_2) {
+        auto &state = self->state;
+        auto &props = self->state.config->system_props;
 
-        generation_message(self, note_end::value, now(), actor_phase::execute_phase_2, state.current_generation, state.current_island);
-      }
-    },
-    [self](execute_phase_3) {
-      auto& state = self->state;
-      auto& props = self->state.config->system_props;
+        generation_message(self, note_start::value, now(), state.current_island);
 
-      generation_message(self, note_start::value, now(), state.current_island);
+        if (props.is_elitism_active) {
+          state.elitism(state.population, state.elitists);
+        }
 
-      state.population.swap(state.offspring);
-      state.offspring.clear();
+        state.parent_selection(state.population, state.parents);
 
-      if(props.is_elitism_active) {
-        state.population.insert(state.population.end(),
-            std::make_move_iterator(state.elitists.begin()),
-            std::make_move_iterator(state.elitists.end()));
-        state.elitists.clear();
-      }
+        for (const auto &parent : state.parents) {
+          state.crossover(state.offspring, parent);
+        }
 
-      if(++state.current_generation == props.generations_number
-          || state.termination_check(state.population)) {
-        self->send(self, finish::value);
-      } else {
-        self->send(self, execute_phase_1::value);
-      }
+        state.parents.clear();
 
-      generation_message(self, note_end::value, now(), actor_phase::execute_phase_3, state.current_generation, state.current_island);
-    },
-    [self, supervisor](finish) {
-      auto& state = self->state;
+        for (auto &child : state.offspring) {
+          state.mutation(child);
+        }
 
-      generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, state.current_island);
-      individual_message(self, report_population::value, state.population, state.current_generation, state.current_island);
-      system_message(self, "Quitting global model executor");
+        if (props.is_survival_selection_active) {
+          state.offspring_size_counter = state.offspring.size();
 
-      self->send(supervisor, finish::value);
-      self->quit();
-    },
+          for (size_t i = 0; i < state.offspring_size_counter; ++i) {
+            self->request(supervisor, timeout, compute_fitness::value, state.offspring[i].first).then(
+                [=](fitness_value fv) {
+                  self->state.offspring[i].second = std::move(fv);
+
+                  if (++self->state.compute_fitness_counter == self->state.offspring_size_counter) {
+                    self->state.compute_fitness_counter = 0;
+                    self->state.survival_selection(self->state.population, self->state.offspring);
+
+                    self->send(self, execute_phase_3::value);
+
+                    generation_message(self,
+                                       note_end::value,
+                                       now(),
+                                       actor_phase::execute_phase_2,
+                                       state.current_generation,
+                                       state.current_island);
+                  }
+                },
+                [=](error &err) {
+                  system_message(self,
+                                 "Phase 2: Failed to compute fitness value for individual: ",
+                                 self->state.offspring[i].first,
+                                 " with error code: ",
+                                 err.code());
+
+                  if (--self->state.offspring_size_counter == 0) {
+                    system_message(self, "Phase 2: Complete failure to compute fitness values, quitting...");
+                    self->send(self, finish::value);
+                  }
+                }
+            );
+          }
+        } else {
+          self->send(self, execute_phase_3::value);
+
+          generation_message(self,
+                             note_end::value,
+                             now(),
+                             actor_phase::execute_phase_2,
+                             state.current_generation,
+                             state.current_island);
+        }
+      },
+      [self](execute_phase_3) {
+        auto &state = self->state;
+        auto &props = self->state.config->system_props;
+
+        generation_message(self, note_start::value, now(), state.current_island);
+
+        state.population.swap(state.offspring);
+        state.offspring.clear();
+
+        if (props.is_elitism_active) {
+          state.population.insert(state.population.end(),
+                                  std::make_move_iterator(state.elitists.begin()),
+                                  std::make_move_iterator(state.elitists.end()));
+          state.elitists.clear();
+        }
+
+        if (++state.current_generation == props.generations_number
+            || state.termination_check(state.population)) {
+          self->send(self, finish::value);
+        } else {
+          self->send(self, execute_phase_1::value);
+        }
+
+        generation_message(self,
+                           note_end::value,
+                           now(),
+                           actor_phase::execute_phase_3,
+                           state.current_generation,
+                           state.current_island);
+      },
+      [self, supervisor](finish) {
+        auto &state = self->state;
+
+        generation_message(self,
+                           note_end::value,
+                           now(),
+                           actor_phase::total,
+                           state.current_generation,
+                           state.current_island);
+        individual_message(self,
+                           report_population::value,
+                           state.population,
+                           state.current_generation,
+                           state.current_island);
+        system_message(self, "Quitting global model executor");
+
+        self->send(supervisor, finish::value);
+        self->quit();
+      },
   };
 }
 
@@ -374,31 +414,31 @@ template<typename individual, typename fitness_value,
     typename survival_selection_operator = default_survival_selection_operator<
         individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
-        fitness_value>,
+                                                         fitness_value>,
     typename global_termination_check = default_global_termination_check<
         individual, fitness_value>>
 class global_model_driver : public base_driver<individual, fitness_value> {
  public:
   using base_driver<individual, fitness_value>::base_driver;
 
-  void perform(shared_config& config, actor_system& system, scoped_actor& self)
-      override {
+  void perform(shared_config &config, actor_system &system, scoped_actor &self)
+  override {
     auto cores = recommended_worker_number();
 
     auto supervisor = system.spawn(
         global_model_supervisor<individual, fitness_value,
-            fitness_evaluation_operator>,
-        global_model_supervisor_state { config, cores });
+                                fitness_evaluation_operator>,
+        global_model_supervisor_state{config, cores});
 
     auto executor = system.spawn(
         global_model_executor<individual, fitness_value,
-            initialization_operator, crossover_operator, mutation_operator,
-            parent_selection_operator, global_termination_check,
-            survival_selection_operator, elitism_operator>,
+                              initialization_operator, crossover_operator, mutation_operator,
+                              parent_selection_operator, global_termination_check,
+                              survival_selection_operator, elitism_operator>,
         global_model_executor_state<individual, fitness_value,
-            initialization_operator, crossover_operator, mutation_operator,
-            parent_selection_operator, global_termination_check,
-            survival_selection_operator, elitism_operator> { config },
+                                    initialization_operator, crossover_operator, mutation_operator,
+                                    parent_selection_operator, global_termination_check,
+                                    survival_selection_operator, elitism_operator>{config},
         supervisor);
 
     self->send(executor, init_population::value);

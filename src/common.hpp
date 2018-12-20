@@ -15,7 +15,8 @@ template<typename individual, typename fitness_value>
 using individual_wrapper = std::pair<individual, fitness_value>;
 
 template<typename individual, typename fitness_value>
-using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>, individual_wrapper<individual, fitness_value>>;
+using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>,
+                                          individual_wrapper<individual, fitness_value>>;
 
 template<typename individual, typename fitness_value>
 using individual_collection = std::vector<individual_wrapper<individual, fitness_value>>;
@@ -35,21 +36,22 @@ static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
 static constexpr const char ADD_POPULATION_SIZE_TO_SEED[] =
     "add_population_size_to_seed";
 
-static constexpr const char* const ACTOR_PHASE_MAP[] = { "init_population",
-    "execute_phase_1", "execute_phase_2", "execute_phase_3", "finish", "total",
-    "execute_generation", "execute_computation" };
+static constexpr const char *const ACTOR_PHASE_MAP[] = {"init_population",
+                                                        "execute_phase_1", "execute_phase_2", "execute_phase_3",
+                                                        "finish", "total",
+                                                        "execute_generation", "execute_computation"};
 
-static const std::vector<std::string> SYSTEM_HEADERS { "Time", "Message" };
+static const std::vector<std::string> SYSTEM_HEADERS{"Time", "Message"};
 
-static const std::vector<std::string> TIME_HEADERS { "Start", "End",
-    "Total (ms)", "Phase", "Generation", "Island" };
+static const std::vector<std::string> TIME_HEADERS{"Start", "End",
+                                                   "Total (ms)", "Phase", "Generation", "Island"};
 
-static const std::vector<std::string> INDIVIDUAL_HEADERS { "Generation",
-    "Island", "Individual", "Fitness value" };
+static const std::vector<std::string> INDIVIDUAL_HEADERS{"Generation",
+                                                         "Island", "Individual", "Fitness value"};
 }
 
 const constexpr auto timeout = std::chrono::seconds(10);
-const constexpr auto island_0 = island_id { 0 };
+const constexpr auto island_0 = island_id{0};
 const constexpr auto island_special = std::numeric_limits<island_id>::max();
 
 // Commonly used functions
@@ -66,40 +68,59 @@ constexpr auto to_underlying(E e) noexcept {
   return static_cast<std::underlying_type_t<E>>(e);
 }
 
+template<typename T>
+inline void erase_quick(std::vector<T> vec, size_t idx) noexcept {
+  if (!vec.empty() && idx < vec.size()) {
+    vec[idx] = std::move(vec.back());
+    vec.pop_back();
+  }
+}
+
+template<typename T>
+inline void erase_quick(std::vector<T> vec, typename std::vector<T>::iterator it) noexcept {
+  if (!vec.empty() && it == vec.end()) {
+    *it = std::move(vec.back());
+    vec.pop_back();
+  }
+}
+
 template<typename T, typename ... Ts>
-auto str(T&& t, Ts&&... ts) {
+auto str(T &&t, Ts &&... ts) {
   std::ostringstream os;
 
   os << std::forward<T>(t);
   using expander = int[];
-  (void) expander { 0, (void(os << std::forward<Ts>(ts)),0)... };
+  (void) expander{0, (void(os << std::forward<Ts>(ts)), 0)...};
 
   return os.str();
 }
 
 template<typename T, typename A, typename ...As>
-inline void system_message(stateful_actor<T>* self, A&& a, As&&... as) {
-  if (self->state.config->system_props.is_system_reporter_active) self->send(
-      self->state.config->system_reporter, report::value, now(),
-      str(std::forward<A>(a), std::forward<As>(as)...));
+inline void system_message(stateful_actor<T> *self, A &&a, As &&... as) {
+  if (self->state.config->system_props.is_system_reporter_active)
+    self->send(
+        self->state.config->system_reporter, report::value, now(),
+        str(std::forward<A>(a), std::forward<As>(as)...));
 }
 
 template<typename A, typename ...As>
-inline void system_message(const scoped_actor& self,
-                           const actor& system_reporter, A&& a, As&&... as) {
+inline void system_message(const scoped_actor &self,
+                           const actor &system_reporter, A &&a, As &&... as) {
   self->send(system_reporter, report::value, now(),
              str(std::forward<A>(a), std::forward<As>(as)...));
 }
 
 template<typename T, typename ...As>
-inline void generation_message(stateful_actor<T>* self, As&&... as) {
-  if (self->state.config->system_props.is_generation_reporter_active) self->send(
-      self->state.config->generation_reporter, std::forward<As>(as)...);
+inline void generation_message(stateful_actor<T> *self, As &&... as) {
+  if (self->state.config->system_props.is_generation_reporter_active)
+    self->send(
+        self->state.config->generation_reporter, std::forward<As>(as)...);
 }
 
 template<typename T, typename ...As>
-inline void individual_message(stateful_actor<T>* self, As&&... as) {
-  if (self->state.config->system_props.is_individual_reporter_active) self->send(
-      self->state.config->individual_reporter, std::forward<As>(as)...);
+inline void individual_message(stateful_actor<T> *self, As &&... as) {
+  if (self->state.config->system_props.is_individual_reporter_active)
+    self->send(
+        self->state.config->individual_reporter, std::forward<As>(as)...);
 }
 
