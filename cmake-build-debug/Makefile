@@ -204,6 +204,33 @@ src/example/onemax_fitness_evaluation.cpp.s:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax_fitness_evaluation.cpp.s
 .PHONY : src/example/onemax_fitness_evaluation.cpp.s
 
+src/io/node.o: src/io/node.cpp.o
+
+.PHONY : src/io/node.o
+
+# target to build an object file
+src/io/node.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/io/node.cpp.o
+.PHONY : src/io/node.cpp.o
+
+src/io/node.i: src/io/node.cpp.i
+
+.PHONY : src/io/node.i
+
+# target to preprocess a source file
+src/io/node.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/io/node.cpp.i
+.PHONY : src/io/node.cpp.i
+
+src/io/node.s: src/io/node.cpp.s
+
+.PHONY : src/io/node.s
+
+# target to generate assembly for a file
+src/io/node.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/io/node.cpp.s
+.PHONY : src/io/node.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -276,6 +303,9 @@ help:
 	@echo "... src/example/onemax_fitness_evaluation.o"
 	@echo "... src/example/onemax_fitness_evaluation.i"
 	@echo "... src/example/onemax_fitness_evaluation.s"
+	@echo "... src/io/node.o"
+	@echo "... src/io/node.i"
+	@echo "... src/io/node.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

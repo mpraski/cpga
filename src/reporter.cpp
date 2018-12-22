@@ -12,7 +12,7 @@ void reporter_state::write_headers(const std::vector<std::string> &headers) {
 
 reporter_state::reporter_state()
     : delimiter{','},
-      out_stream{new std::ofstream} {
+      out_stream{std::make_unique<std::ofstream>()} {
 }
 
 void reporter_state::open_stream(const std::string &file,

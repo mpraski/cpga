@@ -15,8 +15,8 @@
 
 void test_global(const system_properties &sysprops, const user_properties &userprops) {
   global_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                      sequence_individual_initialization<sequence<bool>, int>,
-                      sequence_individual_crossover<sequence<bool>, int>, bitstring_mutation,
+                      sequence_individual_initialization<bool, int>,
+                      sequence_individual_crossover<bool, int>, bitstring_mutation,
                       roulette_wheel_parent_selection<sequence<bool>, int>,
                       roulette_wheel_survival_selection<sequence<bool>, int>,
                       best_individual_elitism<sequence<bool>, int>,
@@ -27,8 +27,8 @@ void test_global(const system_properties &sysprops, const user_properties &userp
 
 void test_island(const system_properties &sysprops, const user_properties &userprops) {
   island_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                      sequence_individual_initialization<sequence<bool>, int>,
-                      sequence_individual_crossover<sequence<bool>, int>, bitstring_mutation,
+                      sequence_individual_initialization<bool, int>,
+                      sequence_individual_crossover<bool, int>, bitstring_mutation,
                       roulette_wheel_parent_selection<sequence<bool>, int>,
                       roulette_wheel_survival_selection<sequence<bool>, int>,
                       best_individual_elitism<sequence<bool>, int>,
@@ -39,8 +39,8 @@ void test_island(const system_properties &sysprops, const user_properties &userp
 
 void test_grid(const system_properties &sysprops, const user_properties &userprops) {
   grid_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                    sequence_individual_initialization<sequence<bool>, int>,
-                    sequence_individual_crossover<sequence<bool>, int>, bitstring_mutation,
+                    sequence_individual_initialization<bool, int>,
+                    sequence_individual_crossover<bool, int>, bitstring_mutation,
                     roulette_wheel_parent_selection<sequence<bool>, int>,
                     roulette_wheel_survival_selection<sequence<bool>, int>,
                     best_individual_elitism<sequence<bool>, int>> driver{sysprops,
@@ -111,5 +111,5 @@ int main() {
    * which allows to pass necessary data to the genetic operator functors
    */
 
-  test_island(system_props, user_props);
+  test_grid(system_props, user_props);
 }

@@ -120,6 +120,12 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.cpp">
 			<Option target="genetic_actor"/>
 		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/io/node.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/io/node.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/main.cpp">
 			<Option target="genetic_actor"/>
 		</Unit>
@@ -154,9 +160,6 @@
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp">
-			<Option target="genetic_actor"/>
-		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_factory.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp">

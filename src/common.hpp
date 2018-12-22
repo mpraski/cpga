@@ -85,6 +85,17 @@ inline void erase_quick(std::vector<T> vec, typename std::vector<T>::iterator it
 }
 
 template<typename T, typename ... Ts>
+constexpr auto is_same() noexcept {
+  return (std::is_same_v<T, Ts> || ...);
+}
+
+template<typename T>
+constexpr auto is_size_constructible() noexcept {
+  using V = typename T::value_type;
+  return is_same<T, std::vector<V>, std::list<V>, std::forward_list<V>, std::deque<V>>();
+}
+
+template<typename T, typename ... Ts>
 auto str(T &&t, Ts &&... ts) {
   std::ostringstream os;
 

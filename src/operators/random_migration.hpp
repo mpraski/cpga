@@ -22,7 +22,7 @@ class random_migration : public base_operator {
   virtual island_id next_destination(
       const individual_wrapper<individual, fitness_value> &wrapper, size_t population) = 0;
 
-  migration_payload<individual, fitness_value> operator()(
+  auto operator()(
       island_id from,
       individual_collection<individual, fitness_value> &population) {
     migration_payload<individual, fitness_value> payload;

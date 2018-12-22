@@ -1,27 +1,33 @@
 #pragma once
 
 #include "../core.hpp"
-#include "sequence_individual_factory.hpp"
 
 #include <random>
 #include <vector>
 
-template<typename individual, typename fitness_value, typename factory = sequence_individual_vector_factory<typename individual::value_type>>
+template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
 class sequence_individual_initialization : public base_operator {
   using distribution = std::uniform_int_distribution<size_t>;
-  using value = typename individual::value_type;
  private:
-  factory create;
   std::default_random_engine generator;
-  std::vector<value> possible_values;
+  std::vector<constituent> possible_values;
+
+  inline individual create() const {
+    if constexpr (is_size_constructible<individual>()) {
+      return individual(config->system_props.individual_size);
+    } else {
+      static_assert(std::is_default_constructible<individual>::value,
+                    "create() requires a default constructible container");
+      return individual();
+    }
+  }
  public:
   sequence_individual_initialization() = default;
   sequence_individual_initialization(const shared_config &config,
                                      island_id island_no)
       : base_operator{config, island_no},
-        create{},
         generator{get_seed(config->system_props.initialization_seed)},
-        possible_values{std::any_cast<std::vector<value>>(
+        possible_values{std::any_cast<std::vector<constituent>>(
             config->user_props.at(constants::POSSIBLE_VALUES_KEY))} {
     if (!config->system_props.can_repeat_individual_elements
         && possible_values.size() < config->system_props.individual_size) {
@@ -35,7 +41,7 @@ class sequence_individual_initialization : public base_operator {
     auto values = possible_values;
 
     for (size_t i = 0; i < props.population_size; ++i) {
-      individual ind = create(props.individual_size);
+      auto ind = create();
       auto it = std::begin(ind);
 
       for (size_t j = 0; j < props.individual_size; ++j) {

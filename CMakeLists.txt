@@ -39,7 +39,7 @@ add_executable(genetic_actor
         src/main.cpp
         src/reporter.cpp
         src/reporter.hpp
-        src/operators/sequence_individual_factory.hpp)
+        src/io/node.cpp src/io/node.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

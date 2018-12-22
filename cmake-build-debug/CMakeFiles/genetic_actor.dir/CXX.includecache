@@ -20,6 +20,10 @@ chrono
 type_traits
 -
 
+/home/marcin/eclipse-workspace/genetic-actor/src/core.cpp
+core.hpp
+/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+
 /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 caf/all.hpp
 /home/marcin/eclipse-workspace/genetic-actor/src/caf/all.hpp
@@ -143,22 +147,14 @@ random
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp
 ../core.hpp
 /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
-sequence_individual_factory.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_factory.hpp
 random
 -
-vector
--
-
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_factory.hpp
 vector
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp
 ../core.hpp
 /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
-sequence_individual_factory.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_factory.hpp
 random
 -
 vector
