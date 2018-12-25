@@ -1,9 +1,8 @@
 #pragma once
 
-#include "random_migration.hpp"
-
 #include <random>
 #include <vector>
+#include <random_migration.hpp>
 
 template<typename individual, typename fitness_value>
 class ring_random_migration : public random_migration<individual, fitness_value> {

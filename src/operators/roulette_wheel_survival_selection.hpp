@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../core.hpp"
-
 #include <random>
+#include <core.hpp>
 
 template<typename individual, typename fitness_value>
 class roulette_wheel_survival_selection : public base_operator {

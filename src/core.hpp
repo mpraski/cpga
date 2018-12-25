@@ -1,9 +1,10 @@
 #pragma once
 
-#include "caf/all.hpp"
-#include "reporter.hpp"
-#include "atoms.hpp"
 #include <any>
+#include <caf/all.hpp>
+#include <caf/io/all.hpp>
+#include <reporter.hpp>
+#include <atoms.hpp>
 
 using namespace caf;
 
@@ -56,7 +57,20 @@ struct system_properties {
  */
 struct configuration {
   configuration(const system_properties &system_props,
-                const user_properties &user_props);
+                const user_properties &user_props) : system_props{system_props},
+                                                     user_props{user_props} {
+  }
+
+  configuration(const system_properties &system_props,
+                const user_properties &user_props,
+                const actor &system_reporter,
+                const actor &generation_reporter,
+                const actor &individual_reporter) : system_props{system_props},
+                                                    user_props{user_props},
+                                                    system_reporter{system_reporter},
+                                                    generation_reporter{generation_reporter},
+                                                    individual_reporter{individual_reporter} {
+  }
 
   system_properties system_props;
   user_properties user_props;
@@ -69,16 +83,33 @@ struct configuration {
 
 using shared_config = std::shared_ptr<const configuration>;
 
+template<typename... Args>
+inline auto make_shared_config(Args &&... args) {
+  return std::make_shared<const configuration>(std::forward<Args>(args)...);
+}
+
+struct cluster_properties {
+  std::string master_node_host;
+  uint16_t master_node_port;
+  uint16_t master_group_port;
+  uint16_t reporter_range_start;
+  uint16_t worker_range_start;
+  size_t expected_worker_nodes;
+};
+
 struct base_state {
   base_state() = default;
-  explicit base_state(const shared_config &config);
+  explicit base_state(const shared_config &config) : config{config} {
+  }
 
   shared_config config;
 };
 
 struct base_operator : public base_state {
   base_operator() = default;
-  base_operator(const shared_config &config, island_id island_no);
+  base_operator(const shared_config &config, island_id island_no) : base_state{config},
+                                                                    island_no{island_no} {
+  }
 
   island_id island_no;
 
@@ -178,6 +209,46 @@ class base_driver {
   }
 };
 
+class base_cluster_driver {
+ protected:
+  system_properties system_props;
+  user_properties user_props;
+  cluster_properties cluster_props;
+
+  auto reporter_port_factory() const {
+    return [counter = cluster_props.reporter_range_start]() mutable {
+      return counter++;
+    };
+  }
+
+  auto worker_port_factory() const {
+    return [counter = cluster_props.worker_range_start]() mutable {
+      return counter++;
+    };
+  }
+
+  virtual void perform(scoped_actor &self) = 0;
+ public:
+  base_cluster_driver(const system_properties &system_props,
+                      const user_properties &user_props,
+                      const cluster_properties &cluster_props) : system_props{system_props},
+                                                                 user_props{user_props},
+                                                                 cluster_props{cluster_props} {}
+  virtual ~base_cluster_driver() {}
+
+  void run(actor_system& system) {
+    scoped_actor self{system};
+    perform(self);
+  }
+};
+
+struct base_cluster_state {
+  base_cluster_state() = default;
+  explicit base_cluster_state(const cluster_properties &cluster_props) : cluster_props{cluster_props} {}
+
+  cluster_properties cluster_props;
+};
+
 // Default implementations of optional operators (for default template arguments)
 template<typename individual, typename fitness_value>
 struct default_survival_selection_operator : base_operator {
@@ -223,3 +294,40 @@ struct default_global_termination_check : base_operator {
     return false;
   }
 };
+
+struct worker_node_info {
+  std::string host;
+  std::vector<uint16_t> worker_ports;
+
+  inline auto workers_num() const {
+    return worker_ports.size();
+  }
+};
+
+template<class Inspector>
+typename Inspector::result_type inspect(Inspector &f, worker_node_info &x) {
+  return f(meta::type_name("worker_node_info"), x.host, x.worker_ports);
+}
+
+struct reporter_node_info {
+  std::string host;
+  uint16_t system_reporter_port;
+  uint16_t generation_reporter_port;
+  uint16_t individual_reporter_port;
+
+  reporter_node_info() = default;
+  reporter_node_info(const char *host) : host{host} {}
+};
+
+template<class Inspector>
+typename Inspector::result_type inspect(Inspector &f, reporter_node_info &x) {
+  return f(meta::type_name("reporter_node_info"),
+           x.host,
+           x.system_reporter_port,
+           x.generation_reporter_port,
+           x.individual_reporter_port);
+}
+
+std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
+
+std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);

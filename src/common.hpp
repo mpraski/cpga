@@ -95,6 +95,15 @@ constexpr auto is_size_constructible() noexcept {
   return is_same<T, std::vector<V>, std::list<V>, std::forward_list<V>, std::deque<V>>();
 }
 
+template<typename... Args>
+constexpr auto all_in_range(unsigned upper, Args &&... args) {
+  constexpr auto pred = [&upper](auto a) {
+    return a < upper;
+  };
+
+  return (... && pred(args));
+}
+
 template<typename T, typename ... Ts>
 auto str(T &&t, Ts &&... ts) {
   std::ostringstream os;

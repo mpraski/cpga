@@ -6,11 +6,25 @@
 
 #IncludeRegexTransform: 
 
-/home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp
+../src/atoms.hpp
 caf/atom.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/caf/atom.hpp
+-
 
-/home/marcin/eclipse-workspace/genetic-actor/src/common.hpp
+../src/cluster/global_model_cluster.hpp
+utilities/finite_state_machine.hpp
+-
+caf/all.hpp
+-
+caf/io/all.hpp
+-
+atoms.hpp
+-
+core.hpp
+-
+global_model.hpp
+-
+
+../src/common.hpp
 algorithm
 -
 random
@@ -20,18 +34,60 @@ chrono
 type_traits
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core.cpp
+../src/models/global_model.hpp
+algorithm
+-
+random
+-
 core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+-
+
+../src/operators/random_migration.hpp
+random
+-
+vector
+-
+core.hpp
+-
+
+../src/reporter.hpp
+chrono
+-
+stack
+-
+fstream
+-
+memory
+-
+caf/all.hpp
+-
+atoms.hpp
+-
+common.hpp
+-
+
+../src/utilities/finite_state_machine.hpp
+cstdint
+-
+tuple
+-
+functional
+-
+iostream
+-
+memory
+-
 
 /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
-caf/all.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/caf/all.hpp
-reporter.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/reporter.hpp
-atoms.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp
 any
+-
+caf/all.hpp
+-
+caf/io/all.hpp
+-
+reporter.hpp
+-
+atoms.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
@@ -44,7 +100,7 @@ fstream
 vector
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.cpp
+/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.hpp
 ../core.hpp
 /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 
@@ -73,24 +129,32 @@ example/definitions.hpp
 /home/marcin/eclipse-workspace/genetic-actor/src/example/definitions.hpp
 example/bitstring_mutation.cpp
 /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
-example/onemax_fitness_evaluation.cpp
-/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.cpp
+example/onemax_fitness_evaluation.hpp
+/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.hpp
 operators/ring_random_migration.hpp
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/ring_random_migration.hpp
+utilities/finite_state_machine.hpp
+-
+cluster/global_model_cluster.hpp
+-
+caf/all.hpp
+/home/marcin/eclipse-workspace/genetic-actor/src/caf/all.hpp
+caf/io/all.hpp
+/home/marcin/eclipse-workspace/genetic-actor/src/caf/io/all.hpp
 
 /home/marcin/eclipse-workspace/genetic-actor/src/models/global_model.hpp
 algorithm
 -
 random
 -
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+core.hpp
+-
 
 /home/marcin/eclipse-workspace/genetic-actor/src/models/grid_model.hpp
 algorithm
 -
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+core.hpp
+-
 
 /home/marcin/eclipse-workspace/genetic-actor/src/models/island_model.hpp
 algorithm
@@ -101,78 +165,54 @@ chrono
 -
 thread
 -
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+core.hpp
+-
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/average_fitness_global_termination_check.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+core.hpp
+-
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/best_individual_elitism.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 algorithm
 -
 vector
 -
-
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/random_migration.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
-random
--
-vector
+core.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/ring_random_migration.hpp
-random_migration.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/random_migration.hpp
 random
 -
 vector
+-
+random_migration.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_parent_selection.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 random
+-
+core.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_survival_selection.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 random
+-
+core.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 random
 -
 vector
+-
+core.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp
-../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 random
 -
 vector
 -
-
-/home/marcin/eclipse-workspace/genetic-actor/src/reporter.hpp
-chrono
+core.hpp
 -
-stack
--
-fstream
--
-memory
--
-caf/all.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/caf/all.hpp
-atoms.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp
-common.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/common.hpp
 

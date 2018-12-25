@@ -1,4 +1,4 @@
-#include "../core.hpp"
+#include <core.hpp>
 
 template<typename individual, typename fitness_value>
 class average_fitness_global_termination_check : public base_operator {

@@ -4,7 +4,7 @@
 #include <random>
 #include <chrono>
 #include <thread>
-#include "../core.hpp"
+#include <core.hpp>
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,

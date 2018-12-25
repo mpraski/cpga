@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include "../core.hpp"
+#include <core.hpp>
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename crossover_operator,

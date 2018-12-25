@@ -1,7 +1,7 @@
 #pragma once
 
-#include "caf/all.hpp"
-#include "../core.hpp"
+#include <caf/all.hpp>
+#include <core.hpp>
 
 using namespace caf;
 

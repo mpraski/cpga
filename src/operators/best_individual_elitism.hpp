@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../core.hpp"
-
 #include <algorithm>
 #include <vector>
+#include <core.hpp>
 
 template<typename individual, typename fitness_value>
 class best_individual_elitism : public base_operator {

@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../core.hpp"
-
 #include <random>
 #include <vector>
+#include <core.hpp>
 
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
 class sequence_individual_initialization : public base_operator {

@@ -18,7 +18,7 @@ add_executable(genetic_actor
         include/genetic-actor/individual.hpp
         src/example/bitstring_mutation.cpp
         src/example/definitions.hpp
-        src/example/onemax_fitness_evaluation.cpp
+        src/example/onemax_fitness_evaluation.hpp
         src/models/global_model.hpp
         src/models/grid_model.hpp
         src/models/island_model.hpp
@@ -34,12 +34,12 @@ add_executable(genetic_actor
         src/operators/star_random_migration.hpp
         src/atoms.hpp
         src/common.hpp
-        src/core.cpp
         src/core.hpp
+        src/core.cpp
         src/main.cpp
         src/reporter.cpp
         src/reporter.hpp
-        src/io/node.cpp src/io/node.hpp)
+        src/utilities/finite_state_machine.hpp src/cluster/global_model_cluster.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

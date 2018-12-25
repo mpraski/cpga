@@ -1,4 +1,4 @@
-#include "caf/atom.hpp"
+#include <caf/atom.hpp>
 
 using namespace caf;
 
@@ -31,3 +31,9 @@ using report_new_line = atom_constant<atom("renl")>;
 using note_start = atom_constant<atom("nst")>;
 using note_end = atom_constant<atom("nen")>;
 using exit_reporter = atom_constant<atom("er")>;
+
+// Atoms used by nodes
+using stage_discover_reporters = atom_constant<atom("rinf")>;
+using stage_discover_workers = atom_constant<atom("winf")>;
+using stage_collect_workers = atom_constant<atom("wpin")>;
+using stage_distribute_reporter_info = atom_constant<atom("swre")>;

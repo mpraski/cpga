@@ -4,9 +4,9 @@
 #include <stack>
 #include <fstream>
 #include <memory>
-#include "caf/all.hpp"
-#include "atoms.hpp"
-#include "common.hpp"
+#include <caf/all.hpp>
+#include <atoms.hpp>
+#include <common.hpp>
 
 using namespace caf;
 using time_point = std::chrono::time_point<std::chrono::system_clock>;

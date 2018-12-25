@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../core.hpp"
-
 #include <random>
 #include <vector>
+#include <core.hpp>
 
 template<typename individual, typename fitness_value>
 class random_migration : public base_operator {

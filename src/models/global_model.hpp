@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <random>
-#include "../core.hpp"
+#include <core.hpp>
 
 /*
  * This file defines the behaviour of global model PGA.
@@ -65,21 +65,18 @@ behavior global_model_worker(
  */
 struct global_model_supervisor_state : public base_state {
   global_model_supervisor_state() = default;
-  global_model_supervisor_state(const shared_config &config,
-                                size_t pool_size)
+  global_model_supervisor_state(const shared_config &config, std::vector<actor> &workers)
       : base_state{config},
-        pool_size{pool_size},
+        workers{std::move(workers)},
         generator{config->system_props.supervisor_seed},
-        distribution{0, pool_size - 1},
+        distribution{0, workers.size() - 1},
         random_f{std::bind(distribution, generator)} {
-    workers.reserve(pool_size);
   }
 
   inline auto random_worker() const noexcept {
     return workers[random_f()];
   }
 
-  size_t pool_size;
   std::vector<actor> workers;
   std::default_random_engine generator;
   std::uniform_int_distribution<size_t> distribution;
@@ -94,40 +91,6 @@ behavior global_model_supervisor(
   self->state = std::move(state);
 
   system_message(self, "Spawning global model supervisor");
-
-  auto spawn_worker = [self]() -> actor {
-    return self->spawn<monitored + detached>(
-        global_model_worker<individual, fitness_value,
-                            fitness_evaluation_operator>,
-        global_model_worker_state<fitness_evaluation_operator>{self->state
-                                                                   .config});
-  };
-
-  for (size_t i = 0; i < self->state.pool_size; ++i) {
-    auto worker = spawn_worker();
-
-    system_message(self, "Spawning new global worker with actor id: ",
-                   worker.id());
-
-    self->state.workers.emplace_back(std::move(worker));
-  }
-
-  self->set_down_handler(
-      [self, spawn_worker](down_msg &down) {
-        if (!down.reason) return;
-
-        system_message(self, "Global worker with actor id: ", down.source.id(), " died, respawning...");
-
-        auto &workers = self->state.workers;
-        auto it = workers.begin();
-
-        for (; it != workers.end(); ++it) {
-          if (*it == down.source) break;
-        }
-
-        workers.erase(it);
-        workers.emplace_back(spawn_worker());
-      });
 
   return {
       [self](compute_fitness cf, individual ind) {
@@ -402,7 +365,7 @@ behavior global_model_executor(
 /*
  * DRIVER
  *
- * The driver is responsible for starting the actor system, spawning
+ * The master_node_driver is responsible for starting the actor system, spawning
  * the Executor and Supervisor, spawning and configuring the reporters,
  * running the model by sending the initial message to the Executor, waiting for
  * the Executor to finish (e.g. the PGA computation concluded) and cleaning up.
@@ -423,25 +386,6 @@ class global_model_driver : public base_driver<individual, fitness_value> {
 
   void perform(shared_config &config, actor_system &system, scoped_actor &self)
   override {
-    auto cores = recommended_worker_number();
 
-    auto supervisor = system.spawn(
-        global_model_supervisor<individual, fitness_value,
-                                fitness_evaluation_operator>,
-        global_model_supervisor_state{config, cores});
-
-    auto executor = system.spawn(
-        global_model_executor<individual, fitness_value,
-                              initialization_operator, crossover_operator, mutation_operator,
-                              parent_selection_operator, global_termination_check,
-                              survival_selection_operator, elitism_operator>,
-        global_model_executor_state<individual, fitness_value,
-                                    initialization_operator, crossover_operator, mutation_operator,
-                                    parent_selection_operator, global_termination_check,
-                                    survival_selection_operator, elitism_operator>{config},
-        supervisor);
-
-    self->send(executor, init_population::value);
-    self->wait_for(executor, supervisor);
   }
 };
