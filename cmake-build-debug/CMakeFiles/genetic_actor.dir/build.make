@@ -70,9 +70,22 @@ CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp -o CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.s
 
+CMakeFiles/genetic_actor.dir/src/common.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/common.cpp.o: ../src/common.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/genetic_actor.dir/src/common.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/common.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/common.cpp
+
+CMakeFiles/genetic_actor.dir/src/common.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/common.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/common.cpp > CMakeFiles/genetic_actor.dir/src/common.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/common.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/common.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/common.cpp -o CMakeFiles/genetic_actor.dir/src/common.cpp.s
+
 CMakeFiles/genetic_actor.dir/src/core.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
 CMakeFiles/genetic_actor.dir/src/core.cpp.o: ../src/core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/genetic_actor.dir/src/core.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/genetic_actor.dir/src/core.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core.cpp
 
 CMakeFiles/genetic_actor.dir/src/core.cpp.i: cmake_force
@@ -85,7 +98,7 @@ CMakeFiles/genetic_actor.dir/src/core.cpp.s: cmake_force
 
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/genetic_actor.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/genetic_actor.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/main.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/main.cpp
 
 CMakeFiles/genetic_actor.dir/src/main.cpp.i: cmake_force
@@ -98,7 +111,7 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o: ../src/reporter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/reporter.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/reporter.cpp
 
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.i: cmake_force
@@ -112,6 +125,7 @@ CMakeFiles/genetic_actor.dir/src/reporter.cpp.s: cmake_force
 # Object files for target genetic_actor
 genetic_actor_OBJECTS = \
 "CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/common.cpp.o" \
 "CMakeFiles/genetic_actor.dir/src/core.cpp.o" \
 "CMakeFiles/genetic_actor.dir/src/main.cpp.o" \
 "CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
@@ -120,12 +134,13 @@ genetic_actor_OBJECTS = \
 genetic_actor_EXTERNAL_OBJECTS =
 
 genetic_actor: CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/common.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/src/core.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/src/main.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/src/reporter.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/build.make
 genetic_actor: CMakeFiles/genetic_actor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable genetic_actor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable genetic_actor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/genetic_actor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

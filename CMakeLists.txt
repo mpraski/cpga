@@ -34,6 +34,7 @@ add_executable(genetic_actor
         src/operators/star_random_migration.hpp
         src/atoms.hpp
         src/common.hpp
+        src/common.cpp
         src/core.hpp
         src/core.cpp
         src/main.cpp

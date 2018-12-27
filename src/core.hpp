@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <functional>
 #include <caf/all.hpp>
 #include <caf/io/all.hpp>
 #include <reporter.hpp>
@@ -63,13 +64,13 @@ struct configuration {
 
   configuration(const system_properties &system_props,
                 const user_properties &user_props,
-                const actor &system_reporter,
                 const actor &generation_reporter,
-                const actor &individual_reporter) : system_props{system_props},
-                                                    user_props{user_props},
-                                                    system_reporter{system_reporter},
-                                                    generation_reporter{generation_reporter},
-                                                    individual_reporter{individual_reporter} {
+                const actor &individual_reporter,
+                const actor &system_reporter) : system_props{system_props},
+                                                user_props{user_props},
+                                                system_reporter{system_reporter},
+                                                generation_reporter{generation_reporter},
+                                                individual_reporter{individual_reporter} {
   }
 
   system_properties system_props;
@@ -87,15 +88,6 @@ template<typename... Args>
 inline auto make_shared_config(Args &&... args) {
   return std::make_shared<const configuration>(std::forward<Args>(args)...);
 }
-
-struct cluster_properties {
-  std::string master_node_host;
-  uint16_t master_node_port;
-  uint16_t master_group_port;
-  uint16_t reporter_range_start;
-  uint16_t worker_range_start;
-  size_t expected_worker_nodes;
-};
 
 struct base_state {
   base_state() = default;
@@ -209,46 +201,6 @@ class base_driver {
   }
 };
 
-class base_cluster_driver {
- protected:
-  system_properties system_props;
-  user_properties user_props;
-  cluster_properties cluster_props;
-
-  auto reporter_port_factory() const {
-    return [counter = cluster_props.reporter_range_start]() mutable {
-      return counter++;
-    };
-  }
-
-  auto worker_port_factory() const {
-    return [counter = cluster_props.worker_range_start]() mutable {
-      return counter++;
-    };
-  }
-
-  virtual void perform(scoped_actor &self) = 0;
- public:
-  base_cluster_driver(const system_properties &system_props,
-                      const user_properties &user_props,
-                      const cluster_properties &cluster_props) : system_props{system_props},
-                                                                 user_props{user_props},
-                                                                 cluster_props{cluster_props} {}
-  virtual ~base_cluster_driver() {}
-
-  void run(actor_system& system) {
-    scoped_actor self{system};
-    perform(self);
-  }
-};
-
-struct base_cluster_state {
-  base_cluster_state() = default;
-  explicit base_cluster_state(const cluster_properties &cluster_props) : cluster_props{cluster_props} {}
-
-  cluster_properties cluster_props;
-};
-
 // Default implementations of optional operators (for default template arguments)
 template<typename individual, typename fitness_value>
 struct default_survival_selection_operator : base_operator {
@@ -284,6 +236,10 @@ struct default_migration_operator : base_operator {
   }
 };
 
+std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
+
+std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);
+
 template<typename individual, typename fitness_value>
 struct default_global_termination_check : base_operator {
   using base_operator::base_operator;
@@ -295,39 +251,85 @@ struct default_global_termination_check : base_operator {
   }
 };
 
-struct worker_node_info {
-  std::string host;
-  std::vector<uint16_t> worker_ports;
+class base_cluster_driver {
+ private:
+  template<typename T>
+  static auto create_counter(T &&start) {
+    return [c = start]() mutable {
+      return c++;
+    };
+  }
 
-  inline auto workers_num() const {
-    return worker_ports.size();
+  static auto remote_group(const std::string &group, const std::string &host, uint16_t port) {
+    return str(group, "@", host, ":", port);
+  }
+
+  template<typename Gen, typename Cond, typename Time = std::chrono::milliseconds>
+  static auto poll(Gen &&generator,
+                   Cond &&condition,
+                   size_t failed_attempts = 10,
+                   Time &&period = std::chrono::milliseconds(500)) {
+    auto checker = [&, c = size_t{}]() mutable {
+      return std::make_pair(generator(), ++c != failed_attempts);
+    };
+
+    while (true) {
+      if (auto[result, cond] = checker(); !condition(result)) {
+        if (cond) {
+          std::this_thread::sleep_for(period);
+        } else {
+          throw std::runtime_error(str("polling did not succeed within ", failed_attempts, " tries"));
+        }
+      } else {
+        return result;
+      }
+    }
+  }
+ protected:
+  system_properties system_props;
+  user_properties user_props;
+  cluster_properties cluster_props;
+
+  auto make_reporter_port_factory() const {
+    return create_counter(cluster_props.reporter_range_start);
+  }
+
+  auto make_worker_port_factory() const {
+    return create_counter(cluster_props.worker_range_start);
+  }
+
+  auto wait_for_master_node(io::middleman &m) {
+    auto &host = cluster_props.master_node_host;
+    auto &port = cluster_props.master_node_port;
+
+    return *poll([&] { return m.remote_actor(host, port); }, identity{});
+  }
+
+  auto wait_for_node_group(actor_system &s) {
+    auto &host = cluster_props.master_node_host;
+    auto &port = cluster_props.master_group_port;
+
+    return *poll([&] { return s.groups().get("remote", remote_group(constants::NODE_GROUP, host, port)); }, identity{});
+  }
+
+  virtual void perform(scoped_actor &self) = 0;
+ public:
+  base_cluster_driver(const system_properties &system_props,
+                      const user_properties &user_props,
+                      const cluster_properties &cluster_props) : system_props{system_props},
+                                                                 user_props{user_props},
+                                                                 cluster_props{cluster_props} {}
+  virtual ~base_cluster_driver() {}
+
+  void run(actor_system &system) {
+    scoped_actor self{system};
+    perform(self);
   }
 };
 
-template<class Inspector>
-typename Inspector::result_type inspect(Inspector &f, worker_node_info &x) {
-  return f(meta::type_name("worker_node_info"), x.host, x.worker_ports);
-}
+struct base_cluster_state {
+  base_cluster_state() = default;
+  explicit base_cluster_state(const cluster_properties &cluster_props) : cluster_props{cluster_props} {}
 
-struct reporter_node_info {
-  std::string host;
-  uint16_t system_reporter_port;
-  uint16_t generation_reporter_port;
-  uint16_t individual_reporter_port;
-
-  reporter_node_info() = default;
-  reporter_node_info(const char *host) : host{host} {}
+  cluster_properties cluster_props;
 };
-
-template<class Inspector>
-typename Inspector::result_type inspect(Inspector &f, reporter_node_info &x) {
-  return f(meta::type_name("reporter_node_info"),
-           x.host,
-           x.system_reporter_port,
-           x.generation_reporter_port,
-           x.individual_reporter_port);
-}
-
-std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
-
-std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);

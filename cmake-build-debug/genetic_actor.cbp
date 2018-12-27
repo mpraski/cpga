@@ -105,6 +105,9 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/global_model_cluster.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/common.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/common.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>

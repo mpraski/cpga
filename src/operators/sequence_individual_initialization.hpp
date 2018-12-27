@@ -39,19 +39,17 @@ class sequence_individual_initialization : public base_operator {
     auto &props = config->system_props;
     auto values = possible_values;
 
+    auto gen = [&] {
+      auto r = distribution{0, values.size() - 1}(generator);
+      if (!props.can_repeat_individual_elements) {
+        erase_quick(values, values.begin() + r);
+      }
+      return values[r];
+    };
+
     for (size_t i = 0; i < props.population_size; ++i) {
       auto ind = create();
-      auto it = std::begin(ind);
-
-      for (size_t j = 0; j < props.individual_size; ++j) {
-        auto r = distribution{0, values.size() - 1}(generator);
-        *(it++) = values[r];
-
-        if (!props.can_repeat_individual_elements) {
-          erase_quick(values, values.begin() + r);
-        }
-      }
-
+      std::generate(std::begin(ind), std::end(ind), gen);
       individuals.emplace_back(std::move(ind), fitness_value{});
     }
   }

@@ -46,7 +46,8 @@ behavior global_model_worker(
   auto &f = self->state.fitness_evaluation;
 
   return {
-      [f](compute_fitness, const individual &ind) -> fitness_value {
+      [self, f](compute_fitness, const individual &ind) -> fitness_value {
+        log(self, "received request to compute: ", ind);
         return f(ind);
       },
       [self](finish_worker) {
@@ -67,20 +68,20 @@ struct global_model_supervisor_state : public base_state {
   global_model_supervisor_state() = default;
   global_model_supervisor_state(const shared_config &config, std::vector<actor> &workers)
       : base_state{config},
-        workers{std::move(workers)},
         generator{config->system_props.supervisor_seed},
         distribution{0, workers.size() - 1},
-        random_f{std::bind(distribution, generator)} {
+        random_f{std::bind(distribution, generator)},
+        workers{std::move(workers)} {
   }
 
   inline auto random_worker() const noexcept {
     return workers[random_f()];
   }
 
-  std::vector<actor> workers;
   std::default_random_engine generator;
   std::uniform_int_distribution<size_t> distribution;
   std::function<size_t()> random_f;
+  std::vector<actor> workers;
 };
 
 template<typename individual, typename fitness_value,

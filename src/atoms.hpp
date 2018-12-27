@@ -37,3 +37,4 @@ using stage_discover_reporters = atom_constant<atom("rinf")>;
 using stage_discover_workers = atom_constant<atom("winf")>;
 using stage_collect_workers = atom_constant<atom("wpin")>;
 using stage_distribute_reporter_info = atom_constant<atom("swre")>;
+using stage_initiate_worker_node = atom_constant<atom("siwn")>;

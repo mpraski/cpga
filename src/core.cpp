@@ -7,10 +7,7 @@ std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<w
     const auto &host = info.host;
     for (const auto &port : info.worker_ports) {
       if (auto actor{system.middleman().remote_actor(host, port)}; !actor) {
-        std::ostringstream o;
-        o << "Cannot connect to actor (" << host << ":" << port << ")";
-
-        throw std::runtime_error(o.str());
+        throw std::runtime_error(str("Cannot connect to actor (", host, ":", port, ")"));
       } else {
         workers.emplace_back(std::move(*actor));
       }

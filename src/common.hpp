@@ -4,6 +4,13 @@
 #include <random>
 #include <chrono>
 #include <type_traits>
+#include <forward_list>
+#include <thread>
+#include <caf/all.hpp>
+#include <caf/io/all.hpp>
+#include "atoms.hpp"
+
+using namespace caf;
 
 // aliases for common data structures
 using island_id = size_t;
@@ -48,6 +55,7 @@ static const std::vector<std::string> TIME_HEADERS{"Start", "End",
 
 static const std::vector<std::string> INDIVIDUAL_HEADERS{"Generation",
                                                          "Island", "Individual", "Fitness value"};
+static const std::string NODE_GROUP = "node_group";
 }
 
 const constexpr auto timeout = std::chrono::seconds(10);
@@ -97,12 +105,124 @@ constexpr auto is_size_constructible() noexcept {
 
 template<typename... Args>
 constexpr auto all_in_range(unsigned upper, Args &&... args) {
-  constexpr auto pred = [&upper](auto a) {
+  const constexpr auto pred = [&upper](auto a) {
     return a < upper;
   };
 
   return (... && pred(args));
 }
+
+struct identity {
+  template<typename T>
+  constexpr T &&operator()(T &&t) const noexcept {
+    return std::forward<T>(t);
+  }
+};
+
+struct worker_node_info {
+  std::string host;
+  std::vector<uint16_t> worker_ports;
+
+  inline auto workers_num() const {
+    return worker_ports.size();
+  }
+};
+
+std::ostream &operator<<(std::ostream &os, const worker_node_info &x);
+
+template<class Inspector>
+typename Inspector::result_type inspect(Inspector &f, worker_node_info &x) {
+  return f(meta::type_name("worker_node_info"), x.host, x.worker_ports);
+}
+
+struct reporter_node_info {
+  std::string host;
+  uint16_t system_reporter_port;
+  uint16_t generation_reporter_port;
+  uint16_t individual_reporter_port;
+
+  reporter_node_info() = default;
+  reporter_node_info(const char *host) : host{host} {}
+};
+
+std::ostream &operator<<(std::ostream &os, const reporter_node_info &x);
+
+template<class Inspector>
+typename Inspector::result_type inspect(Inspector &f, reporter_node_info &x) {
+  return f(meta::type_name("reporter_node_info"),
+           x.host,
+           x.system_reporter_port,
+           x.generation_reporter_port,
+           x.individual_reporter_port);
+}
+
+enum class actor_phase {
+  init_population,
+  execute_phase_1,
+  execute_phase_2,
+  execute_phase_3,
+  finish,
+  total,
+  execute_generation,
+  execute_computation
+};
+
+enum class cluster_mode {
+  MASTER, WORKER, REPORTER
+};
+
+class cluster_properties : public actor_system_config {
+ public:
+  std::string master_node_host;
+  uint16_t master_node_port;
+  uint16_t master_group_port;
+  uint16_t reporter_range_start;
+  uint16_t worker_range_start;
+  size_t expected_worker_nodes;
+  std::string _mode;
+
+  cluster_properties() {
+    add_message_type<worker_node_info>("worker_node_info");
+    add_message_type<reporter_node_info>("reporter_node_info");
+    add_message_type<actor_phase>("actor_phase");
+
+    opt_group{custom_options_, "global"}
+        .add(master_node_host, "master-node-host,mnh", "set the host for the master node")
+        .add(master_node_port, "master-node-port,mnp", "set the port for the master node")
+        .add(master_group_port, "master-group-port,mgp", "set the port for master node group")
+        .add(reporter_range_start, "reporter-range-start,rrs", "set the port range start for reporter actors")
+        .add(worker_range_start, "worker-range-start,rrs", "set the port range start for worker actors")
+        .add(expected_worker_nodes, "expected-worker-nodes,ewn", "set the expected number of worker nodes")
+        .add(_mode, "mode,m", "set mode of operation (SERVER, WORKER or REPORTER)");
+  }
+
+  explicit cluster_properties(const cluster_properties &props) : actor_system_config{},
+                                                                 master_node_host{props.master_node_host},
+                                                                 master_node_port{props.master_node_port},
+                                                                 master_group_port{props.master_group_port},
+                                                                 reporter_range_start{props.reporter_range_start},
+                                                                 worker_range_start{props.worker_range_start},
+                                                                 expected_worker_nodes{props.expected_worker_nodes},
+                                                                 _mode{props._mode} {}
+  cluster_properties &operator=(cluster_properties &&props) {
+    master_node_host = std::move(props.master_node_host);
+    master_node_port = props.master_node_port;
+    master_group_port = props.master_group_port;
+    reporter_range_start = props.reporter_range_start;
+    worker_range_start = props.worker_range_start;
+    expected_worker_nodes = props.expected_worker_nodes;
+    _mode = std::move(props._mode);
+    return *this;
+  }
+
+  cluster_mode mode() const {
+    if (_mode == "MASTER") return cluster_mode::MASTER;
+    if (_mode == "WORKER") return cluster_mode::WORKER;
+    if (_mode == "REPORTER") return cluster_mode::REPORTER;
+
+    throw std::runtime_error("unspecified cluster mode: " + _mode);
+  }
+};
 
 template<typename T, typename ... Ts>
 auto str(T &&t, Ts &&... ts) {
@@ -144,3 +264,7 @@ inline void individual_message(stateful_actor<T> *self, As &&... as) {
         self->state.config->individual_reporter, std::forward<As>(as)...);
 }
 
+template<typename A, typename ...As>
+inline void log(A &&self, As &&... as) {
+  aout(self) << str(std::forward<As>(as)...) << std::endl;
+}

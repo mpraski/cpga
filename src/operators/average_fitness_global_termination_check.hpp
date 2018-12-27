@@ -25,10 +25,10 @@ class average_fitness_global_termination_check : public base_operator {
       return true;
     }
 
-    fitness_value total{};
-    for (const auto &member : population) {
-      total += member.second;
-    }
+    auto total = std::accumulate(std::begin(population),
+                                 std::end(population),
+                                 fitness_value{},
+                                 [](auto acc, auto m) { return acc + m.second; });
 
     total = total / population.size();
 

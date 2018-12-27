@@ -123,6 +123,33 @@ genetic_actor/fast:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/build
 .PHONY : genetic_actor/fast
 
+src/common.o: src/common.cpp.o
+
+.PHONY : src/common.o
+
+# target to build an object file
+src/common.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/common.cpp.o
+.PHONY : src/common.cpp.o
+
+src/common.i: src/common.cpp.i
+
+.PHONY : src/common.i
+
+# target to preprocess a source file
+src/common.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/common.cpp.i
+.PHONY : src/common.cpp.i
+
+src/common.s: src/common.cpp.s
+
+.PHONY : src/common.s
+
+# target to generate assembly for a file
+src/common.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/common.cpp.s
+.PHONY : src/common.cpp.s
+
 src/core.o: src/core.cpp.o
 
 .PHONY : src/core.o
@@ -240,6 +267,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... genetic_actor"
 	@echo "... edit_cache"
+	@echo "... src/common.o"
+	@echo "... src/common.i"
+	@echo "... src/common.s"
 	@echo "... src/core.o"
 	@echo "... src/core.i"
 	@echo "... src/core.s"

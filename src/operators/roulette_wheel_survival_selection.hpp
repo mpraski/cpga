@@ -42,10 +42,10 @@ class roulette_wheel_survival_selection : public base_operator {
                    std::make_move_iterator(offspring.end()));
     offspring.clear();
 
-    fitness_value total{};
-    for (const auto &[ind, value] : parents) {
-      total += value;
-    }
+    auto total = std::accumulate(std::begin(parents),
+                                 std::end(parents),
+                                 fitness_value{},
+                                 [](auto acc, auto m) { return acc + m.second; });
 
     for (size_t i = 0; i < survivors_num; ++i) {
       auto survivor = spin(total, parents);

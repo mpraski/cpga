@@ -73,7 +73,7 @@ void test_master_node(actor_system &system,
 }
 
 namespace {
-void caf_main(actor_system &system) {
+void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   /*
     * Core framework configuration is represented by
     * system_properties struct. See definition in core.hpp
@@ -117,10 +117,6 @@ void caf_main(actor_system &system) {
   user_props[constants::MINIMUM_AVERAGE_KEY] = 8;
   user_props[constants::ADD_POPULATION_SIZE_TO_SEED] = true;
 
-  cluster_properties cluster_props;
-  cluster_props.master_group_port = 1212;
-  cluster_props.master_node_port = 1213;
-
   /*
    * The global_model_driver class encapsulates the global model genetic algorithm.
    * When constructing a used must supply a list of types, which are as follow:
@@ -140,7 +136,16 @@ void caf_main(actor_system &system) {
    * which allows to pass necessary data to the genetic operator functors
    */
 
-  test_master_node(system, system_props, user_props, cluster_props);
+  cgf::cluster::run_global_model<sequence<bool>, int, onemax_fitness_evaluation,
+                                 sequence_individual_initialization<bool, int>,
+                                 sequence_individual_crossover<bool, int>, bitstring_mutation,
+                                 roulette_wheel_parent_selection<sequence<bool>, int>,
+                                 roulette_wheel_survival_selection<sequence<bool>, int>,
+                                 best_individual_elitism<sequence<bool>, int>,
+                                 average_fitness_global_termination_check<sequence<bool>, int>>(system,
+                                                                                                system_props,
+                                                                                                user_props,
+                                                                                                cluster_props);
 }
 }
 
