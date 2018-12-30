@@ -12,34 +12,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ee79137-7167-4c3d-8a99-2a54c5ef5150" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/common.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/genetic_actor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/genetic_actor.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/genetic_actor.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/atoms.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/atoms.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/genetic_actor" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/genetic_actor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate_commands.sh" beforeDir="false" afterPath="$PROJECT_DIR$/generate_commands.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cluster/global_model_cluster.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluster/global_model_cluster.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/common.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/example/bitstring_mutation.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/example/bitstring_mutation.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/example/definitions.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/example/definitions.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/global_model.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/global_model.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/operators/average_fitness_global_termination_check.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/operators/average_fitness_global_termination_check.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/operators/roulette_wheel_parent_selection.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/operators/roulette_wheel_parent_selection.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/operators/roulette_wheel_survival_selection.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/operators/roulette_wheel_survival_selection.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reporter.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/reporter.hpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,59 +42,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/common.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-315">
-              <caret line="199" column="42" selection-start-line="199" selection-start-column="42" selection-end-line="199" selection-end-column="42" />
+            <state relative-caret-position="3654">
+              <caret line="203" column="71" selection-start-line="203" selection-start-column="71" selection-end-line="203" selection-end-column="71" />
               <folding>
                 <element signature="e#14#34#0" expanded="true" />
-                <element signature="e#168#195#0" expanded="true" />
-                <element signature="e#3744#3756#0" expanded="true" />
-                <element signature="e#8089#8129#0" expanded="true" />
-                <element signature="e#4425#4453#0" expanded="true" />
-                <element signature="e#8711#8739#0" expanded="true" />
-                <element signature="e#8983#9011#0" expanded="true" />
-                <element signature="e#9246#9274#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="164" selection-start-line="164" selection-end-line="179" selection-end-column="9" />
-              <folding>
-                <element signature="e#14#34#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/common.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/core.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="34" lean-forward="true" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="38" column="39" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
-              <folding>
-                <element signature="e#14#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -118,44 +54,87 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/global_model.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="387" selection-start-line="387" selection-end-line="387" />
+            <state relative-caret-position="342">
+              <caret line="99" column="33" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="33" />
               <folding>
                 <element signature="e#14#34#0" expanded="true" />
-                <element signature="e#3022#3109#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/reporter.cpp">
+        <entry file="file://$PROJECT_DIR$/src/models/island_model.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
+            <state relative-caret-position="1371">
+              <caret line="233" selection-start-line="233" selection-end-line="247" selection-end-column="5" />
+              <folding>
+                <element signature="e#14#34#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+              <folding>
+                <element signature="e#14#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/core.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="3" column="29" lean-forward="true" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/example/bitstring_mutation.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="486">
+              <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="900">
+              <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
+              <folding>
+                <element signature="e#14#31#0" expanded="true" />
+                <element signature="e#79#173#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cluster/global_model_cluster.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
+            <state relative-caret-position="447">
+              <caret line="321" column="11" selection-start-line="321" selection-start-column="11" selection-end-line="321" selection-end-column="11" />
               <folding>
                 <element signature="e#114#159#0" expanded="true" />
-                <element signature="e#5076#5666#0" expanded="true" />
-                <element signature="e#13559#14149#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main.cpp">
+        <entry file="file://$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="234">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -163,8 +142,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/core.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2214">
-              <caret line="123" column="35" selection-start-line="123" selection-start-column="23" selection-end-line="123" selection-end-column="35" />
+            <state relative-caret-position="-2631">
+              <caret line="163" column="34" selection-start-line="163" selection-start-column="34" selection-end-line="163" selection-end-column="34" />
               <folding>
                 <element signature="e#14#28#0" expanded="true" />
               </folding>
@@ -195,6 +174,14 @@
       <find>cluster_mode</find>
       <find>stage_discover_workers: done</find>
       <find>stage_discover_workers:</find>
+      <find>worker size</find>
+      <find>reporter_n</find>
+      <find>join</find>
+      <find>struct</find>
+      <find>set_down</find>
+      <find>set_dow</find>
+      <find>bind_remote_wo</find>
+      <find>any_</find>
     </findStrings>
     <replaceStrings>
       <replace>size_t</replace>
@@ -209,7 +196,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/example/bitstring_mutation.cpp" />
         <option value="$PROJECT_DIR$/src/operators/sequence_individual_factory.h" />
         <option value="$PROJECT_DIR$/src/operators/sequence_individual_factory.hpp" />
         <option value="$PROJECT_DIR$/src/example/onemax_fitness_evaluation.cpp" />
@@ -233,17 +219,20 @@
         <option value="$PROJECT_DIR$/src/operators/roulette_wheel_parent_selection.hpp" />
         <option value="$PROJECT_DIR$/src/operators/roulette_wheel_survival_selection.hpp" />
         <option value="$PROJECT_DIR$/src/operators/sequence_individual_crossover.hpp" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
         <option value="$PROJECT_DIR$/src/atoms.hpp" />
         <option value="$PROJECT_DIR$/src/reporter.hpp" />
-        <option value="$PROJECT_DIR$/src/core.hpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/common.cpp" />
+        <option value="$PROJECT_DIR$/src/core.cpp" />
+        <option value="$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp" />
+        <option value="$PROJECT_DIR$/src/example/definitions.hpp" />
+        <option value="$PROJECT_DIR$/src/core.hpp" />
+        <option value="$PROJECT_DIR$/src/example/bitstring_mutation.cpp" />
+        <option value="$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/common.hpp" />
         <option value="$PROJECT_DIR$/src/models/global_model.hpp" />
         <option value="$PROJECT_DIR$/src/cluster/global_model_cluster.hpp" />
-        <option value="$PROJECT_DIR$/src/common.cpp" />
-        <option value="$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp" />
-        <option value="$PROJECT_DIR$/src/common.hpp" />
-        <option value="$PROJECT_DIR$/src/core.cpp" />
       </list>
     </option>
   </component>
@@ -362,12 +351,14 @@
       <workItem from="1545730478249" duration="17644000" />
       <workItem from="1545757346288" duration="7351000" />
       <workItem from="1545814816774" duration="23686000" />
-      <workItem from="1545898413293" duration="21851000" />
+      <workItem from="1545898413293" duration="23722000" />
+      <workItem from="1546093931423" duration="17411000" />
+      <workItem from="1546166180047" duration="6541000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164161000" />
+    <option name="totallyTimeSpent" value="189984000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -382,7 +373,7 @@
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49921754" visible="true" weight="0.21229947" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49921754" visible="true" weight="0.21764706" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5007825" side_tool="true" weight="0.19946525" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -449,16 +440,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/include/c++/8/bits/stl_stack.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="146" column="58" selection-start-line="146" selection-start-column="21" selection-end-line="146" selection-end-column="58" />
-          <folding>
-            <element signature="e#3792#3840#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/8/bits/stl_iterator_base_funcs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
@@ -491,13 +472,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/node.cpp" />
-    <entry file="file:///usr/local/include/caf/actor_addr.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2040">
-          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/include/caf/actor_system_config.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -521,16 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/island_model.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-          <folding>
-            <element signature="e#14#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/include/caf/mailbox_element.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -549,13 +513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="80" selection-start-line="80" selection-end-line="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/include/caf/exec_main.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="97" column="8" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -602,16 +559,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/ring_random_migration.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
-          <folding>
-            <element signature="e#14#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/sequential_model.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -636,16 +583,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/example/bitstring_mutation.cpp">
+    <entry file="file://$PROJECT_DIR$/src/atoms.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="475">
+          <caret line="39" column="63" selection-start-line="39" selection-start-column="63" selection-end-line="39" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utilities/finite_state_machine.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
+        <state relative-caret-position="574">
           <caret line="51" column="5" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
           <folding>
             <element signature="e#132#150#0" expanded="true" />
@@ -653,9 +607,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/include/caf/actor_addr.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/caf/exec_main.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1746">
+          <caret line="97" column="8" selection-start-line="97" selection-start-column="8" selection-end-line="97" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/caf/node_id.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1188">
+          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/definitions.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+          <folding>
+            <element signature="e#14#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/operators/average_fitness_global_termination_check.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/operators/best_individual_elitism.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="54">
           <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="e#14#34#0" expanded="true" />
@@ -665,8 +657,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/operators/random_migration.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="385">
+          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+          <folding>
+            <element signature="e#14#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/operators/ring_random_migration.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
           <folding>
             <element signature="e#14#31#0" expanded="true" />
           </folding>
@@ -675,7 +677,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/operators/roulette_wheel_parent_selection.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
+        <state relative-caret-position="216">
           <caret line="37" selection-start-line="37" selection-end-line="37" />
           <folding>
             <element signature="e#14#31#0" expanded="true" />
@@ -685,11 +687,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/operators/roulette_wheel_survival_selection.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
+        <state relative-caret-position="810">
           <caret line="45" column="49" selection-start-line="45" selection-start-column="49" selection-end-line="45" selection-end-column="49" />
           <folding>
             <element signature="e#14#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reporter.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1109">
+          <caret line="11" column="70" selection-start-line="11" selection-start-column="70" selection-end-line="11" selection-end-column="70" />
+          <folding>
+            <element signature="e#14#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reporter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1278">
+          <caret line="71" column="60" selection-start-line="71" selection-start-column="60" selection-end-line="71" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/common.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -703,115 +729,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/example/definitions.hpp">
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="331">
+          <caret line="34" column="37" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="37" />
           <folding>
-            <element signature="e#14#32#0" expanded="true" />
+            <element signature="e#2#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
+        <state relative-caret-position="234">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/atoms.hpp">
+    <entry file="file://$PROJECT_DIR$/src/example/bitstring_mutation.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="39" column="63" selection-start-line="39" selection-start-column="63" selection-end-line="39" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reporter.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="70" selection-start-line="11" selection-start-column="70" selection-end-line="11" selection-end-column="70" />
-          <folding>
-            <element signature="e#14#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="36" column="22" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/average_fitness_global_termination_check.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reporter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="164" selection-start-line="164" selection-end-line="179" selection-end-column="9" />
-          <folding>
-            <element signature="e#14#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="486">
+          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="38" column="39" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+        <state relative-caret-position="900">
+          <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
           <folding>
             <element signature="e#14#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/global_model.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="387" selection-start-line="387" selection-end-line="387" />
-          <folding>
-            <element signature="e#14#34#0" expanded="true" />
-            <element signature="e#3022#3109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cluster/global_model_cluster.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-          <folding>
-            <element signature="e#114#159#0" expanded="true" />
-            <element signature="e#5076#5666#0" expanded="true" />
-            <element signature="e#13559#14149#0" expanded="true" />
+            <element signature="e#79#173#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2214">
-          <caret line="123" column="35" selection-start-line="123" selection-start-column="23" selection-end-line="123" selection-end-column="35" />
+        <state relative-caret-position="-2631">
+          <caret line="163" column="34" selection-start-line="163" selection-start-column="34" selection-end-line="163" selection-end-column="34" />
           <folding>
             <element signature="e#14#28#0" expanded="true" />
           </folding>
@@ -820,32 +776,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/common.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-315">
-          <caret line="199" column="42" selection-start-line="199" selection-start-column="42" selection-end-line="199" selection-end-column="42" />
+        <state relative-caret-position="3654">
+          <caret line="203" column="71" selection-start-line="203" selection-start-column="71" selection-end-line="203" selection-end-column="71" />
           <folding>
             <element signature="e#14#34#0" expanded="true" />
-            <element signature="e#168#195#0" expanded="true" />
-            <element signature="e#3744#3756#0" expanded="true" />
-            <element signature="e#8089#8129#0" expanded="true" />
-            <element signature="e#4425#4453#0" expanded="true" />
-            <element signature="e#8711#8739#0" expanded="true" />
-            <element signature="e#8983#9011#0" expanded="true" />
-            <element signature="e#9246#9274#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/common.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/core.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="34" lean-forward="true" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
+        <state relative-caret-position="54">
+          <caret line="3" column="29" lean-forward="true" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/island_model.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1371">
+          <caret line="233" selection-start-line="233" selection-end-line="247" selection-end-column="5" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/global_model.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="99" column="33" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="33" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cluster/global_model_cluster.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="321" column="11" selection-start-line="321" selection-start-column="11" selection-end-line="321" selection-end-column="11" />
+          <folding>
+            <element signature="e#114#159#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

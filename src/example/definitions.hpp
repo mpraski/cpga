@@ -3,9 +3,8 @@
 #include <fstream>
 #include <vector>
 
-std::ostream &operator<<(std::ostream &os, const std::vector<bool> &vec) {
+std::ostream &operator<<(std::ostream &os, const std::vector<char> &vec) {
   os << '|';
-  for (const auto &b : vec)
-    os << b << '|';
+  std::copy(std::begin(vec), std::end(vec), std::ostream_iterator<int>{os, "|"});
   return os;
 }

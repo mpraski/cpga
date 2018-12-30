@@ -267,15 +267,15 @@ class base_cluster_driver {
   template<typename Gen, typename Cond, typename Time = std::chrono::milliseconds>
   static auto poll(Gen &&generator,
                    Cond &&condition,
-                   size_t failed_attempts = 10,
-                   Time &&period = std::chrono::milliseconds(500)) {
-    auto checker = [&, c = size_t{}]() mutable {
+                   size_t failed_attempts = 60,
+                   Time &&period = std::chrono::seconds(1)) {
+    auto checker = [&, c = size_t{0}]() mutable {
       return std::make_pair(generator(), ++c != failed_attempts);
     };
 
     while (true) {
-      if (auto[result, cond] = checker(); !condition(result)) {
-        if (cond) {
+      if (auto[result, quota] = checker(); !condition(result)) {
+        if (quota) {
           std::this_thread::sleep_for(period);
         } else {
           throw std::runtime_error(str("polling did not succeed within ", failed_attempts, " tries"));

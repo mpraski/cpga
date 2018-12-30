@@ -19,11 +19,11 @@ namespace cgf {
 namespace cluster {
 struct master_node_state : public base_cluster_state {
   master_node_state() = default;
-  master_node_state(const cluster_properties &props) : base_cluster_state{props},
-                                                       current_worker_pings{0},
-                                                       current_worker_infos{0},
-                                                       workers_online{false},
-                                                       reporter_info_received{false} {
+  explicit master_node_state(const cluster_properties &props) : base_cluster_state{props},
+                                                                current_worker_pings{0},
+                                                                current_worker_infos{0},
+                                                                workers_online{false},
+                                                                reporter_info_received{false} {
     workers_info.reserve(props.expected_worker_nodes);
   }
 
@@ -47,41 +47,37 @@ behavior master_node(stateful_actor<master_node_state> *self,
   return {
       [=](stage_discover_reporters, reporter_node_info &info) {
         auto &state = self->state;
+        log(self, "Discovered reporters: ", info);
         state.reporter_info = std::move(info);
         state.reporter_info_received = true;
-        log(self, "stage_discover_reporters");
         if (state.workers_online && state.reporter_info_received) {
           self->send(self, stage_distribute_reporter_info::value);
-          log(self, "stage_discover_reporters: stage_distribute_reporter_info");
         }
       },
       [=](stage_collect_workers) {
         auto &state = self->state;
-        log(self, "stage_collect_workers");
+        log(self, "Collected workers from node ", state.current_worker_pings);
         if (++state.current_worker_pings == state.cluster_props.expected_worker_nodes) {
           state.workers_online = true;
-          log(self, "stage_collect_workers: workers_online");
+          log(self, "Collected workers from all nodes");
           if (state.workers_online && state.reporter_info_received) {
             self->send(self, stage_distribute_reporter_info::value);
-            log(self, "stage_collect_workers: stage_distribute_reporter_info");
           }
         }
       },
       [=](stage_distribute_reporter_info) {
         self->send(workers_group, self->state.reporter_info);
-        log(self, "stage_distribute_reporter_info");
+        log(self, "Distributed reporters info");
       },
-      [=](const reporter_node_info &info) {
-
+      [=](const reporter_node_info &) {
       },
       [=](stage_discover_workers, worker_node_info &info) {
         auto &state = self->state;
+        log(self, "Discovered workers: ", info);
         state.workers_info.emplace_back(std::move(info));
-        log(self, "stage_discover_workers");
         if (++state.current_worker_infos == state.cluster_props.expected_worker_nodes) {
           state.current_worker_infos = 0;
           self->send(executor, state.reporter_info, state.workers_info);
-          log(self, "stage_discover_workers: done");
         }
       }
   };
@@ -94,18 +90,12 @@ template<typename individual, typename fitness_value,
     typename survival_selection_operator,
     typename elitism_operator,
     typename global_termination_check>
-void master_node_executor(blocking_actor *self,
-                          const system_properties &system_props,
-                          const user_properties &user_props) {
-  volatile bool running = true;
-  self->receive_while([&] { return running; })(
-      [&](const reporter_node_info &reporter_info, const std::vector<worker_node_info> &workers_info) {
+behavior master_node_executor(stateful_actor<base_state> *self,
+                              const system_properties &system_props,
+                              const user_properties &user_props) {
+  return {
+      [=](const reporter_node_info &reporter_info, const std::vector<worker_node_info> &workers_info) {
         auto &system = self->system();
-
-        log(self, "master_node_executor: received: ", reporter_info);
-        for (const auto &x : workers_info) {
-          log(self, "master_node_executor: received: ", x);
-        }
 
         auto[generation_reporter, individual_reporter, system_reporter] = bind_remote_reporters(system, reporter_info);
         auto workers = bind_remote_workers(system, workers_info);
@@ -117,14 +107,18 @@ void master_node_executor(blocking_actor *self,
             system_reporter
         );
 
-        log(self, "master_node_executor: workers size: ", workers.size());
+        self->state = base_state{config};
 
-        auto supervisor = system.spawn(
+        for (const auto &worker : workers) {
+          self->monitor(worker);
+        }
+
+        auto supervisor = self->spawn<detached>(
             global_model_supervisor<individual, fitness_value,
                                     fitness_evaluation_operator>,
             global_model_supervisor_state{config, workers});
 
-        auto executor = system.spawn(
+        auto executor = self->spawn<detached + monitored>(
             global_model_executor<individual, fitness_value,
                                   initialization_operator, crossover_operator, mutation_operator,
                                   parent_selection_operator, global_termination_check,
@@ -135,18 +129,29 @@ void master_node_executor(blocking_actor *self,
                                         survival_selection_operator, elitism_operator>{config},
             supervisor);
 
-        self->send(executor, init_population::value);
-        self->wait_for(executor, supervisor);
+        self->set_down_handler([=](const down_msg &down) {
+          if (down.source == executor) {
+            if (system_props.is_system_reporter_active) {
+              system_message(self, "Quitting reporters");
 
-        running = false;
+              self->send(config->system_reporter, exit_reporter::value);
+            }
+
+            if (system_props.is_generation_reporter_active) {
+              self->send(config->generation_reporter, exit_reporter::value);
+            }
+
+            if (system_props.is_individual_reporter_active) {
+              self->send(config->individual_reporter, exit_reporter::value);
+            }
+
+            self->quit();
+          }
+        });
+
+        self->send(executor, init_population::value);
       },
-      [&](exit_msg &msg) {
-        if (msg.reason == exit_reason::kill) running = false;
-      },
-      others >> [](message_view &x) -> result<message> {
-        return sec::unexpected_message;
-      }
-  );
+  };
 }
 
 template<typename individual, typename fitness_value,
@@ -186,6 +191,7 @@ class master_node_driver : public base_cluster_driver {
     }
 
     self->wait_for(executor);
+    anon_send_exit(node, exit_reason::user_shutdown);
   }
 };
 
@@ -202,6 +208,7 @@ class reporter_node_driver : public base_cluster_driver {
 
     reporter_node_info info{"localhost"};
 
+    actor sys_rep;
     if (system_props.is_system_reporter_active) {
       if (system_props.system_reporter_log.empty()) {
         throw std::runtime_error("system_reporter_log is empty");
@@ -215,9 +222,8 @@ class reporter_node_driver : public base_cluster_driver {
         self->send(actor, init_reporter::value,
                    system_props.system_reporter_log, constants::SYSTEM_HEADERS);
 
-        system_message(self, actor, "Spawning reporters");
-
         info.system_reporter_port = port;
+        sys_rep = std::move(actor);
       }
     }
 
@@ -256,23 +262,31 @@ class reporter_node_driver : public base_cluster_driver {
       }
     }
 
+    if (system_props.is_system_reporter_active) {
+      system_message(self, sys_rep, "Spawned reporters: ", info);
+    }
+
     self->send(master_node, stage_discover_reporters::value, info);
     self->await_all_other_actors_done();
   }
 };
 
+struct worker_node_executor_state : public base_state {
+  worker_node_executor_state() = default;
+  explicit worker_node_executor_state(const shared_config &config) : base_state{config}, workers_counter{0} {}
+
+  size_t workers_counter;
+};
+
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator>
-void worker_node_executor(blocking_actor *self,
-                          const system_properties &system_props,
-                          const user_properties &user_props,
-                          const actor &master_node,
-                          const std::function<uint16_t()> &port_factory) {
-  volatile bool running = true;
-  self->receive_while([&] { return running; })(
-      [&](const reporter_node_info &reporter_info) {
-        log(self, "worker_node_executor: received reporter_node_info");
-
+behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
+                              const system_properties &system_props,
+                              const user_properties &user_props,
+                              const actor &master_node,
+                              const std::function<uint16_t()> &port_factory) {
+  return {
+      [=](const reporter_node_info &reporter_info) {
         auto &system = self->system();
         auto &middleman = system.middleman();
 
@@ -285,43 +299,43 @@ void worker_node_executor(blocking_actor *self,
             system_reporter
         );
 
+        self->state = worker_node_executor_state{config};
+
         std::vector<actor> workers(system_props.islands_number);
-
-        auto spawn_worker = [&self, &config] {
-          return self->spawn<detached>(global_model_worker<individual, fitness_value, fitness_evaluation_operator>,
-                                       global_model_worker_state<fitness_evaluation_operator>{config});
+        auto spawn_worker = [&] {
+          auto worker = self->spawn<detached + monitored>(global_model_worker<individual,
+                                                                              fitness_value,
+                                                                              fitness_evaluation_operator>,
+                                                          global_model_worker_state<fitness_evaluation_operator>{
+                                                              config});
+          system_message(self, "Spawning worker (actor id: ", worker.id(), ")");
+          return worker;
         };
-
         std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-        std::vector<uint16_t> ports;
+        self->set_down_handler([=](const down_msg &down) {
+          if (std::any_of(std::begin(workers),
+                          std::end(workers),
+                          [src = down.source](const auto &worker) { return worker == src; })
+              && ++self->state.workers_counter == workers.size()) {
+            self->quit();
+          }
+        });
 
+        std::vector<uint16_t> ports;
         auto publish_worker = [&](const actor &worker) -> uint16_t {
           auto port = port_factory();
           if (auto published{middleman.publish(worker, port)}; !published) {
             throw std::runtime_error(str("unable to publish global model worker: ", system.render(published.error())));
           }
+          system_message(self, "Publishing worker (actor id: ", worker.id(), ") on port ", port);
           return port;
         };
-
         std::transform(std::begin(workers), std::end(workers), std::back_inserter(ports), publish_worker);
 
-        worker_node_info info{"localhost", std::move(ports)};
-
-        self->send(master_node, stage_discover_workers::value, info);
-        log(self, "worker_node_executor: sent stage_discover_workers: ", info);
-        self->await_all_other_actors_done();
-
-        running = false;
-      },
-      [&](exit_msg &msg) {
-        if (msg.reason == exit_reason::kill) running = false;
-        log(self, "worker_node_executor: KILL");
-      },
-      others >> [](message_view &x) -> result<message> {
-        return sec::unexpected_message;
+        self->send(master_node, stage_discover_workers::value, worker_node_info{"localhost", std::move(ports)});
       }
-  );
+  };
 }
 
 behavior worker_node(event_based_actor *self,
@@ -333,11 +347,11 @@ behavior worker_node(event_based_actor *self,
   return {
       [=](stage_initiate_worker_node) {
         self->send(master_node, stage_collect_workers::value);
-        log(self, "stage_initiate_worker_node");
       },
       [=](reporter_node_info &info) {
         self->send(executor, std::move(info));
-        log(self, "received reporter_node_info");
+      },
+      [=](const group_down_msg &) {
       }
   };
 }
@@ -355,17 +369,18 @@ class worker_node_driver : public base_cluster_driver {
     auto node_group = wait_for_node_group(system);
     auto port_factory = make_worker_port_factory();
 
-    auto executor = self->spawn<detached>(worker_node_executor<individual, fitness_value, fitness_evaluation_operator>,
-                                          system_props,
-                                          user_props,
-                                          master_node,
-                                          port_factory);
+    auto executor =
+        self->spawn<detached>(worker_node_executor<individual, fitness_value, fitness_evaluation_operator>,
+                              system_props,
+                              user_props,
+                              master_node,
+                              port_factory);
 
     auto node = self->spawn<detached>(worker_node, master_node, executor, node_group);
 
     anon_send(node, stage_initiate_worker_node::value);
-
     self->wait_for(executor);
+    anon_send_exit(node, exit_reason::user_shutdown);
   }
 };
 

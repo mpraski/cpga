@@ -1,11 +1,16 @@
 #include "../core.hpp"
 
 class bitstring_mutation : public base_operator {
-  using wrapper = individual_wrapper<std::vector<bool>, int>;
+  using wrapper = individual_wrapper<std::vector<char>, int>;
  private:
   std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution;
   std::function<double()> random_f;
+
+  inline void flip(char &c) const noexcept {
+    if(c == 0) c = 1;
+    else c = 0;
+  }
  public:
   bitstring_mutation() = default;
   bitstring_mutation(const shared_config &config, island_id island_no)
@@ -16,9 +21,9 @@ class bitstring_mutation : public base_operator {
   }
 
   void operator()(wrapper &wrapper) const noexcept {
-    for (size_t i = 0; i < config->system_props.individual_size; ++i) {
+    for (auto &c : wrapper.first) {
       if (random_f() < config->system_props.mutation_probability) {
-        wrapper.first[i].flip();
+        flip(c);
       }
     }
   }

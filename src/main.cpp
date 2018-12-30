@@ -22,55 +22,7 @@
 
 using namespace caf;
 
-void test_global(const system_properties &sysprops, const user_properties &userprops) {
-  global_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                      sequence_individual_initialization<bool, int>,
-                      sequence_individual_crossover<bool, int>, bitstring_mutation,
-                      roulette_wheel_parent_selection<sequence<bool>, int>,
-                      roulette_wheel_survival_selection<sequence<bool>, int>,
-                      best_individual_elitism<sequence<bool>, int>,
-                      average_fitness_global_termination_check<sequence<bool>, int>> driver{
-      sysprops, userprops};
-  driver.run();
-}
-
-void test_island(const system_properties &sysprops, const user_properties &userprops) {
-  island_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                      sequence_individual_initialization<bool, int>,
-                      sequence_individual_crossover<bool, int>, bitstring_mutation,
-                      roulette_wheel_parent_selection<sequence<bool>, int>,
-                      roulette_wheel_survival_selection<sequence<bool>, int>,
-                      best_individual_elitism<sequence<bool>, int>,
-                      ring_random_migration<sequence<bool>, int>> driver{sysprops,
-                                                                         userprops};
-  driver.run();
-}
-
-void test_grid(const system_properties &sysprops, const user_properties &userprops) {
-  grid_model_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                    sequence_individual_initialization<bool, int>,
-                    sequence_individual_crossover<bool, int>, bitstring_mutation,
-                    roulette_wheel_parent_selection<sequence<bool>, int>,
-                    roulette_wheel_survival_selection<sequence<bool>, int>,
-                    best_individual_elitism<sequence<bool>, int>> driver{sysprops,
-                                                                         userprops};
-  driver.run();
-}
-
-void test_master_node(actor_system &system,
-                      const system_properties &sysprops,
-                      const user_properties &userprops,
-                      const cluster_properties &clusterprops) {
-  cgf::cluster::master_node_driver<sequence<bool>, int, onemax_fitness_evaluation,
-                                   sequence_individual_initialization<bool, int>,
-                                   sequence_individual_crossover<bool, int>, bitstring_mutation,
-                                   roulette_wheel_parent_selection<sequence<bool>, int>,
-                                   roulette_wheel_survival_selection<sequence<bool>, int>,
-                                   best_individual_elitism<sequence<bool>, int>> driver{sysprops,
-                                                                                        userprops,
-                                                                                        clusterprops};
-  driver.run(system);
-}
+CLUSTER_CONFIG(sequence<char>, int)
 
 namespace {
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
@@ -83,7 +35,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   system_props.population_size = 1000;
   system_props.individual_size = 10;
   system_props.elitists_number = 10;
-  system_props.generations_number = 1000;
+  system_props.generations_number = 100;
   system_props.migration_period = 10;
   system_props.migration_quota = 10;
   system_props.initialization_seed = 345312;
@@ -110,39 +62,21 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
    * can be put in the user_properties map. It's a std::unordered_map<std::string, std::any>, so
    * any value can be stored (has to be cast to appropriate type using std::any_cast)
    */
-  user_properties user_props;
-  user_props[constants::POSSIBLE_VALUES_KEY] =
-      std::vector<bool>{true, false};
-  user_props[constants::STABLE_REQUIRED_KEY] = size_t{10};
-  user_props[constants::MINIMUM_AVERAGE_KEY] = 8;
-  user_props[constants::ADD_POPULATION_SIZE_TO_SEED] = true;
+  user_properties user_props{
+      {constants::POSSIBLE_VALUES_KEY, std::vector<char>{0, 1}},
+      {constants::STABLE_REQUIRED_KEY, size_t{10}},
+      {constants::MINIMUM_AVERAGE_KEY, 8}
+  };
 
-  /*
-   * The global_model_driver class encapsulates the global model genetic algorithm.
-   * When constructing a used must supply a list of types, which are as follow:
-   * 1. individual type
-   * 2. fitness value type
-   * 3. fitness evaluation operator type
-   * 4. initialization operator type
-   * 5. crossover operator type
-   * 6. mutation operator type
-   * 7. parent selection operator type
-   * 8. survival selection operator type
-   * 9. elitist operator type
-   * 10. termination check operator type
-   *
-   * All of the 'operator' types must have a constructor
-   * accepting a shared_config (shared pointer to the configuration object),
-   * which allows to pass necessary data to the genetic operator functors
-   */
-
-  cgf::cluster::run_global_model<sequence<bool>, int, onemax_fitness_evaluation,
-                                 sequence_individual_initialization<bool, int>,
-                                 sequence_individual_crossover<bool, int>, bitstring_mutation,
-                                 roulette_wheel_parent_selection<sequence<bool>, int>,
-                                 roulette_wheel_survival_selection<sequence<bool>, int>,
-                                 best_individual_elitism<sequence<bool>, int>,
-                                 average_fitness_global_termination_check<sequence<bool>, int>>(system,
+  cgf::cluster::run_global_model<sequence<char>, int,
+                                 onemax_fitness_evaluation,
+                                 sequence_individual_initialization<char, int>,
+                                 sequence_individual_crossover<char, int>,
+                                 bitstring_mutation,
+                                 roulette_wheel_parent_selection<sequence<char>, int>,
+                                 roulette_wheel_survival_selection<sequence<char>, int>,
+                                 best_individual_elitism<sequence<char>, int>,
+                                 average_fitness_global_termination_check<sequence<char>, int>>(system,
                                                                                                 system_props,
                                                                                                 user_props,
                                                                                                 cluster_props);

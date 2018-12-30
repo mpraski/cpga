@@ -40,8 +40,6 @@ static constexpr const char POSSIBLE_VALUES_KEY[] =
     "possible_initialization_values";
 static constexpr const char STABLE_REQUIRED_KEY[] = "stable_required";
 static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
-static constexpr const char ADD_POPULATION_SIZE_TO_SEED[] =
-    "add_population_size_to_seed";
 
 static constexpr const char *const ACTOR_PHASE_MAP[] = {"init_population",
                                                         "execute_phase_1", "execute_phase_2", "execute_phase_3",
@@ -122,10 +120,6 @@ struct identity {
 struct worker_node_info {
   std::string host;
   std::vector<uint16_t> worker_ports;
-
-  inline auto workers_num() const {
-    return worker_ports.size();
-  }
 };
 
 std::ostream &operator<<(std::ostream &os, const worker_node_info &x);
@@ -181,20 +175,7 @@ class cluster_properties : public actor_system_config {
   size_t expected_worker_nodes;
   std::string _mode;
 
-  cluster_properties() {
-    add_message_type<worker_node_info>("worker_node_info");
-    add_message_type<reporter_node_info>("reporter_node_info");
-    add_message_type<actor_phase>("actor_phase");
-
-    opt_group{custom_options_, "global"}
-        .add(master_node_host, "master-node-host,mnh", "set the host for the master node")
-        .add(master_node_port, "master-node-port,mnp", "set the port for the master node")
-        .add(master_group_port, "master-group-port,mgp", "set the port for master node group")
-        .add(reporter_range_start, "reporter-range-start,rrs", "set the port range start for reporter actors")
-        .add(worker_range_start, "worker-range-start,rrs", "set the port range start for worker actors")
-        .add(expected_worker_nodes, "expected-worker-nodes,ewn", "set the expected number of worker nodes")
-        .add(_mode, "mode,m", "set mode of operation (SERVER, WORKER or REPORTER)");
-  }
+  cluster_properties();
 
   explicit cluster_properties(const cluster_properties &props) : actor_system_config{},
                                                                  master_node_host{props.master_node_host},
@@ -215,22 +196,41 @@ class cluster_properties : public actor_system_config {
     return *this;
   }
 
-  cluster_mode mode() const {
+  inline cluster_mode mode() const {
     if (_mode == "MASTER") return cluster_mode::MASTER;
     if (_mode == "WORKER") return cluster_mode::WORKER;
     if (_mode == "REPORTER") return cluster_mode::REPORTER;
 
-    throw std::runtime_error("unspecified cluster mode: " + _mode);
+    throw std::runtime_error("unspecified cluster mode: '" + _mode + "'");
   }
 };
+
+#define CLUSTER_CONFIG(IND, FIT) \
+cluster_properties::cluster_properties() { \
+  add_message_type<worker_node_info>("worker_node_info"); \
+  add_message_type<reporter_node_info>("reporter_node_info"); \
+  add_message_type<actor_phase>("actor_phase"); \
+  add_message_type<std::pair<IND, FIT>>("std::pair<IND, FIT>"); \
+  add_message_type<std::pair<std::pair<IND, FIT>, \
+                             std::pair<IND, FIT>>>("std::pair<std::pair<IND, FIT>, std::pair<IND, FIT>"); \
+  add_message_type<std::pair<island_id, std::pair<IND, FIT>>>("std::pair<island_id, std::pair<IND, FIT>>"); \
+ \
+  opt_group{custom_options_, "global"} \
+      .add(master_node_host, "master-node-host,mnh", "set the host for the master node") \
+      .add(master_node_port, "master-node-port,mnp", "set the port for the master node") \
+      .add(master_group_port, "master-group-port,mgp", "set the port for master node group") \
+      .add(reporter_range_start, "reporter-range-start,rrs", "set the port range start for reporter actors") \
+      .add(worker_range_start, "worker-range-start,rrs", "set the port range start for worker actors") \
+      .add(expected_worker_nodes, "expected-worker-nodes,ewn", "set the expected number of worker nodes") \
+      .add(_mode, "mode,m", "set mode of operation (SERVER, WORKER or REPORTER)"); \
+} \
 
 template<typename T, typename ... Ts>
 auto str(T &&t, Ts &&... ts) {
   std::ostringstream os;
 
   os << std::forward<T>(t);
-  using expander = int[];
-  (void) expander{0, (void(os << std::forward<Ts>(ts)), 0)...};
+  (void) std::initializer_list<int>{0, (void(os << std::forward<Ts>(ts)), 0)...};
 
   return os.str();
 }

@@ -38,6 +38,7 @@ class sequence_individual_initialization : public base_operator {
       individual_collection<individual, fitness_value> &individuals) {
     auto &props = config->system_props;
     auto values = possible_values;
+    auto size = props.individual_size;
 
     auto gen = [&] {
       auto r = distribution{0, values.size() - 1}(generator);
@@ -49,7 +50,7 @@ class sequence_individual_initialization : public base_operator {
 
     for (size_t i = 0; i < props.population_size; ++i) {
       auto ind = create();
-      std::generate(std::begin(ind), std::end(ind), gen);
+      std::generate(std::begin(ind), std::begin(ind) + size, gen);
       individuals.emplace_back(std::move(ind), fitness_value{});
     }
   }

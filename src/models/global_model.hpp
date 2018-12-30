@@ -43,11 +43,9 @@ behavior global_model_worker(
     stateful_actor<global_model_worker_state<fitness_evaluation_operator>> *self,
     global_model_worker_state<fitness_evaluation_operator> state) {
   self->state = std::move(state);
-  auto &f = self->state.fitness_evaluation;
 
   return {
-      [self, f](compute_fitness, const individual &ind) -> fitness_value {
-        log(self, "received request to compute: ", ind);
+      [f = self->state.fitness_evaluation](const individual &ind) -> fitness_value {
         return f(ind);
       },
       [self](finish_worker) {
@@ -68,19 +66,17 @@ struct global_model_supervisor_state : public base_state {
   global_model_supervisor_state() = default;
   global_model_supervisor_state(const shared_config &config, std::vector<actor> &workers)
       : base_state{config},
-        generator{config->system_props.supervisor_seed},
-        distribution{0, workers.size() - 1},
-        random_f{std::bind(distribution, generator)},
+        pool{workers.size()},
+        counter{0},
         workers{std::move(workers)} {
   }
 
-  inline auto random_worker() const noexcept {
-    return workers[random_f()];
+  inline auto get_worker() noexcept {
+    return workers[counter++ % pool];
   }
 
-  std::default_random_engine generator;
-  std::uniform_int_distribution<size_t> distribution;
-  std::function<size_t()> random_f;
+  size_t pool;
+  size_t counter;
   std::vector<actor> workers;
 };
 
@@ -93,9 +89,29 @@ behavior global_model_supervisor(
 
   system_message(self, "Spawning global model supervisor");
 
+  for (const auto &worker : self->state.workers) {
+    self->monitor(worker);
+  }
+
+  // In the future keep reference to workers' origin nodes to remote respawn
+  // them if needed
+  self->set_down_handler(
+      [self](down_msg &down) {
+        if (!down.reason) return;
+
+        system_message(self, "Global worker with actor id: ", down.source.id(), " died");
+
+        auto &workers = self->state.workers;
+        workers.erase(std::remove_if(std::begin(workers),
+                                     std::end(workers),
+                                     [src = down.source](const auto &worker) { return src == worker; }));
+
+        self->state.pool = workers.size();
+      });
+
   return {
-      [self](compute_fitness cf, individual ind) {
-        self->delegate(self->state.random_worker(), cf, std::move(ind));
+      [self](individual &ind) {
+        self->delegate(self->state.get_worker(), std::move(ind));
       },
       [self](finish) {
         for (const auto &worker : self->state.workers) {
@@ -210,7 +226,7 @@ behavior global_model_executor(
         state.population_size_counter = state.population.size();
 
         for (size_t i = 0; i < state.population_size_counter; ++i) {
-          self->request(supervisor, timeout, compute_fitness::value, state.population[i].first).then(
+          self->request(supervisor, timeout, state.population[i].first).then(
               [=](fitness_value &fv) {
                 self->state.population[i].second = std::move(fv);
 
@@ -268,7 +284,7 @@ behavior global_model_executor(
           state.offspring_size_counter = state.offspring.size();
 
           for (size_t i = 0; i < state.offspring_size_counter; ++i) {
-            self->request(supervisor, timeout, compute_fitness::value, state.offspring[i].first).then(
+            self->request(supervisor, timeout, state.offspring[i].first).then(
                 [=](fitness_value fv) {
                   self->state.offspring[i].second = std::move(fv);
 
@@ -362,31 +378,3 @@ behavior global_model_executor(
       },
   };
 }
-
-/*
- * DRIVER
- *
- * The master_node_driver is responsible for starting the actor system, spawning
- * the Executor and Supervisor, spawning and configuring the reporters,
- * running the model by sending the initial message to the Executor, waiting for
- * the Executor to finish (e.g. the PGA computation concluded) and cleaning up.
- */
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator,
-    typename survival_selection_operator = default_survival_selection_operator<
-        individual, fitness_value>,
-    typename elitism_operator = default_elitism_operator<individual,
-                                                         fitness_value>,
-    typename global_termination_check = default_global_termination_check<
-        individual, fitness_value>>
-class global_model_driver : public base_driver<individual, fitness_value> {
- public:
-  using base_driver<individual, fitness_value>::base_driver;
-
-  void perform(shared_config &config, actor_system &system, scoped_actor &self)
-  override {
-
-  }
-};
