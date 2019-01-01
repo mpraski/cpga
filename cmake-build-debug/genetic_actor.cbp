@@ -102,7 +102,28 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/cluster_runner.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/global_model_cluster.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/reporter_node.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/common.cpp">
@@ -111,10 +132,43 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/common.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core.cpp">
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp">
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_driver.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/defaults.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp">

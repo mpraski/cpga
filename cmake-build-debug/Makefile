@@ -123,6 +123,60 @@ genetic_actor/fast:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/build
 .PHONY : genetic_actor/fast
 
+src/cluster/master_node.o: src/cluster/master_node.cpp.o
+
+.PHONY : src/cluster/master_node.o
+
+# target to build an object file
+src/cluster/master_node.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o
+.PHONY : src/cluster/master_node.cpp.o
+
+src/cluster/master_node.i: src/cluster/master_node.cpp.i
+
+.PHONY : src/cluster/master_node.i
+
+# target to preprocess a source file
+src/cluster/master_node.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.i
+.PHONY : src/cluster/master_node.cpp.i
+
+src/cluster/master_node.s: src/cluster/master_node.cpp.s
+
+.PHONY : src/cluster/master_node.s
+
+# target to generate assembly for a file
+src/cluster/master_node.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.s
+.PHONY : src/cluster/master_node.cpp.s
+
+src/cluster/worker_node.o: src/cluster/worker_node.cpp.o
+
+.PHONY : src/cluster/worker_node.o
+
+# target to build an object file
+src/cluster/worker_node.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o
+.PHONY : src/cluster/worker_node.cpp.o
+
+src/cluster/worker_node.i: src/cluster/worker_node.cpp.i
+
+.PHONY : src/cluster/worker_node.i
+
+# target to preprocess a source file
+src/cluster/worker_node.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.i
+.PHONY : src/cluster/worker_node.cpp.i
+
+src/cluster/worker_node.s: src/cluster/worker_node.cpp.s
+
+.PHONY : src/cluster/worker_node.s
+
+# target to generate assembly for a file
+src/cluster/worker_node.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.s
+.PHONY : src/cluster/worker_node.cpp.s
+
 src/common.o: src/common.cpp.o
 
 .PHONY : src/common.o
@@ -150,32 +204,140 @@ src/common.cpp.s:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/common.cpp.s
 .PHONY : src/common.cpp.s
 
-src/core.o: src/core.cpp.o
+src/core/base_cluster_driver.o: src/core/base_cluster_driver.cpp.o
 
-.PHONY : src/core.o
+.PHONY : src/core/base_cluster_driver.o
 
 # target to build an object file
-src/core.cpp.o:
-	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core.cpp.o
-.PHONY : src/core.cpp.o
+src/core/base_cluster_driver.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o
+.PHONY : src/core/base_cluster_driver.cpp.o
 
-src/core.i: src/core.cpp.i
+src/core/base_cluster_driver.i: src/core/base_cluster_driver.cpp.i
 
-.PHONY : src/core.i
+.PHONY : src/core/base_cluster_driver.i
 
 # target to preprocess a source file
-src/core.cpp.i:
-	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core.cpp.i
-.PHONY : src/core.cpp.i
+src/core/base_cluster_driver.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.i
+.PHONY : src/core/base_cluster_driver.cpp.i
 
-src/core.s: src/core.cpp.s
+src/core/base_cluster_driver.s: src/core/base_cluster_driver.cpp.s
 
-.PHONY : src/core.s
+.PHONY : src/core/base_cluster_driver.s
 
 # target to generate assembly for a file
-src/core.cpp.s:
-	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core.cpp.s
-.PHONY : src/core.cpp.s
+src/core/base_cluster_driver.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.s
+.PHONY : src/core/base_cluster_driver.cpp.s
+
+src/core/base_cluster_state.o: src/core/base_cluster_state.cpp.o
+
+.PHONY : src/core/base_cluster_state.o
+
+# target to build an object file
+src/core/base_cluster_state.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o
+.PHONY : src/core/base_cluster_state.cpp.o
+
+src/core/base_cluster_state.i: src/core/base_cluster_state.cpp.i
+
+.PHONY : src/core/base_cluster_state.i
+
+# target to preprocess a source file
+src/core/base_cluster_state.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.i
+.PHONY : src/core/base_cluster_state.cpp.i
+
+src/core/base_cluster_state.s: src/core/base_cluster_state.cpp.s
+
+.PHONY : src/core/base_cluster_state.s
+
+# target to generate assembly for a file
+src/core/base_cluster_state.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.s
+.PHONY : src/core/base_cluster_state.cpp.s
+
+src/core/base_operator.o: src/core/base_operator.cpp.o
+
+.PHONY : src/core/base_operator.o
+
+# target to build an object file
+src/core/base_operator.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o
+.PHONY : src/core/base_operator.cpp.o
+
+src/core/base_operator.i: src/core/base_operator.cpp.i
+
+.PHONY : src/core/base_operator.i
+
+# target to preprocess a source file
+src/core/base_operator.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.i
+.PHONY : src/core/base_operator.cpp.i
+
+src/core/base_operator.s: src/core/base_operator.cpp.s
+
+.PHONY : src/core/base_operator.s
+
+# target to generate assembly for a file
+src/core/base_operator.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.s
+.PHONY : src/core/base_operator.cpp.s
+
+src/core/base_state.o: src/core/base_state.cpp.o
+
+.PHONY : src/core/base_state.o
+
+# target to build an object file
+src/core/base_state.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o
+.PHONY : src/core/base_state.cpp.o
+
+src/core/base_state.i: src/core/base_state.cpp.i
+
+.PHONY : src/core/base_state.i
+
+# target to preprocess a source file
+src/core/base_state.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.i
+.PHONY : src/core/base_state.cpp.i
+
+src/core/base_state.s: src/core/base_state.cpp.s
+
+.PHONY : src/core/base_state.s
+
+# target to generate assembly for a file
+src/core/base_state.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.s
+.PHONY : src/core/base_state.cpp.s
+
+src/core/data.o: src/core/data.cpp.o
+
+.PHONY : src/core/data.o
+
+# target to build an object file
+src/core/data.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/data.cpp.o
+.PHONY : src/core/data.cpp.o
+
+src/core/data.i: src/core/data.cpp.i
+
+.PHONY : src/core/data.i
+
+# target to preprocess a source file
+src/core/data.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/data.cpp.i
+.PHONY : src/core/data.cpp.i
+
+src/core/data.s: src/core/data.cpp.s
+
+.PHONY : src/core/data.s
+
+# target to generate assembly for a file
+src/core/data.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/data.cpp.s
+.PHONY : src/core/data.cpp.s
 
 src/example/bitstring_mutation.o: src/example/bitstring_mutation.cpp.o
 
@@ -267,12 +429,30 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... genetic_actor"
 	@echo "... edit_cache"
+	@echo "... src/cluster/master_node.o"
+	@echo "... src/cluster/master_node.i"
+	@echo "... src/cluster/master_node.s"
+	@echo "... src/cluster/worker_node.o"
+	@echo "... src/cluster/worker_node.i"
+	@echo "... src/cluster/worker_node.s"
 	@echo "... src/common.o"
 	@echo "... src/common.i"
 	@echo "... src/common.s"
-	@echo "... src/core.o"
-	@echo "... src/core.i"
-	@echo "... src/core.s"
+	@echo "... src/core/base_cluster_driver.o"
+	@echo "... src/core/base_cluster_driver.i"
+	@echo "... src/core/base_cluster_driver.s"
+	@echo "... src/core/base_cluster_state.o"
+	@echo "... src/core/base_cluster_state.i"
+	@echo "... src/core/base_cluster_state.s"
+	@echo "... src/core/base_operator.o"
+	@echo "... src/core/base_operator.i"
+	@echo "... src/core/base_operator.s"
+	@echo "... src/core/base_state.o"
+	@echo "... src/core/base_state.i"
+	@echo "... src/core/base_state.s"
+	@echo "... src/core/data.o"
+	@echo "... src/core/data.i"
+	@echo "... src/core/data.s"
 	@echo "... src/example/bitstring_mutation.o"
 	@echo "... src/example/bitstring_mutation.i"
 	@echo "... src/example/bitstring_mutation.s"

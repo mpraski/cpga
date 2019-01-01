@@ -8,8 +8,7 @@ class bitstring_mutation : public base_operator {
   std::function<double()> random_f;
 
   inline void flip(char &c) const noexcept {
-    if(c == 0) c = 1;
-    else c = 0;
+    if (c == 0) c = 1; else c = 0;
   }
  public:
   bitstring_mutation() = default;

@@ -45,7 +45,7 @@ class roulette_wheel_survival_selection : public base_operator {
     auto total = std::accumulate(std::begin(parents),
                                  std::end(parents),
                                  fitness_value{},
-                                 [](auto acc, auto m) { return acc + m.second; });
+                                 [](auto acc, const auto &m) { return acc + m.second; });
 
     for (size_t i = 0; i < survivors_num; ++i) {
       auto survivor = spin(total, parents);

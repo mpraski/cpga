@@ -39,7 +39,7 @@ class roulette_wheel_parent_selection : base_operator {
     auto total = std::accumulate(std::begin(population),
                                  std::end(population),
                                  fitness_value{},
-                                 [](auto acc, auto m) { return acc + m.second; });
+                                 [](auto acc, const auto &m) { return acc + m.second; });
 
     for (size_t i = 0; i < couples_num; ++i) {
       auto first = spin(total, population);

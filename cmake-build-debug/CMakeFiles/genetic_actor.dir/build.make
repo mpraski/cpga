@@ -83,22 +83,9 @@ CMakeFiles/genetic_actor.dir/src/common.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/common.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/common.cpp -o CMakeFiles/genetic_actor.dir/src/common.cpp.s
 
-CMakeFiles/genetic_actor.dir/src/core.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
-CMakeFiles/genetic_actor.dir/src/core.cpp.o: ../src/core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/genetic_actor.dir/src/core.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core.cpp
-
-CMakeFiles/genetic_actor.dir/src/core.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/core.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/core.cpp > CMakeFiles/genetic_actor.dir/src/core.cpp.i
-
-CMakeFiles/genetic_actor.dir/src/core.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/core.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/core.cpp -o CMakeFiles/genetic_actor.dir/src/core.cpp.s
-
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/genetic_actor.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/genetic_actor.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/main.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/main.cpp
 
 CMakeFiles/genetic_actor.dir/src/main.cpp.i: cmake_force
@@ -111,7 +98,7 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o: ../src/reporter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/reporter.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/reporter.cpp
 
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.i: cmake_force
@@ -122,25 +109,128 @@ CMakeFiles/genetic_actor.dir/src/reporter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/reporter.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/reporter.cpp -o CMakeFiles/genetic_actor.dir/src/reporter.cpp.s
 
+CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: ../src/core/data.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/genetic_actor.dir/src/core/data.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core/data.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp
+
+CMakeFiles/genetic_actor.dir/src/core/data.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/core/data.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp > CMakeFiles/genetic_actor.dir/src/core/data.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/core/data.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/core/data.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp -o CMakeFiles/genetic_actor.dir/src/core/data.cpp.s
+
+CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/core/base_state.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp
+
+CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp > CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp -o CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.s
+
+CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: ../src/core/base_operator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp
+
+CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp > CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp -o CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.s
+
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o: ../src/core/base_cluster_state.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.cpp
+
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.cpp > CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.cpp -o CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.s
+
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: ../src/core/base_cluster_driver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp
+
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp > CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp -o CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.s
+
+CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/cluster/worker_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp
+
+CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp > CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp -o CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.s
+
+CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: CMakeFiles/genetic_actor.dir/flags.make
+CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/cluster/master_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o -c /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp
+
+CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp > CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.i
+
+CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp -o CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.s
+
 # Object files for target genetic_actor
 genetic_actor_OBJECTS = \
 "CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o" \
 "CMakeFiles/genetic_actor.dir/src/common.cpp.o" \
-"CMakeFiles/genetic_actor.dir/src/core.cpp.o" \
 "CMakeFiles/genetic_actor.dir/src/main.cpp.o" \
-"CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
+"CMakeFiles/genetic_actor.dir/src/reporter.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/core/data.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o" \
+"CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o"
 
 # External object files for target genetic_actor
 genetic_actor_EXTERNAL_OBJECTS =
 
 genetic_actor: CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/src/common.cpp.o
-genetic_actor: CMakeFiles/genetic_actor.dir/src/core.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/src/main.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/src/reporter.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/core/data.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o
+genetic_actor: CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o
 genetic_actor: CMakeFiles/genetic_actor.dir/build.make
 genetic_actor: CMakeFiles/genetic_actor.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable genetic_actor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable genetic_actor"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/genetic_actor.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

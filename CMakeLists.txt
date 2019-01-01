@@ -36,11 +36,19 @@ add_executable(genetic_actor
         src/common.hpp
         src/common.cpp
         src/core.hpp
-        src/core.cpp
         src/main.cpp
         src/reporter.cpp
         src/reporter.hpp
-        src/utilities/finite_state_machine.hpp src/cluster/global_model_cluster.hpp)
+        src/utilities/finite_state_machine.hpp
+        src/cluster/global_model_cluster.hpp
+        src/core/data.cpp src/core/data.hpp
+        src/core/base_state.cpp src/core/base_state.hpp
+        src/core/base_operator.cpp src/core/base_operator.hpp
+        src/core/base_driver.hpp src/core/defaults.hpp
+        src/core/base_cluster_state.cpp
+        src/core/base_cluster_state.hpp
+        src/core/base_cluster_driver.cpp
+        src/core/base_cluster_driver.hpp src/cluster/master_node.hpp src/cluster/reporter_node.hpp src/cluster/worker_node.cpp src/cluster/worker_node.hpp src/cluster/master_node.cpp src/cluster.hpp src/cluster/cluster_runner.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

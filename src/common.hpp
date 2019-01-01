@@ -136,7 +136,7 @@ struct reporter_node_info {
   uint16_t individual_reporter_port;
 
   reporter_node_info() = default;
-  reporter_node_info(const char *host) : host{host} {}
+  reporter_node_info(const std::string &host) : host{host} {}
 };
 
 std::ostream &operator<<(std::ostream &os, const reporter_node_info &x);
@@ -168,6 +168,7 @@ enum class cluster_mode {
 class cluster_properties : public actor_system_config {
  public:
   std::string master_node_host;
+  std::string this_node_host;
   uint16_t master_node_port;
   uint16_t master_group_port;
   uint16_t reporter_range_start;
@@ -179,6 +180,7 @@ class cluster_properties : public actor_system_config {
 
   explicit cluster_properties(const cluster_properties &props) : actor_system_config{},
                                                                  master_node_host{props.master_node_host},
+                                                                 this_node_host{props.this_node_host},
                                                                  master_node_port{props.master_node_port},
                                                                  master_group_port{props.master_group_port},
                                                                  reporter_range_start{props.reporter_range_start},
@@ -187,6 +189,7 @@ class cluster_properties : public actor_system_config {
                                                                  _mode{props._mode} {}
   cluster_properties &operator=(cluster_properties &&props) {
     master_node_host = std::move(props.master_node_host);
+    this_node_host = std::move(props.this_node_host);
     master_node_port = props.master_node_port;
     master_group_port = props.master_group_port;
     reporter_range_start = props.reporter_range_start;
@@ -210,13 +213,16 @@ cluster_properties::cluster_properties() { \
   add_message_type<worker_node_info>("worker_node_info"); \
   add_message_type<reporter_node_info>("reporter_node_info"); \
   add_message_type<actor_phase>("actor_phase"); \
+  add_message_type<IND>("IND"); \
+  add_message_type<FIT>("FIT"); \
   add_message_type<std::pair<IND, FIT>>("std::pair<IND, FIT>"); \
   add_message_type<std::pair<std::pair<IND, FIT>, \
                              std::pair<IND, FIT>>>("std::pair<std::pair<IND, FIT>, std::pair<IND, FIT>"); \
   add_message_type<std::pair<island_id, std::pair<IND, FIT>>>("std::pair<island_id, std::pair<IND, FIT>>"); \
  \
   opt_group{custom_options_, "global"} \
-      .add(master_node_host, "master-node-host,mnh", "set the host for the master node") \
+      .add(master_node_host, "master-node-host,mnh", "set the host name for the master node") \
+      .add(this_node_host,"this-node-host,tnh", "set the host name for the current node") \
       .add(master_node_port, "master-node-port,mnp", "set the port for the master node") \
       .add(master_group_port, "master-group-port,mgp", "set the port for master node group") \
       .add(reporter_range_start, "reporter-range-start,rrs", "set the port range start for reporter actors") \
@@ -268,3 +274,7 @@ template<typename A, typename ...As>
 inline void log(A &&self, As &&... as) {
   aout(self) << str(std::forward<As>(as)...) << std::endl;
 }
+
+std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
+
+std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);

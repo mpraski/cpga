@@ -16,13 +16,13 @@
 #include "operators/ring_random_migration.hpp"
 #include <utilities/finite_state_machine.hpp>
 #include <cluster/global_model_cluster.hpp>
+#include <climits>
+#include <unistd.h>
 
 #include "caf/all.hpp"
 #include "caf/io/all.hpp"
 
 using namespace caf;
-
-CLUSTER_CONFIG(sequence<char>, int)
 
 namespace {
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
@@ -32,7 +32,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
     */
   system_properties system_props;
   system_props.islands_number = recommended_worker_number();
-  system_props.population_size = 1000;
+  system_props.population_size = 100;
   system_props.individual_size = 10;
   system_props.elitists_number = 10;
   system_props.generations_number = 100;
@@ -63,24 +63,25 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
    * any value can be stored (has to be cast to appropriate type using std::any_cast)
    */
   user_properties user_props{
-      {constants::POSSIBLE_VALUES_KEY, std::vector<char>{0, 1}},
+      {constants::POSSIBLE_VALUES_KEY, sequence<char>{0, 1}},
       {constants::STABLE_REQUIRED_KEY, size_t{10}},
       {constants::MINIMUM_AVERAGE_KEY, 8}
   };
 
-  cgf::cluster::run_global_model<sequence<char>, int,
-                                 onemax_fitness_evaluation,
-                                 sequence_individual_initialization<char, int>,
-                                 sequence_individual_crossover<char, int>,
-                                 bitstring_mutation,
-                                 roulette_wheel_parent_selection<sequence<char>, int>,
-                                 roulette_wheel_survival_selection<sequence<char>, int>,
-                                 best_individual_elitism<sequence<char>, int>,
-                                 average_fitness_global_termination_check<sequence<char>, int>>(system,
-                                                                                                system_props,
-                                                                                                user_props,
-                                                                                                cluster_props);
+  global_cluster_runner<sequence<char>, int,
+                        onemax_fitness_evaluation,
+                        sequence_individual_initialization<char, int>,
+                        sequence_individual_crossover<char, int>,
+                        bitstring_mutation,
+                        roulette_wheel_parent_selection<sequence<char>, int>,
+                        roulette_wheel_survival_selection<sequence<char>, int>,
+                        best_individual_elitism<sequence<char>, int>,
+                        average_fitness_global_termination_check<sequence<char>, int>>::run(system,
+                                                                                            system_props,
+                                                                                            user_props,
+                                                                                            cluster_props);
 }
 }
 
+CLUSTER_CONFIG(sequence<char>, int)
 CAF_MAIN(io::middleman)

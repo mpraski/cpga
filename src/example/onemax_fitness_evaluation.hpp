@@ -6,8 +6,7 @@ class onemax_fitness_evaluation : public base_operator {
 
   inline int operator()(const std::vector<char> &ind) const noexcept {
     int i{0};
-    for (const auto& b : ind)
-      if (b) ++i;
+    for (auto b : ind) if (b) ++i;
     return i;
   }
 };

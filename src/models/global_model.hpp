@@ -285,7 +285,7 @@ behavior global_model_executor(
 
           for (size_t i = 0; i < state.offspring_size_counter; ++i) {
             self->request(supervisor, timeout, state.offspring[i].first).then(
-                [=](fitness_value fv) {
+                [=](fitness_value &fv) {
                   self->state.offspring[i].second = std::move(fv);
 
                   if (++self->state.compute_fitness_counter == self->state.offspring_size_counter) {
