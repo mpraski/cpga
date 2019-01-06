@@ -10,8 +10,8 @@ configuration::configuration(const system_properties &system_props,
                              actor &individual_reporter,
                              actor &system_reporter,
                              message_bus &&bus) : system_props{system_props},
-                                                 user_props{user_props},
-                                                 generation_reporter{std::move(generation_reporter)},
-                                                 individual_reporter{std::move(individual_reporter)},
-                                                 system_reporter{std::move(system_reporter)},
-                                                 bus{std::move(bus)} {}
+                                                  user_props{user_props},
+                                                  generation_reporter{std::move(generation_reporter)},
+                                                  individual_reporter{std::move(individual_reporter)},
+                                                  system_reporter{std::move(system_reporter)},
+                                                  bus{std::move(bus)} {}

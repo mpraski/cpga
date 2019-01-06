@@ -110,14 +110,18 @@ behavior grid_model_worker(
 
 struct grid_model_dispatcher_state : public base_state {
   grid_model_dispatcher_state() = default;
-  explicit grid_model_dispatcher_state(const shared_config &config)
+  explicit grid_model_dispatcher_state(const shared_config &config, std::vector<actor> workers)
       : base_state{config},
-        pool_size{config->system_props.islands_number},
-        counter{0} {
-    workers.reserve(pool_size);
+        pool{workers.size()},
+        counter{0},
+        workers{std::move(workers)} {
   }
 
-  size_t pool_size;
+  inline auto get_worker() noexcept {
+    return workers[counter++ % pool];
+  }
+
+  size_t pool;
   size_t counter;
   std::vector<actor> workers;
 };
@@ -133,56 +137,23 @@ behavior grid_model_dispatcher(
 
   system_message(self, "Spawning grid model dispatcher");
 
-  auto spawn_worker = [self]() -> actor {
-    const auto &state = self->state;
-    const auto &config = state.config;
-
-    auto &worker_fun = grid_model_worker<individual, fitness_value,
-                                         fitness_evaluation_operator,
-                                         crossover_operator, mutation_operator,
-                                         parent_selection_operator,
-                                         survival_selection_operator, elitism_operator>;
-
-    using worker_state = grid_model_worker_state<individual, fitness_value,
-                                                 fitness_evaluation_operator,
-                                                 crossover_operator, mutation_operator,
-                                                 parent_selection_operator,
-                                                 survival_selection_operator, elitism_operator>;
-
-    return self->template spawn<monitored + detached>(worker_fun,
-                                                      worker_state{config});
-  };
-
-  for (size_t i = 0; i < self->state.pool_size; ++i) {
-    auto worker = spawn_worker();
-
-    system_message(self, "Spawning new grid worker with actor id: ",
-                   worker.id());
-
-    self->state.workers.emplace_back(std::move(worker));
-  }
-
   self->set_down_handler(
-      [self, spawn_worker](down_msg &down) {
+      [self](down_msg &down) {
         if (!down.reason) return;
 
         system_message(self, "Grid worker with actor id: ", down.source.id(), " died, respawning...");
 
         auto &workers = self->state.workers;
-        auto it = workers.begin();
+        workers.erase(std::remove_if(std::begin(workers),
+                                     std::end(workers),
+                                     [src = down.source](const auto &worker) { return src == worker; }));
 
-        for (; it != workers.end(); ++it) {
-          if (*it == down.source) break;
-        }
-
-        workers.erase(it);
-        workers.emplace_back(spawn_worker());
+        self->state.pool = workers.size();
       });
 
   return {
       [self](execute_computation atom, size_t gen, individual_collection<individual, fitness_value> &pop) {
-        auto &state = self->state;
-        self->delegate(state.workers[state.counter++ % state.pool_size], atom, gen, std::move(pop));
+        self->delegate(self->state.get_worker(), atom, gen, std::move(pop));
       },
       [self](finish) {
         for (const auto &worker : self->state.workers) {
@@ -210,7 +181,7 @@ struct grid_model_executor_state : public base_state {
         generator(now().time_since_epoch().count()) {
     population.reserve(config->system_props.population_size);
     result.reserve(config->system_props.population_size);
-    std::iota(std::begin(random_nums), std::end(random_nums), 0);
+    std::iota(std::begin(random_nums), std::end(random_nums), size_t{});
   }
 
   size_t computation_done;
@@ -348,10 +319,8 @@ behavior grid_model_executor(
 
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, island_special);
         individual_message(self, report_population::value, state.population, state.current_generation, island_special);
-        system_message(self, "Quitting grid model executor");
 
         self->send(dispatcher, finish::value);
-        self->quit();
       },
   };
 }
@@ -370,22 +339,7 @@ class grid_model_driver : public base_driver<individual, fitness_value> {
 
   void perform(shared_config &config, actor_system &system, scoped_actor &self)
   override {
-    auto dispatcher = system.spawn(
-        grid_model_dispatcher<individual, fitness_value,
-                              fitness_evaluation_operator, crossover_operator, mutation_operator,
-                              parent_selection_operator, survival_selection_operator,
-                              elitism_operator>,
-        grid_model_dispatcher_state{config});
 
-    auto executor = system.spawn(
-        grid_model_executor<individual, fitness_value, initialization_operator,
-                            fitness_evaluation_operator>,
-        grid_model_executor_state<individual, fitness_value,
-                                  initialization_operator, fitness_evaluation_operator>{config},
-        dispatcher);
-
-    self->send(executor, init_population::value);
-    self->wait_for(executor, dispatcher);
   }
 };
 

@@ -8,7 +8,7 @@
 #include <any>
 #include <caf/all.hpp>
 #include <common.hpp>
-#include "message_bus.h"
+#include "message_bus.hpp"
 
 using namespace caf;
 

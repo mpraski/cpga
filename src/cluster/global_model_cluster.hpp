@@ -91,7 +91,7 @@ class global_worker_node_driver : public worker_node_driver {
       if (auto published{middleman.publish(worker, port)}; !published) {
         throw std::runtime_error(str("unable to publish global model worker: ", system.render(published.error())));
       }
-      system_message(self, "Publishing worker (actor id: ", worker.id(), ") on port ", port);
+      system_message(self, "Publishing global model worker (actor id: ", worker.id(), ") on port ", port);
       return port;
     };
     std::transform(std::begin(workers), std::end(workers), std::back_inserter(ports), publish_worker);

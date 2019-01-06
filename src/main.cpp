@@ -17,6 +17,7 @@
 #include <utilities/finite_state_machine.hpp>
 #include <cluster/global_model_cluster.hpp>
 #include <cluster/island_model_cluster.hpp>
+#include <cluster/grid_model_cluster.hpp>
 #include <climits>
 #include <unistd.h>
 
@@ -33,7 +34,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
     */
   system_properties system_props;
   system_props.islands_number = recommended_worker_number();
-  system_props.population_size = 100;
+  system_props.population_size = 1000;
   system_props.individual_size = 10;
   system_props.elitists_number = 10;
   system_props.generations_number = 100;
@@ -82,7 +83,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                                             user_props,
                                                                                             cluster_props);*/
 
-  island_cluster_runner<sequence<char>, int,
+  /*island_cluster_runner<sequence<char>, int,
                         onemax_fitness_evaluation,
                         sequence_individual_initialization<char, int>,
                         sequence_individual_crossover<char, int>,
@@ -91,6 +92,18 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                         roulette_wheel_survival_selection<sequence<char>, int>,
                         best_individual_elitism<sequence<char>, int>,
                         ring_random_migration<sequence<char>, int>>::run(system,
+                                                                         system_props,
+                                                                         user_props,
+                                                                         cluster_props);*/
+
+  grid_cluster_runner<sequence<char>, int,
+                      onemax_fitness_evaluation,
+                      sequence_individual_initialization<char, int>,
+                      sequence_individual_crossover<char, int>,
+                      bitstring_mutation,
+                      roulette_wheel_parent_selection<sequence<char>, int>,
+                      roulette_wheel_survival_selection<sequence<char>, int>,
+                      best_individual_elitism<sequence<char>, int>>::run(system,
                                                                          system_props,
                                                                          user_props,
                                                                          cluster_props);

@@ -12,7 +12,7 @@ CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o
  ../src/core/base_state.hpp
  ../src/core/data.hpp
  ../src/core/defaults.hpp
- ../src/core/message_bus.h
+ ../src/core/message_bus.hpp
  ../src/reporter.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp
  /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp
@@ -27,7 +27,7 @@ CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o
  ../src/core/base_state.hpp
  ../src/core/data.hpp
  ../src/core/defaults.hpp
- ../src/core/message_bus.h
+ ../src/core/message_bus.hpp
  ../src/reporter.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp
  /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.hpp
@@ -41,7 +41,7 @@ CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o
  /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.h
+ /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
@@ -54,25 +54,25 @@ CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o
  /home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.h
+ /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.h
+ /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/data.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.h
+ /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.h
+ /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
@@ -83,7 +83,7 @@ CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
  ../src/core/base_state.hpp
  ../src/core/data.hpp
  ../src/core/defaults.hpp
- ../src/core/message_bus.h
+ ../src/core/message_bus.hpp
  ../src/reporter.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
@@ -92,6 +92,7 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  ../src/cluster.hpp
  ../src/cluster/cluster_runner.hpp
  ../src/cluster/global_model_cluster.hpp
+ ../src/cluster/grid_model_cluster.hpp
  ../src/cluster/island_model_cluster.hpp
  ../src/cluster/master_node.hpp
  ../src/cluster/reporter_node.hpp
@@ -104,7 +105,7 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  ../src/core/base_state.hpp
  ../src/core/data.hpp
  ../src/core/defaults.hpp
- ../src/core/message_bus.h
+ ../src/core/message_bus.hpp
  ../src/models/global_model.hpp
  ../src/models/island_model.hpp
  ../src/operators/random_migration.hpp

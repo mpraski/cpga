@@ -30,7 +30,6 @@ class island_master_node_driver : public master_node_driver {
 
   actor spawn_executor(stateful_actor<base_state> *self, std::vector<actor> &workers) override {
     auto &config = self->state.config;
-    auto &system = self->system();
 
     auto &dispatcher_func = island_model_dispatcher<individual, fitness_value,
                                                     fitness_evaluation_operator, initialization_operator,
@@ -71,27 +70,15 @@ class island_worker_node_driver : public worker_node_driver {
 
     std::vector<actor> workers(system_props.islands_number);
     auto spawn_worker = [&] {
-      auto &worker_fun = island_model_worker<individual, fitness_value,
-                                             fitness_evaluation_operator,
-                                             initialization_operator,
-                                             crossover_operator,
-                                             mutation_operator,
-                                             parent_selection_operator,
-                                             survival_selection_operator,
-                                             elitism_operator,
-                                             migration_operator>;
-
-      using worker_state = island_model_worker_state<individual, fitness_value,
-                                                     fitness_evaluation_operator,
-                                                     initialization_operator,
-                                                     crossover_operator,
-                                                     mutation_operator,
-                                                     parent_selection_operator,
-                                                     survival_selection_operator,
-                                                     elitism_operator,
-                                                     migration_operator>;
-
-      return self->template spawn<monitored + detached>(worker_fun, config);
+      return self->template spawn<monitored + detached>(island_model_worker<individual, fitness_value,
+                                                                            fitness_evaluation_operator,
+                                                                            initialization_operator,
+                                                                            crossover_operator,
+                                                                            mutation_operator,
+                                                                            parent_selection_operator,
+                                                                            survival_selection_operator,
+                                                                            elitism_operator,
+                                                                            migration_operator>, config);
     };
     std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
@@ -110,7 +97,7 @@ class island_worker_node_driver : public worker_node_driver {
       if (auto published{middleman.publish(worker, port)}; !published) {
         throw std::runtime_error(str("unable to publish island model worker: ", system.render(published.error())));
       }
-      system_message(self, "Publishing worker (actor id: ", worker.id(), ") on port ", port);
+      system_message(self, "Publishing island model worker (actor id: ", worker.id(), ") on port ", port);
       return port;
     };
     std::transform(std::begin(workers), std::end(workers), std::back_inserter(ports), publish_worker);

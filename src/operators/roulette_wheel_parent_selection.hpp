@@ -29,7 +29,6 @@ class roulette_wheel_parent_selection : base_operator {
         generator{get_seed(config->system_props.parent_selection_seed)},
         distribution{0.0, 1.0},
         random_one{std::bind(distribution, generator)} {
-
   }
 
   void operator()(individual_collection<individual, fitness_value> &population,

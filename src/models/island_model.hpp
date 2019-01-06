@@ -153,6 +153,10 @@ behavior island_model_worker(
       }
   };
 
+  self->set_default_handler([](scheduled_actor *, message_view &) {
+    return skip();
+  });
+
   return {
       [=](assign_id, island_id id) {
         self->state = island_model_worker_state<individual, fitness_value,
@@ -214,18 +218,15 @@ behavior island_model_dispatcher(
   using namespace std::chrono_literals;
 
   self->state = std::move(state);
-  self->state.config->bus.join(*self);
+  self->state.join_group(*self);
 
   system_message(self, "Spawning island model dispatcher");
 
   auto islands = self->state.config->system_props.islands_number;
-
   for (const auto&[id, worker] : self->state.islands) {
     self->monitor(worker);
     self->send(worker, assign_id::value, id);
   }
-
-  std::this_thread::sleep_for(1s);
 
   /*
    * Monitor island workers, restart ones that die
@@ -263,11 +264,12 @@ behavior island_model_dispatcher(
         self->state.migrations_counter = islands;
 
         auto rp = self->make_response_promise<bool>();
-        for (const auto &x : self->state.islands) {
-          self->request(x.second, timeout, atom).then(
+        for (const auto&[id, worker] : self->state.islands) {
+          self->request(worker, timeout, atom).then(
               [=](const migration_payload<individual, fitness_value> &payload) mutable {
+                auto &islands = self->state.islands;
+
                 for (auto&[island_id, migrant] : payload) {
-                  auto &islands = self->state.islands;
                   if (auto island{islands.find(island_id)}; island != islands.end()) {
                     self->send(island->second, receive_migration::value, std::move(migrant));
                   }
@@ -279,7 +281,7 @@ behavior island_model_dispatcher(
                 }
               },
               [=](error &err) mutable {
-                system_message(self, "Failed to execute migration for island: ", x.first,
+                system_message(self, "Failed to execute migration for island: ", id,
                                " with error code: ", err.code());
 
                 if (--self->state.migrations_counter == 0) {
@@ -300,7 +302,7 @@ behavior island_model_dispatcher(
        * Receive 'end-of-work' signals from workers and
        * terminate when all are done
        */
-      message_bus::receive("worker_finished", [self, islands](const std::string &msg) {
+      message_bus::receive("worker_finished", [self, islands](const std::string &) {
         if (++self->state.workers_done == islands) {
           system_message(self, "Quitting dispatcher as all ", islands, " island workers are done");
           self->quit();

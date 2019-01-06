@@ -40,6 +40,22 @@ global_model.hpp
 cluster.hpp
 -
 
+../src/cluster/grid_model_cluster.hpp
+caf/all.hpp
+-
+caf/io/all.hpp
+-
+atoms.hpp
+-
+core.hpp
+-
+global_model.hpp
+-
+cluster.hpp
+-
+models/grid_model.hpp
+-
+
 ../src/cluster/island_model_cluster.hpp
 caf/all.hpp
 -
@@ -86,24 +102,6 @@ caf/io/all.hpp
 atoms.hpp
 ../src/atoms.hpp
 
-../src/core.hpp
-core/base_cluster_driver.hpp
--
-core/base_cluster_state.hpp
--
-core/base_driver.hpp
--
-core/base_operator.hpp
--
-core/base_state.hpp
--
-core/data.hpp
--
-core/defaults.hpp
--
-core/message_bus.h
--
-
 ../src/core/base_cluster_driver.hpp
 common.hpp
 -
@@ -141,14 +139,14 @@ caf/all.hpp
 -
 common.hpp
 -
-message_bus.h
-../src/core/message_bus.h
+message_bus.hpp
+../src/core/message_bus.hpp
 
 ../src/core/defaults.hpp
 base_operator.hpp
 ../src/core/base_operator.hpp
 
-../src/core/message_bus.h
+../src/core/message_bus.hpp
 common.hpp
 -
 
@@ -208,14 +206,6 @@ iostream
 memory
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp
-master_node.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp
-
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp
-core.hpp
--
-
 /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
 core/base_cluster_driver.hpp
 -
@@ -231,7 +221,7 @@ core/data.hpp
 -
 core/defaults.hpp
 -
-core/message_bus.h
+core/message_bus.hpp
 -
 
 /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
@@ -282,6 +272,8 @@ utilities/finite_state_machine.hpp
 cluster/global_model_cluster.hpp
 -
 cluster/island_model_cluster.hpp
+-
+cluster/grid_model_cluster.hpp
 -
 climits
 -
