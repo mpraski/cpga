@@ -7,14 +7,18 @@
 #include <core.hpp>
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator, typename migration_operator>
+    typename fitness_evaluation_operator,
+    typename initialization_operator,
+    typename crossover_operator,
+    typename mutation_operator,
+    typename parent_selection_operator,
+    typename survival_selection_operator,
+    typename elitism_operator,
+    typename migration_operator>
 struct island_model_worker_state : public base_state {
   island_model_worker_state() = default;
 
-  island_model_worker_state(const shared_config &config, const island_id id)
+  island_model_worker_state(const shared_config &config, island_id id)
       : base_state{config},
         initialization{config, id},
         fitness_evaluation{config, id},
@@ -52,24 +56,22 @@ struct island_model_worker_state : public base_state {
 };
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator, typename migration_operator>
+    typename fitness_evaluation_operator,
+    typename initialization_operator,
+    typename crossover_operator,
+    typename mutation_operator,
+    typename parent_selection_operator,
+    typename survival_selection_operator,
+    typename elitism_operator,
+    typename migration_operator>
 behavior island_model_worker(
     stateful_actor<
         island_model_worker_state<individual, fitness_value,
                                   fitness_evaluation_operator, initialization_operator,
                                   crossover_operator, mutation_operator, parent_selection_operator,
                                   survival_selection_operator, elitism_operator, migration_operator>> *self,
-    island_model_worker_state<individual, fitness_value,
-                              fitness_evaluation_operator, initialization_operator,
-                              crossover_operator, mutation_operator, parent_selection_operator,
-                              survival_selection_operator, elitism_operator, migration_operator> state,
-    const actor &dispatcher) {
-  self->state = std::move(state);
-
-  return {
+    const shared_config &config) {
+  message_handler main_behavior{
       [self](init_population) {
         auto &state = self->state;
 
@@ -136,8 +138,9 @@ behavior island_model_worker(
       [self](receive_migration, individual_wrapper<individual, fitness_value> &migrant) {
         self->state.population.emplace_back(std::move(migrant));
       },
-      [self, dispatcher](finish) {
+      [self](finish) {
         auto &state = self->state;
+        auto &bus = state.config->bus;
 
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation,
                            state.current_island);
@@ -145,8 +148,20 @@ behavior island_model_worker(
                            state.current_island);
         system_message(self, "Quitting island worker id: ", state.current_island);
 
-        self->send(dispatcher, worker_finished::value);
+        bus.send(*self, "worker_finished");
         self->quit();
+      }
+  };
+
+  return {
+      [=](assign_id, island_id id) {
+        self->state = island_model_worker_state<individual, fitness_value,
+                                                fitness_evaluation_operator, initialization_operator,
+                                                crossover_operator, mutation_operator, parent_selection_operator,
+                                                survival_selection_operator, elitism_operator, migration_operator>{
+            config, id};
+
+        self->become(main_behavior);
       }
   };
 }
@@ -154,13 +169,20 @@ behavior island_model_worker(
 struct island_model_dispatcher_state : public base_state {
   island_model_dispatcher_state() = default;
 
-  explicit island_model_dispatcher_state(const shared_config &config)
+  explicit island_model_dispatcher_state(const shared_config &config, std::vector<actor> &workers)
       : base_state{config},
         workers_done{0},
         migrations_done{0},
         migrations_counter{0} {
-    islands.reserve(config->system_props.islands_number);
-    actor_to_island.reserve(config->system_props.islands_number);
+    auto gen = [id = island_id{}]() mutable {
+      return id++;
+    };
+
+    for (auto &worker : workers) {
+      auto id = gen();
+      actor_to_island[worker.id()] = id;
+      islands.emplace(id, std::move(worker));
+    }
   }
 
   size_t workers_done;
@@ -178,73 +200,47 @@ inline void forward(stateful_actor<T> *self, A &&atom) {
 }
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator, typename survival_selection_operator,
-    typename elitism_operator, typename migration_operator>
+    typename fitness_evaluation_operator,
+    typename initialization_operator,
+    typename crossover_operator,
+    typename mutation_operator,
+    typename parent_selection_operator,
+    typename survival_selection_operator,
+    typename elitism_operator,
+    typename migration_operator>
 behavior island_model_dispatcher(
     stateful_actor<island_model_dispatcher_state> *self,
     island_model_dispatcher_state state) {
+  using namespace std::chrono_literals;
+
   self->state = std::move(state);
+  self->state.config->bus.join(*self);
 
   system_message(self, "Spawning island model dispatcher");
 
   auto islands = self->state.config->system_props.islands_number;
 
-  auto spawn_worker = [self](island_id id) -> actor {
-    const auto &state = self->state;
-    const auto &config = state.config;
-
-    auto &worker_fun = island_model_worker<individual, fitness_value,
-                                           fitness_evaluation_operator, initialization_operator,
-                                           crossover_operator, mutation_operator,
-                                           parent_selection_operator,
-                                           survival_selection_operator, elitism_operator, migration_operator>;
-
-    using worker_state = island_model_worker_state<individual, fitness_value,
-                                                   fitness_evaluation_operator, initialization_operator,
-                                                   crossover_operator, mutation_operator,
-                                                   parent_selection_operator,
-                                                   survival_selection_operator, elitism_operator, migration_operator>;
-
-    return self->template spawn<monitored + detached>(worker_fun,
-                                                      worker_state{config, id}, self);
-  };
-
-  /*
-   * Islands are given id in range [0, islands_number)
-   * An id is guaranteed to stay valid throughout the execution,
-   * although the island it points to might be restarted as a new actor
-   * if it goes down.
-   */
-  for (island_id i = 0; i < islands; ++i) {
-    auto island = spawn_worker(i);
-
-    system_message(self, "Spawning new island worker with id: ", i,
-                   " (actor id: ", island.id(), ")");
-
-    self->state.actor_to_island[island.id()] = i;
-    self->state.islands.emplace(i, std::move(island));
+  for (const auto&[id, worker] : self->state.islands) {
+    self->monitor(worker);
+    self->send(worker, assign_id::value, id);
   }
+
+  std::this_thread::sleep_for(1s);
 
   /*
    * Monitor island workers, restart ones that die
    * for abnormal reasons
    */
-  self->set_down_handler([self, spawn_worker](down_msg &down) {
+  self->set_down_handler([self](down_msg &down) {
     if (!down.reason) return;
 
     auto &state = self->state;
     auto id = state.actor_to_island[down.source.id()];
-    auto island = spawn_worker(id);
-    auto island_actor_id = island.id();
 
-    system_message(self, "Island worker with id: ", id, " died, respawning..");
+    system_message(self, "Island worker with id: ", id, " died");
 
     state.islands.erase(id);
-    state.islands.emplace(id, std::move(island));
     state.actor_to_island.erase(down.source.id());
-    state.actor_to_island[island_actor_id] = id;
   });
 
   return {
@@ -271,9 +267,10 @@ behavior island_model_dispatcher(
           self->request(x.second, timeout, atom).then(
               [=](const migration_payload<individual, fitness_value> &payload) mutable {
                 for (auto&[island_id, migrant] : payload) {
-                  auto &island = self->state.islands[island_id];
-
-                  self->send(island, receive_migration::value, std::move(migrant));
+                  auto &islands = self->state.islands;
+                  if (auto island{islands.find(island_id)}; island != islands.end()) {
+                    self->send(island->second, receive_migration::value, std::move(migrant));
+                  }
                 }
 
                 if (++self->state.migrations_done == self->state.migrations_counter) {
@@ -303,12 +300,12 @@ behavior island_model_dispatcher(
        * Receive 'end-of-work' signals from workers and
        * terminate when all are done
        */
-      [self, islands](worker_finished) {
+      message_bus::receive("worker_finished", [self, islands](const std::string &msg) {
         if (++self->state.workers_done == islands) {
           system_message(self, "Quitting dispatcher as all ", islands, " island workers are done");
           self->quit();
         }
-      }
+      }),
   };
 }
 
@@ -395,21 +392,7 @@ class island_model_driver : public base_driver<individual, fitness_value> {
  public:
   using base_driver<individual, fitness_value>::base_driver;
 
-  void perform(shared_config &config, actor_system &system, scoped_actor &self)
-  override {
-    auto &dispatcher_func = island_model_dispatcher<individual, fitness_value,
-                                                    fitness_evaluation_operator, initialization_operator,
-                                                    crossover_operator, mutation_operator, parent_selection_operator,
-                                                    survival_selection_operator, elitism_operator, migration_operator>;
+  void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
 
-    auto dispatcher = system.spawn(dispatcher_func,
-                                   island_model_dispatcher_state{config});
-
-    auto executor = system.spawn(island_model_executor,
-                                 island_model_executor_state{config},
-                                 dispatcher);
-
-    self->send(executor, execute_phase_1::value);
-    self->wait_for(executor, dispatcher);
   }
 };

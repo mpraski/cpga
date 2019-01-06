@@ -4,7 +4,7 @@ project(genetic_actor)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 include_directories(include)
@@ -13,6 +13,8 @@ include_directories(src)
 include_directories(src/example)
 include_directories(src/models)
 include_directories(src/operators)
+include_directories(src/core)
+include_directories(src/cluster)
 
 add_executable(genetic_actor
         include/genetic-actor/individual.hpp
@@ -48,7 +50,15 @@ add_executable(genetic_actor
         src/core/base_cluster_state.cpp
         src/core/base_cluster_state.hpp
         src/core/base_cluster_driver.cpp
-        src/core/base_cluster_driver.hpp src/cluster/master_node.hpp src/cluster/reporter_node.hpp src/cluster/worker_node.cpp src/cluster/worker_node.hpp src/cluster/master_node.cpp src/cluster.hpp src/cluster/cluster_runner.hpp)
+        src/core/base_cluster_driver.hpp
+        src/cluster/master_node.hpp
+        src/cluster/reporter_node.hpp
+        src/cluster/worker_node.cpp
+        src/cluster/worker_node.hpp
+        src/cluster/master_node.cpp
+        src/cluster.hpp
+        src/cluster/cluster_runner.hpp
+        src/cluster/island_model_cluster.hpp src/core/message_bus.cpp src/core/message_bus.h)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

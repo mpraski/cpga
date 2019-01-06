@@ -25,10 +25,10 @@ class average_fitness_global_termination_check : public base_operator {
       return true;
     }
 
-    auto total = std::accumulate(std::begin(population),
-                                 std::end(population),
-                                 fitness_value{},
-                                 [](auto acc, const auto &m) { return acc + m.second; }) / population.size();
+    fitness_value total = std::accumulate(std::begin(population),
+                                          std::end(population),
+                                          fitness_value{},
+                                          [](auto acc, const auto &m) { return acc + m.second; }) / population.size();
 
     if (total >= minimum_average) {
       return ++stable_so_far == stable_required;

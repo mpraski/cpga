@@ -54,6 +54,7 @@ static const std::vector<std::string> TIME_HEADERS{"Start", "End",
 static const std::vector<std::string> INDIVIDUAL_HEADERS{"Generation",
                                                          "Island", "Individual", "Fitness value"};
 static const std::string NODE_GROUP = "node_group";
+static const std::string MESSAGE_BUS_GROUP = "message_bus_group";
 }
 
 const constexpr auto timeout = std::chrono::seconds(10);
@@ -178,7 +179,7 @@ class cluster_properties : public actor_system_config {
 
   cluster_properties();
 
-  explicit cluster_properties(const cluster_properties &props) : actor_system_config{},
+  cluster_properties(const cluster_properties &props) : actor_system_config{},
                                                                  master_node_host{props.master_node_host},
                                                                  this_node_host{props.this_node_host},
                                                                  master_node_port{props.master_node_port},

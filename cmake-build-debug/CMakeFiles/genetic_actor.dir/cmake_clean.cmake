@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o"
+  "CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o"
   "genetic_actor.pdb"
   "genetic_actor"
 )

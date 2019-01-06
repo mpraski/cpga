@@ -9,6 +9,7 @@ behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const user_properties &user_props,
                               const cluster_properties &cluster_props,
                               const actor &master_node,
+                              const group &message_bus_group,
                               const worker_spawner &factory) {
   return {
       [=](const reporter_node_info &reporter_info) {
@@ -20,7 +21,8 @@ behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
             user_props,
             generation_reporter,
             individual_reporter,
-            system_reporter
+            system_reporter,
+            message_bus{message_bus_group}
         );
 
         self->state = worker_node_executor_state{config};
@@ -57,6 +59,7 @@ void worker_node_driver::perform(scoped_actor &self) {
   auto &middleman = system.middleman();
   auto master_node = wait_for_master_node(middleman);
   auto node_group = wait_for_node_group(system);
+  auto message_bus_group = wait_for_message_bus_group(system);
 
   auto executor =
       self->spawn<detached>(worker_node_executor,
@@ -64,6 +67,7 @@ void worker_node_driver::perform(scoped_actor &self) {
                             user_props,
                             cluster_props,
                             master_node,
+                            message_bus_group,
                             std::bind(&worker_node_driver::spawn_workers, this, _1));
 
   auto node = self->spawn<detached>(worker_node, master_node, executor, node_group);

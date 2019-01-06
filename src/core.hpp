@@ -8,5 +8,6 @@
 #include <core/base_state.hpp>
 #include <core/data.hpp>
 #include <core/defaults.hpp>
+#include <core/message_bus.h>
 
 #endif //GENETIC_ACTOR_CORE_H

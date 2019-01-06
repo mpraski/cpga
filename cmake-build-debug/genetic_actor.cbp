@@ -40,6 +40,8 @@
 					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/example"/>
 					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/models"/>
 					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/operators"/>
+					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/core"/>
+					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/cluster"/>
 					<Add directory="/usr/include/c++/8"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
 					<Add directory="/usr/include/c++/8/backward"/>
@@ -69,6 +71,8 @@
 					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/example"/>
 					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/models"/>
 					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/operators"/>
+					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/core"/>
+					<Add directory="/home/marcin/eclipse-workspace/genetic-actor/src/cluster"/>
 					<Add directory="/usr/include/c++/8"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/8"/>
 					<Add directory="/usr/include/c++/8/backward"/>
@@ -109,6 +113,9 @@
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/global_model_cluster.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/island_model_cluster.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp">
@@ -169,6 +176,12 @@
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/defaults.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.h">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp">

@@ -31,6 +31,7 @@ using actor_spawner = std::function<actor(stateful_actor<base_state> *self, std:
 behavior master_node_executor(stateful_actor<base_state> *self,
                               const system_properties &system_props,
                               const user_properties &user_props,
+                              const group &message_bus_group,
                               const actor_spawner &factory);
 
 class master_node_driver : public base_cluster_driver {

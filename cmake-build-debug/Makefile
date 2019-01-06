@@ -339,6 +339,33 @@ src/core/data.cpp.s:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/data.cpp.s
 .PHONY : src/core/data.cpp.s
 
+src/core/message_bus.o: src/core/message_bus.cpp.o
+
+.PHONY : src/core/message_bus.o
+
+# target to build an object file
+src/core/message_bus.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o
+.PHONY : src/core/message_bus.cpp.o
+
+src/core/message_bus.i: src/core/message_bus.cpp.i
+
+.PHONY : src/core/message_bus.i
+
+# target to preprocess a source file
+src/core/message_bus.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.i
+.PHONY : src/core/message_bus.cpp.i
+
+src/core/message_bus.s: src/core/message_bus.cpp.s
+
+.PHONY : src/core/message_bus.s
+
+# target to generate assembly for a file
+src/core/message_bus.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.s
+.PHONY : src/core/message_bus.cpp.s
+
 src/example/bitstring_mutation.o: src/example/bitstring_mutation.cpp.o
 
 .PHONY : src/example/bitstring_mutation.o
@@ -453,6 +480,9 @@ help:
 	@echo "... src/core/data.o"
 	@echo "... src/core/data.i"
 	@echo "... src/core/data.s"
+	@echo "... src/core/message_bus.o"
+	@echo "... src/core/message_bus.i"
+	@echo "... src/core/message_bus.s"
 	@echo "... src/example/bitstring_mutation.o"
 	@echo "... src/example/bitstring_mutation.i"
 	@echo "... src/example/bitstring_mutation.s"

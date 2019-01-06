@@ -36,7 +36,7 @@ class global_master_node_driver : public master_node_driver {
                                 fitness_evaluation_operator>,
         global_model_supervisor_state{config, workers});
 
-    return self->spawn<detached + monitored>(
+    auto executor = self->spawn<detached + monitored>(
         global_model_executor<individual, fitness_value,
                               initialization_operator, crossover_operator, mutation_operator,
                               parent_selection_operator, global_termination_check,
@@ -46,6 +46,10 @@ class global_master_node_driver : public master_node_driver {
                                     parent_selection_operator, global_termination_check,
                                     survival_selection_operator, elitism_operator>{config},
         supervisor);
+
+    self->send(executor, init_population::value);
+
+    return executor;
   }
 };
 

@@ -8,6 +8,7 @@
 #include <any>
 #include <caf/all.hpp>
 #include <common.hpp>
+#include "message_bus.h"
 
 using namespace caf;
 
@@ -60,21 +61,22 @@ struct system_properties {
  */
 struct configuration {
   configuration(const system_properties &system_props,
-                const user_properties &user_props);
-
-  configuration(const system_properties &system_props,
                 const user_properties &user_props,
-                const actor &generation_reporter,
-                const actor &individual_reporter,
-                const actor &system_reporter);
+                actor &generation_reporter,
+                actor &individual_reporter,
+                actor &system_reporter,
+                message_bus &&bus);
 
   system_properties system_props;
   user_properties user_props;
 
   // reporter actor handles
-  actor system_reporter;
   actor generation_reporter;
   actor individual_reporter;
+  actor system_reporter;
+
+  // Simple message bus for worker/dispatcher communication
+  message_bus bus;
 };
 
 using shared_config = std::shared_ptr<const configuration>;

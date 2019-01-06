@@ -11,6 +11,7 @@ CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/core/base_ope
 CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/core/base_state.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/core/data.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/core/defaults.hpp
+CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/core/message_bus.h
 CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/reporter.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/cluster/master_node.cpp
 CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o: ../src/cluster/master_node.hpp
@@ -25,6 +26,7 @@ CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/core/base_ope
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/core/base_state.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/core/data.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/core/defaults.hpp
+CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/core/message_bus.h
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/reporter.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/cluster/worker_node.cpp
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o: ../src/cluster/worker_node.hpp
@@ -38,6 +40,7 @@ CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: ../src/common.h
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: ../src/core/base_cluster_driver.cpp
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: ../src/core/base_cluster_driver.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: ../src/core/data.hpp
+CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o: ../src/core/message_bus.h
 
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o: ../src/atoms.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o: ../src/common.hpp
@@ -50,17 +53,25 @@ CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: ../src/core/base_oper
 CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: ../src/core/base_operator.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: ../src/core/base_state.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: ../src/core/data.hpp
+CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o: ../src/core/message_bus.h
 
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/atoms.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/common.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/core/base_state.cpp
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/core/base_state.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/core/data.hpp
+CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o: ../src/core/message_bus.h
 
 CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: ../src/atoms.hpp
 CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: ../src/common.hpp
 CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: ../src/core/data.cpp
 CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: ../src/core/data.hpp
+CMakeFiles/genetic_actor.dir/src/core/data.cpp.o: ../src/core/message_bus.h
+
+CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o: ../src/atoms.hpp
+CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o: ../src/common.hpp
+CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o: ../src/core/message_bus.cpp
+CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o: ../src/core/message_bus.h
 
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/atoms.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/common.hpp
@@ -71,6 +82,7 @@ CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/core/b
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/core/base_state.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/core/data.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/core/defaults.hpp
+CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/core/message_bus.h
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/reporter.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/core.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o: ../src/example/bitstring_mutation.cpp
@@ -79,6 +91,7 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/atoms.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster/cluster_runner.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster/global_model_cluster.hpp
+CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster/island_model_cluster.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster/master_node.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster/reporter_node.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/cluster/worker_node.hpp
@@ -90,7 +103,9 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/core/base_operator.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/core/base_state.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/core/data.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/core/defaults.hpp
+CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/core/message_bus.h
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/models/global_model.hpp
+CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/models/island_model.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/operators/random_migration.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/reporter.hpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o: ../src/utilities/finite_state_machine.hpp

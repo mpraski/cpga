@@ -59,6 +59,7 @@ behavior master_node(stateful_actor<master_node_state> *self,
 behavior master_node_executor(stateful_actor<base_state> *self,
                               const system_properties &system_props,
                               const user_properties &user_props,
+                              const group &message_bus_group,
                               const actor_spawner &factory) {
   return {
       [=](const reporter_node_info &reporter_info, const std::vector<worker_node_info> &workers_info) {
@@ -71,7 +72,8 @@ behavior master_node_executor(stateful_actor<base_state> *self,
             user_props,
             generation_reporter,
             individual_reporter,
-            system_reporter
+            system_reporter,
+            message_bus{message_bus_group}
         );
 
         self->state = base_state{config};
@@ -101,8 +103,6 @@ behavior master_node_executor(stateful_actor<base_state> *self,
             self->quit();
           }
         });
-
-        self->send(executor, init_population::value);
       },
   };
 }
@@ -113,10 +113,12 @@ void master_node_driver::perform(scoped_actor &self) {
   auto &system = self->system();
   auto &middleman = system.middleman();
   auto node_group = system.groups().get_local(constants::NODE_GROUP);
+  auto message_bus_group = system.groups().get_local(constants::MESSAGE_BUS_GROUP);
   auto executor =
       self->spawn<detached>(master_node_executor,
                             system_props,
                             user_props,
+                            message_bus_group,
                             std::bind(&master_node_driver::spawn_executor, this, _1, _2));
   auto node = self->spawn<detached>(master_node, master_node_state{cluster_props}, node_group, executor);
 

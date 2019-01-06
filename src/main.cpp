@@ -16,6 +16,7 @@
 #include "operators/ring_random_migration.hpp"
 #include <utilities/finite_state_machine.hpp>
 #include <cluster/global_model_cluster.hpp>
+#include <cluster/island_model_cluster.hpp>
 #include <climits>
 #include <unistd.h>
 
@@ -26,7 +27,7 @@ using namespace caf;
 
 namespace {
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
-  /*
+  /**
     * Core framework configuration is represented by
     * system_properties struct. See definition in core.hpp
     */
@@ -68,7 +69,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
       {constants::MINIMUM_AVERAGE_KEY, 8}
   };
 
-  global_cluster_runner<sequence<char>, int,
+  /*global_cluster_runner<sequence<char>, int,
                         onemax_fitness_evaluation,
                         sequence_individual_initialization<char, int>,
                         sequence_individual_crossover<char, int>,
@@ -79,7 +80,20 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                         average_fitness_global_termination_check<sequence<char>, int>>::run(system,
                                                                                             system_props,
                                                                                             user_props,
-                                                                                            cluster_props);
+                                                                                            cluster_props);*/
+
+  island_cluster_runner<sequence<char>, int,
+                        onemax_fitness_evaluation,
+                        sequence_individual_initialization<char, int>,
+                        sequence_individual_crossover<char, int>,
+                        bitstring_mutation,
+                        roulette_wheel_parent_selection<sequence<char>, int>,
+                        roulette_wheel_survival_selection<sequence<char>, int>,
+                        best_individual_elitism<sequence<char>, int>,
+                        ring_random_migration<sequence<char>, int>>::run(system,
+                                                                         system_props,
+                                                                         user_props,
+                                                                         cluster_props);
 }
 }
 

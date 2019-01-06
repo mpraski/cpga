@@ -21,6 +21,7 @@ behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const user_properties &user_props,
                               const cluster_properties &cluster_props,
                               const actor &master_node,
+                              const group &message_bus_group,
                               const worker_spawner &factory);
 
 behavior worker_node(event_based_actor *self,

@@ -55,6 +55,8 @@ class base_cluster_driver {
 
   group wait_for_node_group(actor_system &s) const;
 
+  group wait_for_message_bus_group(actor_system &s) const;
+
   virtual void perform(scoped_actor &self) = 0;
  public:
   base_cluster_driver(const system_properties &system_props,
