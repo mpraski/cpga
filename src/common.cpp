@@ -31,13 +31,20 @@ std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<w
 
 std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info) {
   const auto &host = info.host;
-  auto generation_actor = system.middleman().remote_actor(host, info.generation_reporter_port);
-  auto individual_actor = system.middleman().remote_actor(host, info.individual_reporter_port);
-  auto system_actor = system.middleman().remote_actor(host, info.system_reporter_port);
 
-  if (!generation_actor) throw std::runtime_error("Cannot connect to generation reporter");
-  if (!individual_actor) throw std::runtime_error("Cannot connect to individual reporter");
-  if (!system_actor) throw std::runtime_error("Cannot connect to system reporter");
+  auto bind_reporter = [&](uint16_t port) -> actor {
+    if (port) {
+      if (auto reporter{system.middleman().remote_actor(host, port)}; reporter) {
+        return *reporter;
+      }
+      throw std::runtime_error("Cannot connect to remote reporter on port " + port);
+    }
+    return actor{nullptr};
+  };
 
-  return std::make_tuple(*generation_actor, *individual_actor, *system_actor);
+  return {
+      bind_reporter(info.generation_reporter_port),
+      bind_reporter(info.individual_reporter_port),
+      bind_reporter(info.system_reporter_port)
+  };
 }

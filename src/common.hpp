@@ -137,7 +137,10 @@ struct reporter_node_info {
   uint16_t individual_reporter_port;
 
   reporter_node_info() = default;
-  reporter_node_info(const std::string &host) : host{host} {}
+  reporter_node_info(const std::string &host) : host{host},
+                                                system_reporter_port{0},
+                                                generation_reporter_port{0},
+                                                individual_reporter_port{0} {}
 };
 
 std::ostream &operator<<(std::ostream &os, const reporter_node_info &x);
@@ -180,14 +183,14 @@ class cluster_properties : public actor_system_config {
   cluster_properties();
 
   cluster_properties(const cluster_properties &props) : actor_system_config{},
-                                                                 master_node_host{props.master_node_host},
-                                                                 this_node_host{props.this_node_host},
-                                                                 master_node_port{props.master_node_port},
-                                                                 master_group_port{props.master_group_port},
-                                                                 reporter_range_start{props.reporter_range_start},
-                                                                 worker_range_start{props.worker_range_start},
-                                                                 expected_worker_nodes{props.expected_worker_nodes},
-                                                                 _mode{props._mode} {}
+                                                        master_node_host{props.master_node_host},
+                                                        this_node_host{props.this_node_host},
+                                                        master_node_port{props.master_node_port},
+                                                        master_group_port{props.master_group_port},
+                                                        reporter_range_start{props.reporter_range_start},
+                                                        worker_range_start{props.worker_range_start},
+                                                        expected_worker_nodes{props.expected_worker_nodes},
+                                                        _mode{props._mode} {}
   cluster_properties &operator=(cluster_properties &&props) {
     master_node_host = std::move(props.master_node_host);
     this_node_host = std::move(props.this_node_host);

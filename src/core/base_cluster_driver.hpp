@@ -24,10 +24,10 @@ class base_cluster_driver {
   template<typename Gen, typename Cond, typename Time = std::chrono::milliseconds>
   static auto poll(Gen &&generator,
                    Cond &&condition,
-                   size_t failed_attempts = 60,
-                   Time &&period = std::chrono::seconds(1)) {
+                   Time &&period = std::chrono::seconds(1),
+                   size_t failed_attempts = 60) {
     auto checker = [&, c = size_t{}]() mutable {
-      return std::make_pair(generator(), ++c != failed_attempts);
+      return std::make_pair(generator(), c++ != failed_attempts);
     };
 
     while (true) {

@@ -20,13 +20,13 @@ class best_individual_elitism : public base_operator {
       individual_collection<individual, fitness_value> &elitists) const {
     std::sort(population.begin(), population.end(), compFunctor);
 
+    auto end = population.begin() + config->system_props.elitists_number;
+
     elitists.insert(
         elitists.end(),
         std::make_move_iterator(population.begin()),
-        std::make_move_iterator(
-            population.begin() + config->system_props.elitists_number));
+        std::make_move_iterator(end));
 
-    population.erase(population.begin(),
-                     population.begin() + config->system_props.elitists_number);
+    population.erase(population.begin(), end);
   }
 };

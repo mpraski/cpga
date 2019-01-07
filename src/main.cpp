@@ -67,7 +67,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   user_properties user_props{
       {constants::POSSIBLE_VALUES_KEY, sequence<char>{0, 1}},
       {constants::STABLE_REQUIRED_KEY, size_t{10}},
-      {constants::MINIMUM_AVERAGE_KEY, 8}
+      {constants::MINIMUM_AVERAGE_KEY, int{8}}
   };
 
   /*global_cluster_runner<sequence<char>, int,
