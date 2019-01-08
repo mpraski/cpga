@@ -140,15 +140,14 @@ behavior island_model_worker(
       },
       [self](finish) {
         auto &state = self->state;
-        auto &bus = state.config->bus;
 
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation,
                            state.current_island);
         individual_message(self, report_population::value, state.population, state.current_generation,
                            state.current_island);
         system_message(self, "Quitting island worker id: ", state.current_island);
+        bus_message(self, "worker_finished");
 
-        bus.send(*self, "worker_finished");
         self->quit();
       }
   };
@@ -302,7 +301,7 @@ behavior island_model_dispatcher(
        * Receive 'end-of-work' signals from workers and
        * terminate when all are done
        */
-      message_bus::receive("worker_finished", [self, islands](const std::string &) {
+      bus_receive("worker_finished", [self, islands](const std::string &) {
         if (++self->state.workers_done == islands) {
           system_message(self, "Quitting dispatcher as all ", islands, " island workers are done");
           self->quit();
@@ -314,7 +313,7 @@ behavior island_model_dispatcher(
 struct island_model_executor_state : public base_state {
   island_model_executor_state() = default;
 
-  island_model_executor_state(const shared_config &config)
+  explicit island_model_executor_state(const shared_config &config)
       : base_state{config},
         generations_so_far{0} {
   }

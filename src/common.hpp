@@ -11,6 +11,7 @@
 #include "atoms.hpp"
 
 using namespace caf;
+using namespace caf::io;
 
 // aliases for common data structures
 using island_id = size_t;
@@ -36,25 +37,20 @@ using migration_payload = std::vector<std::pair<island_id, individual_wrapper<in
 
 // Commonly used data
 namespace constants {
-static constexpr const char POSSIBLE_VALUES_KEY[] =
-    "possible_initialization_values";
-static constexpr const char STABLE_REQUIRED_KEY[] = "stable_required";
-static constexpr const char MINIMUM_AVERAGE_KEY[] = "minimum_average";
+const constexpr char POSSIBLE_VALUES_KEY[] = "possible_initialization_values";
+const constexpr char STABLE_REQUIRED_KEY[] = "stable_required";
+const constexpr char MINIMUM_AVERAGE_KEY[] = "minimum_average";
+const constexpr char NODE_GROUP[] = "node_group";
+const constexpr char MESSAGE_BUS_GROUP[] = "message_bus_group";
 
-static constexpr const char *const ACTOR_PHASE_MAP[] = {"init_population",
-                                                        "execute_phase_1", "execute_phase_2", "execute_phase_3",
-                                                        "finish", "total",
-                                                        "execute_generation", "execute_computation"};
+const constexpr char *const ACTOR_PHASE_MAP[] = {"init_population",
+                                                 "execute_phase_1", "execute_phase_2", "execute_phase_3",
+                                                 "finish", "total",
+                                                 "execute_generation", "execute_computation"};
 
-static const std::vector<std::string> SYSTEM_HEADERS{"Time", "Message"};
-
-static const std::vector<std::string> TIME_HEADERS{"Start", "End",
-                                                   "Total (ms)", "Phase", "Generation", "Island"};
-
-static const std::vector<std::string> INDIVIDUAL_HEADERS{"Generation",
-                                                         "Island", "Individual", "Fitness value"};
-static const std::string NODE_GROUP = "node_group";
-static const std::string MESSAGE_BUS_GROUP = "message_bus_group";
+const std::vector<std::string> SYSTEM_HEADERS{"Time", "Message"};
+const std::vector<std::string> TIME_HEADERS{"Start", "End", "Total (ms)", "Phase", "Generation", "Island"};
+const std::vector<std::string> INDIVIDUAL_HEADERS{"Generation", "Island", "Individual", "Fitness value"};
 }
 
 const constexpr auto timeout = std::chrono::seconds(10);
@@ -75,22 +71,6 @@ constexpr auto to_underlying(E e) noexcept {
   return static_cast<std::underlying_type_t<E>>(e);
 }
 
-template<typename T>
-inline void erase_quick(std::vector<T> vec, size_t idx) noexcept {
-  if (!vec.empty() && idx < vec.size()) {
-    vec[idx] = std::move(vec.back());
-    vec.pop_back();
-  }
-}
-
-template<typename T>
-inline void erase_quick(std::vector<T> vec, typename std::vector<T>::iterator it) noexcept {
-  if (!vec.empty() && it == vec.end()) {
-    *it = std::move(vec.back());
-    vec.pop_back();
-  }
-}
-
 template<typename T, typename ... Ts>
 constexpr auto is_same() noexcept {
   return (std::is_same_v<T, Ts> || ...);
@@ -103,9 +83,9 @@ constexpr auto is_size_constructible() noexcept {
 }
 
 template<typename... Args>
-constexpr auto all_in_range(unsigned upper, Args &&... args) {
-  const constexpr auto pred = [&upper](auto a) {
-    return a < upper;
+constexpr auto all_in_range(unsigned upper, unsigned lower, Args &&... args) {
+  const constexpr auto pred = [&](auto a) {
+    return a >= lower && a <= upper;
   };
 
   return (... && pred(args));
@@ -272,6 +252,11 @@ inline void individual_message(stateful_actor<T> *self, As &&... as) {
   if (self->state.config->system_props.is_individual_reporter_active)
     self->send(
         self->state.config->individual_reporter, std::forward<As>(as)...);
+}
+
+template<typename Actor, typename Message>
+inline void bus_message(Actor *self, Message &&msg) {
+  self->state.config->bus.send(self, std::forward<Message>(msg));
 }
 
 template<typename A, typename ...As>

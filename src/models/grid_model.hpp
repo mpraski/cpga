@@ -337,8 +337,7 @@ class grid_model_driver : public base_driver<individual, fitness_value> {
  public:
   using base_driver<individual, fitness_value>::base_driver;
 
-  void perform(shared_config &config, actor_system &system, scoped_actor &self)
-  override {
+  void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
 
   }
 };

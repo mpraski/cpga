@@ -3,10 +3,11 @@
 using namespace caf;
 
 void reporter_state::write_headers(const std::vector<std::string> &headers) {
-  for (const auto &header : headers) {
-    *out_stream << header << delimiter;
-  }
-
+  std::copy(
+      std::begin(headers),
+      std::end(headers),
+      std::ostream_iterator<std::string>{*out_stream, &delimiter}
+  );
   *out_stream << std::endl;
 }
 

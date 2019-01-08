@@ -1,37 +1,24 @@
 
 
 #include "core.hpp"
-#include "models/global_model.hpp"
-#include "models/island_model.hpp"
-#include "models/grid_model.hpp"
 #include "operators/best_individual_elitism.hpp"
 #include "operators/roulette_wheel_parent_selection.hpp"
 #include "operators/roulette_wheel_survival_selection.hpp"
 #include "operators/sequence_individual_initialization.hpp"
 #include "operators/sequence_individual_crossover.hpp"
-#include "operators/average_fitness_global_termination_check.hpp"
 #include "example/definitions.hpp"
 #include "example/bitstring_mutation.cpp"
 #include "example/onemax_fitness_evaluation.hpp"
-#include "operators/ring_random_migration.hpp"
-#include <utilities/finite_state_machine.hpp>
-#include <cluster/global_model_cluster.hpp>
-#include <cluster/island_model_cluster.hpp>
-#include <cluster/grid_model_cluster.hpp>
-#include <climits>
-#include <unistd.h>
-
-#include "caf/all.hpp"
-#include "caf/io/all.hpp"
+#include <models/distributed/global_model_cluster.hpp>
+#include <models/distributed/grid_model_cluster.hpp>
 
 using namespace caf;
 
-namespace {
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   /**
-    * Core framework configuration is represented by
-    * system_properties struct. See definition in core.hpp
-    */
+   * Core framework configuration is represented by
+   * system_properties struct. See definition in core.hpp
+   */
   system_properties system_props;
   system_props.islands_number = recommended_worker_number();
   system_props.population_size = 1000;
@@ -58,7 +45,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   system_props.is_individual_reporter_active = true;
   system_props.individual_reporter_log = "individual_reporter.csv";
 
-  /*
+  /**
    * All other values defined by the user and somehow needed,
    * for instance in custom genetic operators (see operators/sequence_individual_initialization.hpp)
    * can be put in the user_properties map. It's a std::unordered_map<std::string, std::any>, so
@@ -107,7 +94,6 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                          system_props,
                                                                          user_props,
                                                                          cluster_props);
-}
 }
 
 CLUSTER_CONFIG(sequence<char>, int)

@@ -5,15 +5,10 @@
 #ifndef GENETIC_ACTOR_GLOBAL_MODEL_CLUSTER_H
 #define GENETIC_ACTOR_GLOBAL_MODEL_CLUSTER_H
 
-#include <caf/all.hpp>
-#include <caf/io/all.hpp>
 #include <atoms.hpp>
 #include <core.hpp>
 #include <global_model.hpp>
 #include <cluster.hpp>
-
-using namespace caf;
-using namespace caf::io;
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,

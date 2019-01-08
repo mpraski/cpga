@@ -63,7 +63,7 @@ class base_cluster_driver {
                       const user_properties &user_props,
                       const cluster_properties &cluster_props);
 
-  virtual ~base_cluster_driver() {}
+  virtual ~base_cluster_driver() = default;
 
   void run(actor_system &system);
 };

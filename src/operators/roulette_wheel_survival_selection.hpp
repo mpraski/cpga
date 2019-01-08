@@ -38,7 +38,8 @@ class roulette_wheel_survival_selection : public base_operator {
     auto survivors_num = parents.size();
 
     parents.reserve(parents.size() + offspring.size());
-    parents.insert(parents.end(), std::make_move_iterator(offspring.begin()),
+    parents.insert(parents.end(),
+                   std::make_move_iterator(offspring.begin()),
                    std::make_move_iterator(offspring.end()));
     offspring.clear();
 
@@ -51,7 +52,7 @@ class roulette_wheel_survival_selection : public base_operator {
       auto survivor = spin(total, parents);
 
       offspring.emplace_back(std::move(parents[survivor]));
-      erase_quick(offspring, offspring.begin() + survivor);
+      offspring.erase(offspring.begin() + survivor);
     }
   }
 };

@@ -27,17 +27,17 @@ class message_bus {
   void send(Actor &&actor, std::string &&channel, std::string &&msg) const noexcept {
     actor.send(message_group, message_bus_receive::value, channel, msg);
   }
-
-  template<typename Fun>
-  static constexpr auto receive(const std::string &key, Fun &&f) noexcept {
-    return [key, fun = std::forward<Fun>(f)](message_bus_receive,
-                                             const std::string &channel,
-                                             const std::string &message) {
-      if (channel == key) {
-        fun(message);
-      }
-    };
-  }
 };
+
+template<typename Fun>
+static constexpr auto bus_receive(const std::string &key, Fun &&f) noexcept {
+  return [key, fun = std::forward<Fun>(f)](message_bus_receive,
+                                           const std::string &channel,
+                                           const std::string &message) {
+    if (channel == key) {
+      fun(message);
+    }
+  };
+}
 
 #endif //GENETIC_ACTOR_MESSAGE_BUS_H

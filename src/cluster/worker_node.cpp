@@ -47,8 +47,7 @@ behavior worker_node(event_based_actor *self,
       [=](reporter_node_info &info) {
         self->send(executor, std::move(info));
       },
-      [=](const group_down_msg &) {
-      }
+      [](const group_down_msg &) {}
   };
 }
 

@@ -91,9 +91,6 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  ../src/atoms.hpp
  ../src/cluster.hpp
  ../src/cluster/cluster_runner.hpp
- ../src/cluster/global_model_cluster.hpp
- ../src/cluster/grid_model_cluster.hpp
- ../src/cluster/island_model_cluster.hpp
  ../src/cluster/master_node.hpp
  ../src/cluster/reporter_node.hpp
  ../src/cluster/worker_node.hpp
@@ -106,22 +103,17 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  ../src/core/data.hpp
  ../src/core/defaults.hpp
  ../src/core/message_bus.hpp
+ ../src/models/distributed/global_model_cluster.hpp
+ ../src/models/distributed/grid_model_cluster.hpp
  ../src/models/global_model.hpp
- ../src/models/island_model.hpp
- ../src/operators/random_migration.hpp
+ ../src/models/grid_model.hpp
  ../src/reporter.hpp
- ../src/utilities/finite_state_machine.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
  /home/marcin/eclipse-workspace/genetic-actor/src/example/definitions.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/main.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/models/global_model.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/models/grid_model.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/models/island_model.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/average_fitness_global_termination_check.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/best_individual_elitism.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/ring_random_migration.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_parent_selection.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_survival_selection.hpp
  /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp

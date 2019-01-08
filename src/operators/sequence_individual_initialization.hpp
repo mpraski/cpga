@@ -42,7 +42,7 @@ class sequence_individual_initialization : public base_operator {
     auto gen = [&] {
       auto r = distribution{0, values.size() - 1}(generator);
       if (!props.can_repeat_individual_elements) {
-        erase_quick(values, values.begin() + r);
+        values.erase(values.begin() + r);
       }
       return values[r];
     };

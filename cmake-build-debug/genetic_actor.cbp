@@ -112,15 +112,6 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/cluster_runner.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/global_model_cluster.hpp">
-			<Option target="genetic_actor"/>
-		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/grid_model_cluster.hpp">
-			<Option target="genetic_actor"/>
-		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/island_model_cluster.hpp">
-			<Option target="genetic_actor"/>
-		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp">
 			<Option target="genetic_actor"/>
 		</Unit>
@@ -197,6 +188,15 @@
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/main.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/models/distributed/global_model_cluster.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/models/distributed/grid_model_cluster.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/models/distributed/island_model_cluster.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/models/global_model.hpp">

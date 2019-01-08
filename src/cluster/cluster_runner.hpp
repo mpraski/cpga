@@ -8,8 +8,6 @@
 #include <caf/all.hpp>
 #include <core.hpp>
 
-using namespace caf;
-
 template<typename master_driver, typename worker_driver, typename reporter_driver>
 class cluster_runner {
  public:

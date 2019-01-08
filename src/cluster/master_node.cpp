@@ -42,8 +42,6 @@ behavior master_node(stateful_actor<master_node_state> *self,
         self->send(workers_group, self->state.reporter_info);
         log(self, "Distributed reporters info");
       },
-      [=](const reporter_node_info &) {
-      },
       [=](stage_discover_workers, worker_node_info &info) {
         auto &state = self->state;
         log(self, "Discovered workers: ", info);
@@ -52,7 +50,8 @@ behavior master_node(stateful_actor<master_node_state> *self,
           state.current_worker_infos = 0;
           self->send(executor, state.reporter_info, state.workers_info);
         }
-      }
+      },
+      [](const reporter_node_info &) {}
   };
 }
 
