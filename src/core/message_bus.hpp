@@ -25,7 +25,7 @@ class message_bus {
 
   template<typename Actor>
   void send(Actor &&actor, std::string &&channel, std::string &&msg) const noexcept {
-    actor.send(message_group, message_bus_receive::value, channel, msg);
+    actor->send(message_group, message_bus_receive::value, channel, msg);
   }
 };
 

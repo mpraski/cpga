@@ -3,8 +3,6 @@
 #include <caf/all.hpp>
 #include <core.hpp>
 
-using namespace caf;
-
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,

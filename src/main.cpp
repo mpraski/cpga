@@ -6,10 +6,12 @@
 #include "operators/roulette_wheel_survival_selection.hpp"
 #include "operators/sequence_individual_initialization.hpp"
 #include "operators/sequence_individual_crossover.hpp"
+#include "operators/ring_random_migration.hpp"
 #include "example/onemax/onemax_defs.hpp"
 #include "example/onemax/bitstring_mutation.cpp"
 #include "example/onemax/onemax_fitness_evaluation.hpp"
 #include <models/distributed/global_model_cluster.hpp>
+#include <models/distributed/island_model_cluster.hpp>
 #include <models/distributed/grid_model_cluster.hpp>
 
 using namespace caf;
@@ -21,7 +23,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
    */
   system_properties system_props;
   system_props.islands_number = recommended_worker_number();
-  system_props.population_size = 1000;
+  system_props.population_size = 10000;
   system_props.individual_size = 10;
   system_props.elitists_number = 10;
   system_props.generations_number = 100;

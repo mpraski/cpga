@@ -21,7 +21,7 @@ class base_cluster_driver {
     return str(group, "@", host, ":", port);
   }
 
-  template<typename Gen, typename Cond, typename Time = std::chrono::milliseconds>
+  template<typename Gen, typename Cond, typename Time = std::chrono::seconds>
   static auto poll(Gen &&generator,
                    Cond &&condition,
                    Time &&period = std::chrono::seconds(1),
@@ -51,7 +51,7 @@ class base_cluster_driver {
 
   std::function<uint16_t()> make_worker_port_factory() const;
 
-  actor wait_for_master_node(io::middleman &m) const;
+  actor wait_for_master_node(middleman &m) const;
 
   group wait_for_node_group(actor_system &s) const;
 

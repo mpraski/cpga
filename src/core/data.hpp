@@ -6,11 +6,8 @@
 #define GENETIC_ACTOR_DATA_H
 
 #include <any>
-#include <caf/all.hpp>
 #include <common.hpp>
 #include "message_bus.hpp"
-
-using namespace caf;
 
 /*
  * user_properties is a map dedicated for

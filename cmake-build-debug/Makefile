@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/marcinpraski/clion-2018.3.2/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /opt/clion-2018.3.1/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/marcinpraski/clion-2018.3.2/bin/cmake/linux/bin/cmake -E remove -f
+RM = /opt/clion-2018.3.1/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/marcinpraski/CLionProjects/cpga
+CMAKE_SOURCE_DIR = /home/marcin/eclipse-workspace/genetic-actor
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/marcinpraski/CLionProjects/cpga/cmake-build-debug
+CMAKE_BINARY_DIR = /home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/marcinpraski/CLionProjects/cpga/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/marcinpraski/clion-2018.3.2/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/opt/clion-2018.3.1/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/marcinpraski/clion-2018.3.2/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/opt/clion-2018.3.1/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcinpraski/CLionProjects/cpga/cmake-build-debug/CMakeFiles /home/marcinpraski/CLionProjects/cpga/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles /home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcinpraski/CLionProjects/cpga/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/marcin/eclipse-workspace/genetic-actor/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -366,32 +366,113 @@ src/core/message_bus.cpp.s:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.s
 .PHONY : src/core/message_bus.cpp.s
 
-src/example/bitstring_mutation.o: src/example/bitstring_mutation.cpp.o
+src/example/components_fault/components_fault_defs.o: src/example/components_fault/components_fault_defs.cpp.o
 
-.PHONY : src/example/bitstring_mutation.o
+.PHONY : src/example/components_fault/components_fault_defs.o
 
 # target to build an object file
-src/example/bitstring_mutation.cpp.o:
-	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
-.PHONY : src/example/bitstring_mutation.cpp.o
+src/example/components_fault/components_fault_defs.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/components_fault_defs.cpp.o
+.PHONY : src/example/components_fault/components_fault_defs.cpp.o
 
-src/example/bitstring_mutation.i: src/example/bitstring_mutation.cpp.i
+src/example/components_fault/components_fault_defs.i: src/example/components_fault/components_fault_defs.cpp.i
 
-.PHONY : src/example/bitstring_mutation.i
+.PHONY : src/example/components_fault/components_fault_defs.i
 
 # target to preprocess a source file
-src/example/bitstring_mutation.cpp.i:
-	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.i
-.PHONY : src/example/bitstring_mutation.cpp.i
+src/example/components_fault/components_fault_defs.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/components_fault_defs.cpp.i
+.PHONY : src/example/components_fault/components_fault_defs.cpp.i
 
-src/example/bitstring_mutation.s: src/example/bitstring_mutation.cpp.s
+src/example/components_fault/components_fault_defs.s: src/example/components_fault/components_fault_defs.cpp.s
 
-.PHONY : src/example/bitstring_mutation.s
+.PHONY : src/example/components_fault/components_fault_defs.s
 
 # target to generate assembly for a file
-src/example/bitstring_mutation.cpp.s:
-	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.s
-.PHONY : src/example/bitstring_mutation.cpp.s
+src/example/components_fault/components_fault_defs.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/components_fault_defs.cpp.s
+.PHONY : src/example/components_fault/components_fault_defs.cpp.s
+
+src/example/components_fault/svm_fitness_evaluation.o: src/example/components_fault/svm_fitness_evaluation.cpp.o
+
+.PHONY : src/example/components_fault/svm_fitness_evaluation.o
+
+# target to build an object file
+src/example/components_fault/svm_fitness_evaluation.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_fitness_evaluation.cpp.o
+.PHONY : src/example/components_fault/svm_fitness_evaluation.cpp.o
+
+src/example/components_fault/svm_fitness_evaluation.i: src/example/components_fault/svm_fitness_evaluation.cpp.i
+
+.PHONY : src/example/components_fault/svm_fitness_evaluation.i
+
+# target to preprocess a source file
+src/example/components_fault/svm_fitness_evaluation.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_fitness_evaluation.cpp.i
+.PHONY : src/example/components_fault/svm_fitness_evaluation.cpp.i
+
+src/example/components_fault/svm_fitness_evaluation.s: src/example/components_fault/svm_fitness_evaluation.cpp.s
+
+.PHONY : src/example/components_fault/svm_fitness_evaluation.s
+
+# target to generate assembly for a file
+src/example/components_fault/svm_fitness_evaluation.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_fitness_evaluation.cpp.s
+.PHONY : src/example/components_fault/svm_fitness_evaluation.cpp.s
+
+src/example/components_fault/vendor/libsvm/svm.o: src/example/components_fault/vendor/libsvm/svm.cpp.o
+
+.PHONY : src/example/components_fault/vendor/libsvm/svm.o
+
+# target to build an object file
+src/example/components_fault/vendor/libsvm/svm.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/vendor/libsvm/svm.cpp.o
+.PHONY : src/example/components_fault/vendor/libsvm/svm.cpp.o
+
+src/example/components_fault/vendor/libsvm/svm.i: src/example/components_fault/vendor/libsvm/svm.cpp.i
+
+.PHONY : src/example/components_fault/vendor/libsvm/svm.i
+
+# target to preprocess a source file
+src/example/components_fault/vendor/libsvm/svm.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/vendor/libsvm/svm.cpp.i
+.PHONY : src/example/components_fault/vendor/libsvm/svm.cpp.i
+
+src/example/components_fault/vendor/libsvm/svm.s: src/example/components_fault/vendor/libsvm/svm.cpp.s
+
+.PHONY : src/example/components_fault/vendor/libsvm/svm.s
+
+# target to generate assembly for a file
+src/example/components_fault/vendor/libsvm/svm.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/components_fault/vendor/libsvm/svm.cpp.s
+.PHONY : src/example/components_fault/vendor/libsvm/svm.cpp.s
+
+src/example/onemax/bitstring_mutation.o: src/example/onemax/bitstring_mutation.cpp.o
+
+.PHONY : src/example/onemax/bitstring_mutation.o
+
+# target to build an object file
+src/example/onemax/bitstring_mutation.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/bitstring_mutation.cpp.o
+.PHONY : src/example/onemax/bitstring_mutation.cpp.o
+
+src/example/onemax/bitstring_mutation.i: src/example/onemax/bitstring_mutation.cpp.i
+
+.PHONY : src/example/onemax/bitstring_mutation.i
+
+# target to preprocess a source file
+src/example/onemax/bitstring_mutation.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/bitstring_mutation.cpp.i
+.PHONY : src/example/onemax/bitstring_mutation.cpp.i
+
+src/example/onemax/bitstring_mutation.s: src/example/onemax/bitstring_mutation.cpp.s
+
+.PHONY : src/example/onemax/bitstring_mutation.s
+
+# target to generate assembly for a file
+src/example/onemax/bitstring_mutation.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/bitstring_mutation.cpp.s
+.PHONY : src/example/onemax/bitstring_mutation.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -483,9 +564,18 @@ help:
 	@echo "... src/core/message_bus.o"
 	@echo "... src/core/message_bus.i"
 	@echo "... src/core/message_bus.s"
-	@echo "... src/example/bitstring_mutation.o"
-	@echo "... src/example/bitstring_mutation.i"
-	@echo "... src/example/bitstring_mutation.s"
+	@echo "... src/example/components_fault/components_fault_defs.o"
+	@echo "... src/example/components_fault/components_fault_defs.i"
+	@echo "... src/example/components_fault/components_fault_defs.s"
+	@echo "... src/example/components_fault/svm_fitness_evaluation.o"
+	@echo "... src/example/components_fault/svm_fitness_evaluation.i"
+	@echo "... src/example/components_fault/svm_fitness_evaluation.s"
+	@echo "... src/example/components_fault/vendor/libsvm/svm.o"
+	@echo "... src/example/components_fault/vendor/libsvm/svm.i"
+	@echo "... src/example/components_fault/vendor/libsvm/svm.s"
+	@echo "... src/example/onemax/bitstring_mutation.o"
+	@echo "... src/example/onemax/bitstring_mutation.i"
+	@echo "... src/example/onemax/bitstring_mutation.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
