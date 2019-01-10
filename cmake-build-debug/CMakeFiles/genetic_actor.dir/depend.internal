@@ -14,8 +14,8 @@ CMakeFiles/genetic_actor.dir/src/cluster/master_node.cpp.o
  ../src/core/defaults.hpp
  ../src/core/message_bus.hpp
  ../src/reporter.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/cluster/master_node.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/cluster/master_node.hpp
 CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
@@ -29,50 +29,50 @@ CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o
  ../src/core/defaults.hpp
  ../src/core/message_bus.hpp
  ../src/reporter.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/cluster/worker_node.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/cluster/worker_node.hpp
 CMakeFiles/genetic_actor.dir/src/common.cpp.o
- /home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/common.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/common.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/atoms.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/common.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/common.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_driver.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_driver.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_state.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_state.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_state.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_operator.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_operator.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_state.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_state.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/base_state.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/data.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/data.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/core/message_bus.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/message_bus.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
@@ -85,8 +85,8 @@ CMakeFiles/genetic_actor.dir/src/example/bitstring_mutation.cpp.o
  ../src/core/defaults.hpp
  ../src/core/message_bus.hpp
  ../src/reporter.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/core.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/example/bitstring_mutation.cpp
 CMakeFiles/genetic_actor.dir/src/main.cpp.o
  ../src/atoms.hpp
  ../src/cluster.hpp
@@ -108,18 +108,18 @@ CMakeFiles/genetic_actor.dir/src/main.cpp.o
  ../src/models/global_model.hpp
  ../src/models/grid_model.hpp
  ../src/reporter.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/example/definitions.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/main.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/best_individual_elitism.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_parent_selection.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_survival_selection.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/core.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/example/bitstring_mutation.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/example/definitions.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/example/onemax_fitness_evaluation.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/main.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/operators/best_individual_elitism.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/operators/roulette_wheel_parent_selection.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/operators/roulette_wheel_survival_selection.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/operators/sequence_individual_crossover.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/operators/sequence_individual_initialization.hpp
 CMakeFiles/genetic_actor.dir/src/reporter.cpp.o
  ../src/atoms.hpp
  ../src/common.hpp
- /home/marcin/eclipse-workspace/genetic-actor/src/reporter.cpp
- /home/marcin/eclipse-workspace/genetic-actor/src/reporter.hpp
+ /home/marcinpraski/CLionProjects/cpga/src/reporter.cpp
+ /home/marcinpraski/CLionProjects/cpga/src/reporter.hpp

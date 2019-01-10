@@ -176,23 +176,51 @@ atoms.hpp
 common.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.cpp
+/home/marcinpraski/CLionProjects/cpga/src/atoms.hpp
+caf/atom.hpp
+-
+
+/home/marcinpraski/CLionProjects/cpga/src/cluster/master_node.cpp
 master_node.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp
+/home/marcinpraski/CLionProjects/cpga/src/cluster/master_node.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/master_node.hpp
+/home/marcinpraski/CLionProjects/cpga/src/cluster/master_node.hpp
 core.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.cpp
+/home/marcinpraski/CLionProjects/cpga/src/cluster/worker_node.cpp
 worker_node.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.hpp
+/home/marcinpraski/CLionProjects/cpga/src/cluster/worker_node.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/cluster/worker_node.hpp
+/home/marcinpraski/CLionProjects/cpga/src/cluster/worker_node.hpp
 core.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+/home/marcinpraski/CLionProjects/cpga/src/common.cpp
+common.hpp
+/home/marcinpraski/CLionProjects/cpga/src/common.hpp
+
+/home/marcinpraski/CLionProjects/cpga/src/common.hpp
+algorithm
+-
+random
+-
+chrono
+-
+type_traits
+-
+forward_list
+-
+thread
+-
+caf/all.hpp
+-
+caf/io/all.hpp
+-
+atoms.hpp
+/home/marcinpraski/CLionProjects/cpga/src/atoms.hpp
+
+/home/marcinpraski/CLionProjects/cpga/src/core.hpp
 core/base_cluster_driver.hpp
 -
 core/base_cluster_state.hpp
@@ -210,39 +238,47 @@ core/defaults.hpp
 core/message_bus.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.cpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_driver.cpp
 base_cluster_driver.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_driver.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_cluster_driver.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_driver.hpp
 common.hpp
 -
 data.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_state.cpp
+base_cluster_state.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_state.hpp
+
+/home/marcinpraski/CLionProjects/cpga/src/core/base_cluster_state.hpp
+common.hpp
+-
+
+/home/marcinpraski/CLionProjects/cpga/src/core/base_operator.cpp
 base_operator.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_operator.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_operator.hpp
 common.hpp
 -
 base_state.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_state.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.cpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_state.cpp
 base_state.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_state.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/base_state.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/base_state.hpp
 data.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/data.cpp
+/home/marcinpraski/CLionProjects/cpga/src/core/data.cpp
 data.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/data.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/data.hpp
 any
 -
 caf/all.hpp
@@ -250,55 +286,55 @@ caf/all.hpp
 common.hpp
 -
 message_bus.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.cpp
+/home/marcinpraski/CLionProjects/cpga/src/core/message_bus.cpp
 message_bus.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/core/message_bus.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core/message_bus.hpp
 common.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
+/home/marcinpraski/CLionProjects/cpga/src/example/bitstring_mutation.cpp
 ../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/example/definitions.hpp
+/home/marcinpraski/CLionProjects/cpga/src/example/definitions.hpp
 fstream
 -
 vector
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.hpp
+/home/marcinpraski/CLionProjects/cpga/src/example/onemax_fitness_evaluation.hpp
 ../core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core.hpp
 
-/home/marcin/eclipse-workspace/genetic-actor/src/main.cpp
+/home/marcinpraski/CLionProjects/cpga/src/main.cpp
 core.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/core.hpp
+/home/marcinpraski/CLionProjects/cpga/src/core.hpp
 operators/best_individual_elitism.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/best_individual_elitism.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/best_individual_elitism.hpp
 operators/roulette_wheel_parent_selection.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_parent_selection.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/roulette_wheel_parent_selection.hpp
 operators/roulette_wheel_survival_selection.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_survival_selection.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/roulette_wheel_survival_selection.hpp
 operators/sequence_individual_initialization.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/sequence_individual_initialization.hpp
 operators/sequence_individual_crossover.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/sequence_individual_crossover.hpp
 example/definitions.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/example/definitions.hpp
+/home/marcinpraski/CLionProjects/cpga/src/example/definitions.hpp
 example/bitstring_mutation.cpp
-/home/marcin/eclipse-workspace/genetic-actor/src/example/bitstring_mutation.cpp
+/home/marcinpraski/CLionProjects/cpga/src/example/bitstring_mutation.cpp
 example/onemax_fitness_evaluation.hpp
-/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax_fitness_evaluation.hpp
+/home/marcinpraski/CLionProjects/cpga/src/example/onemax_fitness_evaluation.hpp
 models/distributed/global_model_cluster.hpp
 -
 models/distributed/grid_model_cluster.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/best_individual_elitism.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/best_individual_elitism.hpp
 algorithm
 -
 vector
@@ -306,19 +342,19 @@ vector
 core.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_parent_selection.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/roulette_wheel_parent_selection.hpp
 random
 -
 core.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/roulette_wheel_survival_selection.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/roulette_wheel_survival_selection.hpp
 random
 -
 core.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_crossover.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/sequence_individual_crossover.hpp
 random
 -
 vector
@@ -326,11 +362,31 @@ vector
 core.hpp
 -
 
-/home/marcin/eclipse-workspace/genetic-actor/src/operators/sequence_individual_initialization.hpp
+/home/marcinpraski/CLionProjects/cpga/src/operators/sequence_individual_initialization.hpp
 random
 -
 vector
 -
 core.hpp
+-
+
+/home/marcinpraski/CLionProjects/cpga/src/reporter.cpp
+reporter.hpp
+/home/marcinpraski/CLionProjects/cpga/src/reporter.hpp
+
+/home/marcinpraski/CLionProjects/cpga/src/reporter.hpp
+chrono
+-
+stack
+-
+fstream
+-
+memory
+-
+caf/all.hpp
+-
+atoms.hpp
+-
+common.hpp
 -
 

@@ -6,9 +6,9 @@
 #include "operators/roulette_wheel_survival_selection.hpp"
 #include "operators/sequence_individual_initialization.hpp"
 #include "operators/sequence_individual_crossover.hpp"
-#include "example/definitions.hpp"
-#include "example/bitstring_mutation.cpp"
-#include "example/onemax_fitness_evaluation.hpp"
+#include "example/onemax/onemax_defs.hpp"
+#include "example/onemax/bitstring_mutation.cpp"
+#include "example/onemax/onemax_fitness_evaluation.hpp"
 #include <models/distributed/global_model_cluster.hpp>
 #include <models/distributed/grid_model_cluster.hpp>
 

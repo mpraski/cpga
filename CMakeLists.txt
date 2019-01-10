@@ -18,9 +18,9 @@ include_directories(src/cluster)
 
 add_executable(genetic_actor
         include/genetic-actor/individual.hpp
-        src/example/bitstring_mutation.cpp
-        src/example/definitions.hpp
-        src/example/onemax_fitness_evaluation.hpp
+        src/example/onemax/bitstring_mutation.cpp
+        src/example/onemax/onemax_defs.hpp
+        src/example/onemax/onemax_fitness_evaluation.hpp
         src/models/global_model.hpp
         src/models/grid_model.hpp
         src/models/island_model.hpp
@@ -61,7 +61,9 @@ add_executable(genetic_actor
         src/models/distributed/island_model_cluster.hpp
         src/core/message_bus.cpp
         src/core/message_bus.hpp
-        src/models/distributed/grid_model_cluster.hpp)
+        src/models/distributed/grid_model_cluster.hpp
+        src/example/components_fault/vendor/libsvm/svm.hpp
+        src/example/components_fault/vendor/libsvm/svm.cpp src/example/components_fault/svm_fitness_evaluation.cpp src/example/components_fault/svm_fitness_evaluation.hpp src/example/components_fault/components_fault_defs.hpp src/example/components_fault/components_fault_defs.cpp src/example/onemax/bitstring_mutation.hpp src/utilities/csv_reader.h)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

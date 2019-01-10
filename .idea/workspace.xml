@@ -7,35 +7,58 @@
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug-gcc7" CONFIG_NAME="Debug" TOOLCHAIN_NAME="gcc7" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ee79137-7167-4c3d-8a99-2a54c5ef5150" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/example/components_fault/components_fault_defs.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/example/components_fault/components_fault_defs.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/example/onemax/bitstring_mutation.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utilities/csv_reader.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/language.settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.cdt.codan.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.cdt.core.prefs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.1/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/build.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/genetic_actor" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/genetic_actor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/genetic_actor.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/genetic_actor" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/genetic_actor.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/genetic_actor.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluster/cluster_runner.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluster/cluster_runner.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluster/global_model_cluster.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/distributed/global_model_cluster.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluster/grid_model_cluster.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/distributed/grid_model_cluster.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluster/island_model_cluster.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/distributed/island_model_cluster.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluster/master_node.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluster/master_node.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cluster/worker_node.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/cluster/worker_node.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/common.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/base_cluster_driver.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/base_cluster_driver.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/message_bus.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/message_bus.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/example/bitstring_mutation.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/example/onemax/bitstring_mutation.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/example/definitions.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/example/onemax/onemax_defs.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/example/onemax/onemax_fitness_evaluation.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/grid_model.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/grid_model.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/island_model.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/island_model.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/operators/roulette_wheel_survival_selection.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/operators/roulette_wheel_survival_selection.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reporter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/reporter.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <ignored path="$PROJECT_DIR$/cmake-build-debug-gcc7/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,111 +79,113 @@
     <expand />
     <select />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-gcc7" />
   <component name="FavoritesManager">
     <favorites_list name="genetic_actor" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cluster/worker_node.cpp">
+        <entry file="file://$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="69" column="84" selection-start-line="69" selection-start-column="84" selection-end-line="69" selection-end-column="84" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="337" column="9" selection-start-line="337" selection-start-column="9" selection-end-line="337" selection-end-column="9" />
+            <state relative-caret-position="297">
+              <caret line="11" column="16" lean-forward="true" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
               <folding>
-                <element signature="e#11939#12419#0" expanded="true" />
+                <element signature="e#0#2#0" />
+                <element signature="e#47#80#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/distributed/grid_model_cluster.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-214">
-              <caret line="92" column="6" selection-start-line="92" selection-start-column="6" selection-end-line="92" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/distributed/island_model_cluster.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-954">
-              <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/models/island_model.hpp">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="308" column="9" lean-forward="true" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
+            <state relative-caret-position="1089">
+              <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/example/onemax/bitstring_mutation.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/example/onemax/bitstring_mutation.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="759">
+              <caret line="23" column="51" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="627">
+              <caret line="19" column="57" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="57" />
               <folding>
-                <element signature="e#14#34#0" expanded="true" />
+                <element signature="e#2#21#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/message_bus.hpp">
+        <entry file="file://$PROJECT_DIR$/src/utilities/csv_reader.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="32" column="33" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/global_model.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="194" column="8" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+            <state relative-caret-position="528">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
               <folding>
-                <element signature="e#14#34#0" expanded="true" />
+                <element signature="e#118#135#0" expanded="true" />
+                <element signature="e#126#141#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/message_bus.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/common.hpp">
+        <entry file="file://$PROJECT_DIR$/src/example/components_fault/vendor/libsvm/svm.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="524">
-              <caret line="260" selection-start-line="260" selection-end-line="260" />
+            <state relative-caret-position="2409">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
               <folding>
-                <element signature="e#14#34#0" expanded="true" />
-                <element signature="e#9414#9442#0" expanded="true" />
-                <element signature="e#9686#9720#0" expanded="true" />
+                <element signature="e#0#17#0" expanded="true" />
+                <element signature="e#1352#1392#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/core/base_cluster_driver.hpp">
+        <entry file="file://$PROJECT_DIR$/src/example/components_fault/vendor/libsvm/svm.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-142">
-              <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
-              <folding>
-                <element signature="e#130#151#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="627">
+              <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/example/components_fault/components_fault_defs.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="528">
+              <caret line="16" column="38" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/example/components_fault/components_fault_defs.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -169,11 +194,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>stage_discover_workers:</find>
-      <find>worker size</find>
-      <find>reporter_n</find>
-      <find>join</find>
-      <find>struct</find>
       <find>set_down</find>
       <find>set_dow</find>
       <find>bind_remote_wo</find>
@@ -199,6 +219,11 @@
       <find>island_model_executor</find>
       <find>spawn</find>
       <find>bus</find>
+      <find>svm_free_model_content</find>
+      <find>train</find>
+      <find>svm_train</find>
+      <find>svm_cross_validation</find>
+      <find>swap</find>
     </findStrings>
     <replaceStrings>
       <replace>size_t</replace>
@@ -214,18 +239,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/core/data.h" />
-        <option value="$PROJECT_DIR$/src/core/base_state.cpp" />
-        <option value="$PROJECT_DIR$/src/core/base_state.h" />
-        <option value="$PROJECT_DIR$/src/core/base_operator.cpp" />
-        <option value="$PROJECT_DIR$/src/core/base_operator.h" />
-        <option value="$PROJECT_DIR$/src/core/base_driver.h" />
-        <option value="$PROJECT_DIR$/src/core/defaults.h" />
-        <option value="$PROJECT_DIR$/src/core/base_cluster_state.cpp" />
-        <option value="$PROJECT_DIR$/src/core/base_cluster_state.h" />
-        <option value="$PROJECT_DIR$/src/core/base_cluster_driver.h" />
-        <option value="$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp" />
-        <option value="$PROJECT_DIR$/src/cluster/master_node.h" />
         <option value="$PROJECT_DIR$/src/cluster/reporter_node.h" />
         <option value="$PROJECT_DIR$/src/cluster/worker_node.h" />
         <option value="$PROJECT_DIR$/src/example/bitstring_mutation.cpp" />
@@ -246,7 +259,6 @@
         <option value="$PROJECT_DIR$/src/cluster/island_model_cluster.hpp" />
         <option value="$PROJECT_DIR$/src/cluster/global_model_cluster.hpp" />
         <option value="$PROJECT_DIR$/src/cluster/grid_model_cluster.hpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/operators/roulette_wheel_parent_selection.hpp" />
         <option value="$PROJECT_DIR$/src/operators/best_individual_elitism.hpp" />
         <option value="$PROJECT_DIR$/src/common.cpp" />
@@ -260,79 +272,51 @@
         <option value="$PROJECT_DIR$/src/models/distributed/global_model_cluster.hpp" />
         <option value="$PROJECT_DIR$/src/models/distributed/grid_model_cluster.hpp" />
         <option value="$PROJECT_DIR$/src/models/distributed/island_model_cluster.hpp" />
-        <option value="$PROJECT_DIR$/src/main.cpp" />
         <option value="$PROJECT_DIR$/src/models/grid_model.hpp" />
         <option value="$PROJECT_DIR$/src/common.hpp" />
         <option value="$PROJECT_DIR$/src/core/message_bus.hpp" />
         <option value="$PROJECT_DIR$/src/models/island_model.hpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/example/vendor/svm.h" />
+        <option value="$PROJECT_DIR$/src/example/components-fault/svm_fitness_evaluation.hpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/example/components_fault/definitions.hpp" />
+        <option value="$PROJECT_DIR$/src/example/components_fault/components_fault_defs.hpp" />
+        <option value="$PROJECT_DIR$/src/example/components_fault/components_fault_defs.cpp" />
+        <option value="$PROJECT_DIR$/src/example/onemax/onemax_defs.hpp" />
+        <option value="$PROJECT_DIR$/src/example/onemax/bitstring_mutation.hpp" />
+        <option value="$PROJECT_DIR$/src/example/onemax/bitstring_mutation.cpp" />
+        <option value="$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.hpp" />
+        <option value="$PROJECT_DIR$/src/utilities/csv_reader.h" />
+        <option value="$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.cpp" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1876" />
-    <option name="width" value="1910" />
-    <option name="height" value="574" />
+    <option name="x" value="130" />
+    <option name="y" value="1072" />
+    <option name="width" value="3710" />
+    <option name="height" value="2168" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="cluster" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="distributed" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="genetic_actor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="genetic-actor" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="operators" type="462c0819:PsiDirectoryNode" />
+              <item name="cpga" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -340,10 +324,13 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.intentionPowerPack" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/example/components_fault/vendor/libsvm" />
+      <recent name="$PROJECT_DIR$/src/example/components-fault" />
+      <recent name="$PROJECT_DIR$/src/example/onemax" />
       <recent name="$PROJECT_DIR$/src/models/distributed" />
       <recent name="$PROJECT_DIR$/src/utilities" />
     </key>
@@ -361,7 +348,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="genetic_actor" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="genetic_actor" TARGET_NAME="genetic_actor" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="genetic_actor" RUN_TARGET_NAME="genetic_actor">
+    <configuration name="genetic_actor" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="genetic_actor" TARGET_NAME="genetic_actor" CONFIG_NAME="Debug-gcc7" RUN_TARGET_PROJECT_NAME="genetic_actor" RUN_TARGET_NAME="genetic_actor">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -402,11 +389,15 @@
       <workItem from="1546771011276" duration="23468000" />
       <workItem from="1546880088517" duration="5679000" />
       <workItem from="1546939318416" duration="7738000" />
+      <workItem from="1547118953961" duration="7703000" />
+      <workItem from="1547131798126" duration="1315000" />
+      <workItem from="1547133941428" duration="1774000" />
+      <workItem from="1547139529548" duration="717000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="280099000" />
+    <option name="totallyTimeSpent" value="291608000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -418,14 +409,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="0" width="1920" height="1080" extended-state="6" />
+    <frame x="129" y="1093" width="3712" height="2148" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49921754" visible="true" weight="0.2224599" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49921754" visible="true" weight="0.23302042" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5007825" side_tool="true" weight="0.19946525" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49893048" visible="true" weight="0.3283582" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49893048" weight="0.3283582" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.47700533" weight="0.3283582" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -436,8 +427,8 @@
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32930845" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.52459896" side_tool="true" weight="0.298573" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.3283582" />
-      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.47540107" weight="0.32409382" />
-      <window_info anchor="bottom" id="CMake" order="13" weight="0.32930845" />
+      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.47540107" visible="true" weight="0.3236212" />
+      <window_info anchor="bottom" id="CMake" order="13" weight="0.32882413" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -488,109 +479,8 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/local/include/caf/actor.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/example/definitions.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#14#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/base_cluster_state.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/sequential_model.hpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///usr/include/c++/8/iosfwd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="164" column="29" selection-start-line="164" selection-start-column="25" selection-end-line="164" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#59#98#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/data.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/atoms.hpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/ring_random_migration.hpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///usr/local/include/caf/group.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/average_fitness_global_termination_check.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="30" column="68" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/best_individual_elitism.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="58" selection-start-line="18" selection-start-column="58" selection-end-line="18" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/roulette_wheel_parent_selection.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="48" column="7" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/sequence_individual_initialization.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/operators/star_random_migration.hpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utilities/finite_state_machine.hpp">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cluster.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#106#140#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/common.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -603,13 +493,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
           <caret line="32" column="3" selection-start-line="32" selection-start-column="3" selection-end-line="32" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reporter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -653,16 +536,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/actor_log_20674_1546974536185923787_73E172D42439EF4E6DD400BB5A8755AFA681AD00#20674.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/actor_log_20674_1546974536185923787_73E172D42439EF4E6DD400BB5A8755AFA681AD00#20674.log" />
     <entry file="file://$PROJECT_DIR$/src/cluster/master_node.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="569">
@@ -715,26 +589,127 @@
     <entry file="file://$PROJECT_DIR$/src/core/base_state.hpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/data.hpp">
+    <entry file="file://$PROJECT_DIR$/Debug/callgrind.out.13988" />
+    <entry file="file://$PROJECT_DIR$/src/cluster/worker_node.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="67" column="34" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+        <state relative-caret-position="2277">
+          <caret line="69" column="84" selection-start-line="69" selection-start-column="84" selection-end-line="69" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11121">
+          <caret line="337" column="9" selection-start-line="337" selection-start-column="9" selection-end-line="337" selection-end-column="9" />
           <folding>
-            <element signature="e#100#114#0" expanded="true" />
+            <element signature="e#11939#12419#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/example/bitstring_mutation.cpp">
+    <entry file="file://$PROJECT_DIR$/src/models/distributed/grid_model_cluster.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3036">
+          <caret line="92" column="6" selection-start-line="92" selection-start-column="6" selection-end-line="92" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/distributed/island_model_cluster.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="693">
+          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/message_bus.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1056">
+          <caret line="32" column="33" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/global_model.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6402">
+          <caret line="194" column="8" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/message_bus.cpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/example/onemax_fitness_evaluation.hpp">
+    <entry file="file://$PROJECT_DIR$/src/models/island_model.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="308" column="9" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
+          <folding>
+            <element signature="e#14#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cluster.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#106#140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/data.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.settings/language.settings.xml" />
+    <entry file="file://$PROJECT_DIR$/src/reporter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/base_cluster_driver.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+          <folding>
+            <element signature="e#130#151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1017">
+          <caret line="65" column="58" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/vendor/libsvm/COPYRIGHT">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/definitions.hpp" />
+    <entry file="file://$PROJECT_DIR$/src/core.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#59#98#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/common.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="260" selection-start-line="260" selection-end-line="260" />
+        <state relative-caret-position="3531">
+          <caret line="107" selection-start-line="107" selection-end-line="110" selection-end-column="1" />
           <folding>
             <element signature="e#14#34#0" expanded="true" />
             <element signature="e#9414#9442#0" expanded="true" />
@@ -743,81 +718,112 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/distributed/island_model_cluster.hpp">
+    <entry file="file://$PROJECT_DIR$/src/example/onemax/onemax_defs.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-954">
-          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+        <state relative-caret-position="363">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/message_bus.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Debug/callgrind.out.13988">
+    <entry file="file://$PROJECT_DIR$/src/example/onemax/onemax_fitness_evaluation.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1988" column="118" selection-start-line="1988" selection-start-column="118" selection-end-line="1988" selection-end-column="118" />
+        <state relative-caret-position="396">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/base_cluster_driver.hpp">
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-142">
-          <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+        <state relative-caret-position="297">
+          <caret line="11" column="16" lean-forward="true" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
           <folding>
-            <element signature="e#130#151#0" expanded="true" />
+            <element signature="e#0#2#0" />
+            <element signature="e#47#80#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cluster/worker_node.cpp">
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/svm_fitness_evaluation.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="69" column="84" selection-start-line="69" selection-start-column="84" selection-end-line="69" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/distributed/grid_model_cluster.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-214">
-          <caret line="92" column="6" selection-start-line="92" selection-start-column="6" selection-end-line="92" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/grid_model.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="337" column="9" selection-start-line="337" selection-start-column="9" selection-end-line="337" selection-end-column="9" />
+        <state relative-caret-position="693">
+          <caret line="21" column="78" selection-start-line="21" selection-start-column="78" selection-end-line="21" selection-end-column="78" />
           <folding>
-            <element signature="e#11939#12419#0" expanded="true" />
+            <element signature="e#142#174#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/global_model.hpp">
+    <entry file="file://$PROJECT_DIR$/src/example/onemax/bitstring_mutation.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="194" column="8" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="8" />
+        <state relative-caret-position="495">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/onemax/bitstring_mutation.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="23" column="51" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="19" column="57" selection-start-line="19" selection-start-column="57" selection-end-line="19" selection-end-column="57" />
           <folding>
-            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#2#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/message_bus.hpp">
+    <entry file="file://$PROJECT_DIR$/src/utilities/csv_reader.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="32" column="33" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="33" />
+        <state relative-caret-position="528">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="e#118#135#0" expanded="true" />
+            <element signature="e#126#141#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/island_model.hpp">
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/vendor/libsvm/svm.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="308" column="9" lean-forward="true" selection-start-line="308" selection-start-column="9" selection-end-line="308" selection-end-column="9" />
+        <state relative-caret-position="2409">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
           <folding>
-            <element signature="e#14#34#0" expanded="true" />
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#1352#1392#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/vendor/libsvm/svm.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/components_fault_defs.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/example/components_fault/components_fault_defs.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1089">
+          <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
         </state>
       </provider>
     </entry>
