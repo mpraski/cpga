@@ -11,7 +11,7 @@
 template<typename Data>
 class csv_reader {
  public:
-  static std::vector<std::vector<Data>> read(const std::string &file, size_t rows, size_t cols, char delim = ',') {
+  static auto read(const std::string &file, size_t rows, size_t cols, char delim = ',') {
     std::vector<std::vector<Data>> data(rows, std::vector<Data>(cols));
     std::ifstream ifs(file);
 
@@ -22,9 +22,12 @@ class csv_reader {
     for (size_t i = 0; i < rows; ++i) {
       for (size_t j = 0; j < cols; ++j) {
         ifs >> data[i][j];
-        ifs.get();
+        ifs >> delim;
       }
+      ifs.get();
     }
+
+    return data;
   }
 };
 

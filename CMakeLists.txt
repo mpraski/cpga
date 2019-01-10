@@ -63,7 +63,13 @@ add_executable(genetic_actor
         src/core/message_bus.hpp
         src/models/distributed/grid_model_cluster.hpp
         src/example/components_fault/vendor/libsvm/svm.hpp
-        src/example/components_fault/vendor/libsvm/svm.cpp src/example/components_fault/svm_fitness_evaluation.cpp src/example/components_fault/svm_fitness_evaluation.hpp src/example/components_fault/components_fault_defs.hpp src/example/components_fault/components_fault_defs.cpp src/example/onemax/bitstring_mutation.hpp src/utilities/csv_reader.h)
+        src/example/components_fault/vendor/libsvm/svm.cpp
+        src/example/components_fault/svm_fitness_evaluation.cpp
+        src/example/components_fault/svm_fitness_evaluation.hpp
+        src/example/components_fault/components_fault_defs.hpp
+        src/example/components_fault/components_fault_defs.cpp
+        src/example/onemax/bitstring_mutation.hpp
+        src/utilities/csv_reader.h src/example/onemax/onemax_fitness_evaluation.cpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

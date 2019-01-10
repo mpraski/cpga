@@ -1,12 +1,17 @@
+//
+// Created by marcinpraski on 10/01/19.
+//
+
+#ifndef GENETIC_ACTOR_ONEMAX_FITNESS_EVALUATION_HPP
+#define GENETIC_ACTOR_ONEMAX_FITNESS_EVALUATION_HPP
+
 #include "core.hpp"
 
 class onemax_fitness_evaluation : public base_operator {
  public:
   using base_operator::base_operator;
 
-  inline int operator()(const std::vector<char> &ind) const noexcept {
-    int i{0};
-    for (auto b : ind) if (b) ++i;
-    return i;
-  }
+  int operator()(const std::vector<char> &ind) const noexcept;
 };
+
+#endif //GENETIC_ACTOR_ONEMAX_FITNESS_EVALUATION_HPP

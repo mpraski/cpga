@@ -14,6 +14,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/genetic_actor.dir/src/example/components_fault/vendor/libsvm/svm.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_fitness_evaluation.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/example/components_fault/components_fault_defs.cpp.o"
+  "CMakeFiles/genetic_actor.dir/src/example/onemax/onemax_fitness_evaluation.cpp.o"
   "genetic_actor.pdb"
   "genetic_actor"
 )

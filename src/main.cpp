@@ -8,7 +8,7 @@
 #include "operators/sequence_individual_crossover.hpp"
 #include "operators/ring_random_migration.hpp"
 #include "example/onemax/onemax_defs.hpp"
-#include "example/onemax/bitstring_mutation.cpp"
+#include "example/onemax/bitstring_mutation.hpp"
 #include "example/onemax/onemax_fitness_evaluation.hpp"
 #include <models/distributed/global_model_cluster.hpp>
 #include <models/distributed/island_model_cluster.hpp>

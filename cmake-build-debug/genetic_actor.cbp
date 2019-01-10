@@ -205,6 +205,9 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax/onemax_defs.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax/onemax_fitness_evaluation.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/onemax/onemax_fitness_evaluation.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>

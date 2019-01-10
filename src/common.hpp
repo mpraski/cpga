@@ -40,6 +40,10 @@ namespace constants {
 const constexpr char POSSIBLE_VALUES_KEY[] = "possible_initialization_values";
 const constexpr char STABLE_REQUIRED_KEY[] = "stable_required";
 const constexpr char MINIMUM_AVERAGE_KEY[] = "minimum_average";
+const constexpr char CSV_FILE[] = "csv_file";
+const constexpr char N_ROWS[] = "n_rows";
+const constexpr char N_COLS[] = "n_cols";
+const constexpr char N_FOLDS[] = "n_folds";
 const constexpr char NODE_GROUP[] = "node_group";
 const constexpr char MESSAGE_BUS_GROUP[] = "message_bus_group";
 

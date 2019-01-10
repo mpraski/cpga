@@ -474,6 +474,33 @@ src/example/onemax/bitstring_mutation.cpp.s:
 	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/bitstring_mutation.cpp.s
 .PHONY : src/example/onemax/bitstring_mutation.cpp.s
 
+src/example/onemax/onemax_fitness_evaluation.o: src/example/onemax/onemax_fitness_evaluation.cpp.o
+
+.PHONY : src/example/onemax/onemax_fitness_evaluation.o
+
+# target to build an object file
+src/example/onemax/onemax_fitness_evaluation.cpp.o:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/onemax_fitness_evaluation.cpp.o
+.PHONY : src/example/onemax/onemax_fitness_evaluation.cpp.o
+
+src/example/onemax/onemax_fitness_evaluation.i: src/example/onemax/onemax_fitness_evaluation.cpp.i
+
+.PHONY : src/example/onemax/onemax_fitness_evaluation.i
+
+# target to preprocess a source file
+src/example/onemax/onemax_fitness_evaluation.cpp.i:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/onemax_fitness_evaluation.cpp.i
+.PHONY : src/example/onemax/onemax_fitness_evaluation.cpp.i
+
+src/example/onemax/onemax_fitness_evaluation.s: src/example/onemax/onemax_fitness_evaluation.cpp.s
+
+.PHONY : src/example/onemax/onemax_fitness_evaluation.s
+
+# target to generate assembly for a file
+src/example/onemax/onemax_fitness_evaluation.cpp.s:
+	$(MAKE) -f CMakeFiles/genetic_actor.dir/build.make CMakeFiles/genetic_actor.dir/src/example/onemax/onemax_fitness_evaluation.cpp.s
+.PHONY : src/example/onemax/onemax_fitness_evaluation.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -576,6 +603,9 @@ help:
 	@echo "... src/example/onemax/bitstring_mutation.o"
 	@echo "... src/example/onemax/bitstring_mutation.i"
 	@echo "... src/example/onemax/bitstring_mutation.s"
+	@echo "... src/example/onemax/onemax_fitness_evaluation.o"
+	@echo "... src/example/onemax/onemax_fitness_evaluation.i"
+	@echo "... src/example/onemax/onemax_fitness_evaluation.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
