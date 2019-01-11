@@ -78,7 +78,7 @@ behavior island_model_worker(
         generation_message(self, note_start::value, now(), state.current_island);
         generation_message(self, note_start::value, now(), state.current_island);
 
-        state.initialization(state.population);
+        state.initialization(std::back_inserter(state.population));
 
         generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation,
                            state.current_island);
@@ -99,8 +99,8 @@ behavior island_model_worker(
 
         state.parent_selection(state.population, state.parents);
 
-        for (const auto &parent : state.parents) {
-          state.crossover(state.offspring, parent);
+        for (const auto &couple : state.parents) {
+          state.crossover(std::back_inserter(state.offspring), couple);
         }
 
         state.parents.clear();

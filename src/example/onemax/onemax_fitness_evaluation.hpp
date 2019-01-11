@@ -7,7 +7,8 @@
 
 #include "core.hpp"
 
-class onemax_fitness_evaluation : public base_operator {
+class onemax_fitness_evaluation : public base_operator<sequence<char>, int> {
+  INCLUDES(sequence<char>, int);
  public:
   using base_operator::base_operator;
 

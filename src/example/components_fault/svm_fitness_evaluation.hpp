@@ -10,7 +10,8 @@
 #include "components_fault_defs.hpp"
 #include "components_fault_defs.hpp"
 
-class svm_fitness_evaluation : public base_operator {
+class svm_fitness_evaluation : public base_operator<rbf_params, double> {
+  INCLUDES(rbf_params, double);
  private:
   int n_rows;
   int n_cols;
@@ -20,7 +21,7 @@ class svm_fitness_evaluation : public base_operator {
 
   svm_parameter *create_parameter(const rbf_params &params) const;
  public:
-  svm_fitness_evaluation(const shared_config& config, island_id island_no);
+  svm_fitness_evaluation(const shared_config &config, island_id island_no);
   ~svm_fitness_evaluation();
 
   double operator()(const rbf_params &ind) const;

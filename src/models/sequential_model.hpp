@@ -42,7 +42,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
       self->send(config->generation_reporter, note_start::value, now());
     }
 
-    initialization(population);
+    initialization(std::back_inserter(population));
 
     for (size_t g = 0; g < props.generations_number; ++g) {
       for (auto &member : population) {
@@ -57,8 +57,8 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
       parent_selection(population, parents);
 
       // This will fill offspring with newly created individual_wrappers
-      for (const auto &parent : parents) {
-        crossover(offspring, parent);
+      for (const auto &couple : parents) {
+        crossover(std::back_inserter(offspring), couple);
       }
 
       // Clear parents for future use

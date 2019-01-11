@@ -9,8 +9,8 @@
 
 // Default implementations of optional operators (for default template arguments)
 template<typename individual, typename fitness_value>
-struct default_survival_selection_operator : base_operator {
-  using base_operator::base_operator;
+struct default_survival_selection_operator : base_operator<individual, fitness_value> {
+  using base_operator<individual, fitness_value>::base_operator;
 
   void operator()(
       individual_collection<individual, fitness_value> &parents,
@@ -20,8 +20,8 @@ struct default_survival_selection_operator : base_operator {
 };
 
 template<typename individual, typename fitness_value>
-struct default_elitism_operator : base_operator {
-  using base_operator::base_operator;
+struct default_elitism_operator : base_operator<individual, fitness_value> {
+  using base_operator<individual, fitness_value>::base_operator;
 
   void operator()(
       individual_collection<individual, fitness_value> &population,
@@ -31,8 +31,8 @@ struct default_elitism_operator : base_operator {
 };
 
 template<typename individual, typename fitness_value>
-struct default_migration_operator : base_operator {
-  using base_operator::base_operator;
+struct default_migration_operator : base_operator<individual, fitness_value> {
+  using base_operator<individual, fitness_value>::base_operator;
 
   migration_payload<individual, fitness_value> operator()(
       island_id from,
@@ -43,8 +43,8 @@ struct default_migration_operator : base_operator {
 };
 
 template<typename individual, typename fitness_value>
-struct default_global_termination_check : base_operator {
-  using base_operator::base_operator;
+struct default_global_termination_check : base_operator<individual, fitness_value> {
+  using base_operator<individual, fitness_value>::base_operator;
 
   bool operator()(
       const individual_collection<individual, fitness_value> &population) const

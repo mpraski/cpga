@@ -208,7 +208,7 @@ behavior global_model_executor(
         generation_message(self, note_start::value, now(), state.current_island);
         generation_message(self, note_start::value, now(), state.current_island);
 
-        state.initialization(state.population);
+        state.initialization(std::back_inserter(state.population));
         self->send(self, execute_phase_1::value);
 
         generation_message(self,
@@ -270,8 +270,8 @@ behavior global_model_executor(
 
         state.parent_selection(state.population, state.parents);
 
-        for (const auto &parent : state.parents) {
-          state.crossover(state.offspring, parent);
+        for (const auto &couple : state.parents) {
+          state.crossover(std::back_inserter(state.offspring), couple);
         }
 
         state.parents.clear();

@@ -70,8 +70,8 @@ behavior grid_model_worker(
 
         state.parent_selection(population, state.parents);
 
-        for (const auto &parent : state.parents) {
-          state.crossover(state.offspring, parent);
+        for (const auto &couple : state.parents) {
+          state.crossover(std::back_inserter(state.offspring), couple);
         }
 
         state.parents.clear();
@@ -227,7 +227,7 @@ behavior grid_model_executor(
         generation_message(self, note_start::value, now(), island_special);
         generation_message(self, note_start::value, now(), island_special);
 
-        state.initialization(state.population);
+        state.initialization(std::back_inserter(state.population));
         self->send(self, execute_phase_1::value);
 
         generation_message(self,

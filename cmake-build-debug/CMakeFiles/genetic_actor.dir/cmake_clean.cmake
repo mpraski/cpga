@@ -5,7 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/genetic_actor.dir/src/reporter.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/core/data.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/core/base_state.cpp.o"
-  "CMakeFiles/genetic_actor.dir/src/core/base_operator.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/core/base_cluster_state.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/core/base_cluster_driver.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/cluster/worker_node.cpp.o"
@@ -15,6 +14,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_fitness_evaluation.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/example/components_fault/components_fault_defs.cpp.o"
   "CMakeFiles/genetic_actor.dir/src/example/onemax/onemax_fitness_evaluation.cpp.o"
+  "CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_initialization.cpp.o"
+  "CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_crossover.cpp.o"
+  "CMakeFiles/genetic_actor.dir/src/example/components_fault/svm_mutation.cpp.o"
   "genetic_actor.pdb"
   "genetic_actor"
 )

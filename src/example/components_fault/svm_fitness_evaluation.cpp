@@ -16,15 +16,15 @@ svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, isla
   auto *labels = new double[n_rows];
   auto **nodes = new svm_node *[n_rows];
 
-  auto adder = [&](int i) {
-    return [&](int acc, int j) {
+  auto adder = [&](auto i) {
+    return [&, i](auto acc, auto j) {
       return parsed[i][j] ? ++acc : acc;
     };
   };
 
   for (int i = 0; i < n_rows; ++i) {
     auto c{0};
-    auto sparse_size{std::accumulate(std::begin(parsed[i]), std::end(parsed[i]), 0, adder(i))};
+    auto sparse_size{std::accumulate(std::begin(parsed[i]), std::end(parsed[i]), 1, adder(i))};
     labels[i] = parsed[i][0];
     nodes[i] = new svm_node[sparse_size];
     for (int j = 0; j < n_cols; ++j) {
@@ -33,6 +33,7 @@ svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, isla
       nodes[i][c].value = parsed[i][j];
       ++c;
     }
+    nodes[i][c].index = -1;
   }
 
   problem = new svm_problem{n_rows, labels, nodes};
@@ -73,14 +74,13 @@ double svm_fitness_evaluation::operator()(const rbf_params &params) const {
       } else {
         ++fn;
       }
-    } else {
-      if (cv_result[i]) {
-        ++fp;
-      }
+    } else if (cv_result[i]) {
+      ++fp;
     }
   }
 
   svm_free_and_destroy_model(&model);
+  svm_destroy_param(parameter);
   delete parameter;
 
   auto precision{static_cast<double>(tp) / (tp + fp)};

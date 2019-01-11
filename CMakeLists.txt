@@ -45,7 +45,7 @@ add_executable(genetic_actor
         src/models/distributed/global_model_cluster.hpp
         src/core/data.cpp src/core/data.hpp
         src/core/base_state.cpp src/core/base_state.hpp
-        src/core/base_operator.cpp src/core/base_operator.hpp
+        src/core/base_operator.hpp
         src/core/base_driver.hpp src/core/defaults.hpp
         src/core/base_cluster_state.cpp
         src/core/base_cluster_state.hpp
@@ -69,7 +69,7 @@ add_executable(genetic_actor
         src/example/components_fault/components_fault_defs.hpp
         src/example/components_fault/components_fault_defs.cpp
         src/example/onemax/bitstring_mutation.hpp
-        src/utilities/csv_reader.h src/example/onemax/onemax_fitness_evaluation.cpp)
+        src/utilities/csv_reader.h src/example/onemax/onemax_fitness_evaluation.cpp src/example/components_fault/svm_initialization.cpp src/example/components_fault/svm_initialization.hpp src/example/components_fault/svm_crossover.cpp src/example/components_fault/svm_crossover.hpp src/example/components_fault/svm_mutation.cpp src/example/components_fault/svm_mutation.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

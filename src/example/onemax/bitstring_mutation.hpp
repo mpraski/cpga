@@ -7,8 +7,8 @@
 
 #include "core.hpp"
 
-class bitstring_mutation : public base_operator {
-  using wrapper = individual_wrapper<std::vector<char>, int>;
+class bitstring_mutation : public base_operator<sequence<char>, int> {
+  INCLUDES(sequence<char>, int);
  private:
   std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution;

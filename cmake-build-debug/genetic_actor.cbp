@@ -151,9 +151,6 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_driver.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.cpp">
-			<Option target="genetic_actor"/>
-		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/core/base_operator.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
@@ -184,10 +181,28 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/components_fault_defs.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_crossover.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_crossover.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_fitness_evaluation.cpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_fitness_evaluation.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_initialization.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_initialization.hpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_mutation.cpp">
+			<Option target="genetic_actor"/>
+		</Unit>
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/svm_mutation.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/example/components_fault/vendor/libsvm/svm.cpp">
