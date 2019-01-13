@@ -5,8 +5,7 @@
 #include <core.hpp>
 
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
-class sequence_individual_initialization : public base_operator<individual, fitness_value> {
-  INCLUDES(individual, fitness_value);
+class sequence_individual_initialization : public base_operator {
  private:
   std::default_random_engine generator;
   std::vector<constituent> possible_values;
@@ -24,7 +23,7 @@ class sequence_individual_initialization : public base_operator<individual, fitn
   sequence_individual_initialization() = default;
   sequence_individual_initialization(const shared_config &config,
                                      island_id island_no)
-      : base_operator<individual, fitness_value>{config, island_no},
+      : base_operator{config, island_no},
         generator{get_seed(config->system_props.initialization_seed)},
         possible_values{std::any_cast<std::vector<constituent>>(
             config->user_props.at(constants::POSSIBLE_VALUES_KEY))} {
@@ -34,7 +33,7 @@ class sequence_individual_initialization : public base_operator<individual, fitn
     }
   }
 
-  void operator()(inserter it) {
+  void operator()(inserter<individual, fitness_value> it) {
     auto &props = config->system_props;
     auto values = possible_values;
 

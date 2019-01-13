@@ -1,16 +1,20 @@
 
 
 #include "core.hpp"
+#include "operators/average_fitness_global_termination_check.hpp"
 #include "operators/best_individual_elitism.hpp"
 #include "operators/roulette_wheel_parent_selection.hpp"
 #include "operators/roulette_wheel_survival_selection.hpp"
 #include "operators/sequence_individual_initialization.hpp"
 #include "operators/sequence_individual_crossover.hpp"
+#include "operators/ring_random_migration.hpp"
 #include "example/onemax/onemax_defs.hpp"
 #include "example/onemax/bitstring_mutation.hpp"
 #include "example/onemax/onemax_fitness_evaluation.hpp"
 #include <models/distributed/global_model_cluster.hpp>
 #include <models/distributed/grid_model_cluster.hpp>
+#include <models/distributed/island_model_cluster.hpp>
+#include <models/sequential_model.hpp>
 
 using namespace caf;
 
@@ -21,11 +25,11 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
    */
   system_properties system_props;
   system_props.islands_number = recommended_worker_number();
-  system_props.population_size = 10000;
+  system_props.population_size = 1000;
   system_props.individual_size = 10;
   system_props.elitists_number = 10;
-  system_props.generations_number = 100;
-  system_props.migration_period = 10;
+  system_props.generations_number = 10;
+  system_props.migration_period = 5;
   system_props.migration_quota = 10;
   system_props.initialization_seed = 345312;
   system_props.crossover_seed = 654674;
@@ -55,7 +59,12 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
       {constants::POSSIBLE_VALUES_KEY, sequence<char>{0, 1}},
       {constants::STABLE_REQUIRED_KEY, size_t{10}},
       {constants::MINIMUM_AVERAGE_KEY, int{8}},
-      {constants::N_FOLDS, int{5}}
+      {constants::CSV_FILE, "some/path/file.csv"},
+      {constants::N_ROWS, int{100}},
+      {constants::N_COLS, int{10}},
+      {constants::N_FOLDS, int{5}},
+      {constants::MUTATION_PROB_C, std::make_pair(0.01, 32000.0)},
+      {constants::MUTATION_PROB_GAMMA, std::make_pair(1.0E-6, 8.0)}
   };
 
   /*global_cluster_runner<sequence<char>, int,
@@ -71,7 +80,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                                             user_props,
                                                                                             cluster_props);*/
 
-  /*island_cluster_runner<sequence<char>, int,
+  island_cluster_runner<sequence<char>, int,
                         onemax_fitness_evaluation,
                         sequence_individual_initialization<char, int>,
                         sequence_individual_crossover<char, int>,
@@ -82,9 +91,9 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                         ring_random_migration<sequence<char>, int>>::run(system,
                                                                          system_props,
                                                                          user_props,
-                                                                         cluster_props);*/
+                                                                         cluster_props);
 
-  grid_cluster_runner<sequence<char>, int,
+  /*grid_cluster_runner<sequence<char>, int,
                       onemax_fitness_evaluation,
                       sequence_individual_initialization<char, int>,
                       sequence_individual_crossover<char, int>,
@@ -94,7 +103,18 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                       best_individual_elitism<sequence<char>, int>>::run(system,
                                                                          system_props,
                                                                          user_props,
-                                                                         cluster_props);
+                                                                         cluster_props);*/
+
+  /*sequential_model_driver<sequence<char>, int,
+                          onemax_fitness_evaluation,
+                          sequence_individual_initialization<char, int>,
+                          sequence_individual_crossover<char, int>,
+                          bitstring_mutation,
+                          roulette_wheel_parent_selection<sequence<char>, int>,
+                          roulette_wheel_survival_selection<sequence<char>, int>,
+                          best_individual_elitism<sequence<char>, int>,
+                          average_fitness_global_termination_check<sequence<char>, int>> driver{system_props, user_props};
+  driver.run(system);*/
 }
 
 CLUSTER_CONFIG(sequence<char>, int)

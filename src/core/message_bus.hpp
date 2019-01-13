@@ -11,6 +11,7 @@ class message_bus {
  private:
   group message_group;
  public:
+  message_bus() = default;
   message_bus(const group &mg);
 
   template<typename Actor>

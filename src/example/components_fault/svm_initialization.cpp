@@ -7,12 +7,12 @@
 svm_initialization::svm_initialization(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.initialization_seed)},
-      dist_c{0.01, 32000.0},
-      dist_gamma{1.0E-6, 8.0} {
+      dist_c{from_range(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_C)))},
+      dist_gamma{from_range(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_GAMMA)))} {
 
 }
 
-void svm_initialization::operator()(inserter it) {
+void svm_initialization::operator()(inserter<rbf_params, double> it) {
   auto &props = config->system_props;
 
   for (size_t i = 0; i < props.population_size; ++i) {

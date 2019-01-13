@@ -154,7 +154,7 @@ struct global_model_executor_state : public base_state {
         compute_fitness_counter{0},
         population_size_counter{0},
         offspring_size_counter{0} {
-    population.reserve(
+    main.reserve(
         config->system_props.population_size
             + config->system_props.elitists_number);
     offspring.reserve(config->system_props.population_size);
@@ -169,10 +169,10 @@ struct global_model_executor_state : public base_state {
   elitism_operator elitism;
   global_termination_check termination_check;
 
-  parent_collection<individual, fitness_value> parents;
-  individual_collection<individual, fitness_value> population;
-  individual_collection<individual, fitness_value> offspring;
-  individual_collection<individual, fitness_value> elitists;
+  couples<individual, fitness_value> parents;
+  population<individual, fitness_value> main;
+  population<individual, fitness_value> offspring;
+  population<individual, fitness_value> elitists;
 
   size_t current_generation;
   size_t current_island;
@@ -208,7 +208,7 @@ behavior global_model_executor(
         generation_message(self, note_start::value, now(), state.current_island);
         generation_message(self, note_start::value, now(), state.current_island);
 
-        state.initialization(std::back_inserter(state.population));
+        state.initialization(std::back_inserter(state.main));
         self->send(self, execute_phase_1::value);
 
         generation_message(self,
@@ -223,12 +223,12 @@ behavior global_model_executor(
 
         generation_message(self, note_start::value, now(), state.current_island);
 
-        state.population_size_counter = state.population.size();
+        state.population_size_counter = state.main.size();
 
         for (size_t i = 0; i < state.population_size_counter; ++i) {
-          self->request(supervisor, timeout, state.population[i].first).then(
+          self->request(supervisor, timeout, state.main[i].first).then(
               [=](fitness_value &fv) {
-                self->state.population[i].second = std::move(fv);
+                self->state.main[i].second = std::move(fv);
 
                 if (++self->state.compute_fitness_counter == self->state.population_size_counter) {
                   self->state.compute_fitness_counter = 0;
@@ -265,10 +265,10 @@ behavior global_model_executor(
         generation_message(self, note_start::value, now(), state.current_island);
 
         if (props.is_elitism_active) {
-          state.elitism(state.population, state.elitists);
+          state.elitism(state.main, state.elitists);
         }
 
-        state.parent_selection(state.population, state.parents);
+        state.parent_selection(state.main, state.parents);
 
         for (const auto &couple : state.parents) {
           state.crossover(std::back_inserter(state.offspring), couple);
@@ -290,7 +290,7 @@ behavior global_model_executor(
 
                   if (++self->state.compute_fitness_counter == self->state.offspring_size_counter) {
                     self->state.compute_fitness_counter = 0;
-                    self->state.survival_selection(self->state.population, self->state.offspring);
+                    self->state.survival_selection(self->state.main, self->state.offspring);
 
                     self->send(self, execute_phase_3::value);
 
@@ -333,18 +333,18 @@ behavior global_model_executor(
 
         generation_message(self, note_start::value, now(), state.current_island);
 
-        state.population.swap(state.offspring);
+        state.main.swap(state.offspring);
         state.offspring.clear();
 
         if (props.is_elitism_active) {
-          state.population.insert(state.population.end(),
-                                  std::make_move_iterator(state.elitists.begin()),
-                                  std::make_move_iterator(state.elitists.end()));
+          state.main.insert(state.main.end(),
+                            std::make_move_iterator(state.elitists.begin()),
+                            std::make_move_iterator(state.elitists.end()));
           state.elitists.clear();
         }
 
         if (++state.current_generation == props.generations_number
-            || state.termination_check(state.population)) {
+            || state.termination_check(state.main)) {
           self->send(self, finish::value);
         } else {
           self->send(self, execute_phase_1::value);
@@ -368,7 +368,7 @@ behavior global_model_executor(
                            state.current_island);
         individual_message(self,
                            report_population::value,
-                           state.population,
+                           state.main,
                            state.current_generation,
                            state.current_island);
         system_message(self, "Quitting global model executor");

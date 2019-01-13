@@ -4,8 +4,7 @@
 #include <core.hpp>
 
 template<typename individual, typename fitness_value>
-class roulette_wheel_parent_selection : public base_operator<individual, fitness_value> {
-  INCLUDES(individual, fitness_value);
+class roulette_wheel_parent_selection : public base_operator {
  private:
   std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution;
@@ -13,7 +12,7 @@ class roulette_wheel_parent_selection : public base_operator<individual, fitness
 
   inline size_t spin(
       const fitness_value &total_fitness,
-      const population &population) const
+      const population<individual, fitness_value> &population) const
   noexcept {
     auto rand_fitness{random_one() * total_fitness};
     size_t start{0};
@@ -26,13 +25,14 @@ class roulette_wheel_parent_selection : public base_operator<individual, fitness
   roulette_wheel_parent_selection() = default;
   roulette_wheel_parent_selection(const shared_config &config,
                                   island_id island_no)
-      : base_operator<individual, fitness_value>{config, island_no},
+      : base_operator{config, island_no},
         generator{get_seed(config->system_props.parent_selection_seed)},
         distribution{0.0, 1.0},
         random_one{std::bind(distribution, generator)} {
   }
 
-  void operator()(population &population, parents &couples) const {
+  void operator()(population<individual, fitness_value> &population,
+                  couples<individual, fitness_value> &couples) const {
     auto couples_num = population.size() / 2;
 
     auto total = std::accumulate(std::begin(population),

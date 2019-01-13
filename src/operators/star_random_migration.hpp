@@ -21,7 +21,7 @@ class star_random_migration : public random_migration<individual, fitness_value>
   }
 
   island_id next_destination(
-      const individual_wrapper<individual, fitness_value> &wrapper, size_t population) override {
+      const wrapper<individual, fitness_value> &wrapper, size_t population) override {
     return (++counter % (this->config->system_props.islands_number - 1));
   }
 };

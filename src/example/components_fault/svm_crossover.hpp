@@ -8,8 +8,7 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
-class svm_crossover : public base_operator<rbf_params, double> {
-  INCLUDES(rbf_params, double);
+class svm_crossover : public base_operator {
  private:
   std::default_random_engine generator;
   std::bernoulli_distribution distribution;
@@ -17,7 +16,7 @@ class svm_crossover : public base_operator<rbf_params, double> {
  public:
   svm_crossover(const shared_config &config, island_id island_no);
 
-  void operator()(inserter it, const wrapper_pair &couple);
+  void operator()(inserter<rbf_params, double> it, const wrapper_pair<rbf_params, double> &couple);
 };
 
 #endif //GENETIC_ACTOR_SVM_CROSSOVER_H

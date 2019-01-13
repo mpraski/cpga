@@ -7,21 +7,20 @@
 
 #include "core.hpp"
 
-class bitstring_mutation : public base_operator<sequence<char>, int> {
-  INCLUDES(sequence<char>, int);
+class bitstring_mutation : public base_operator {
  private:
   std::default_random_engine generator;
   std::uniform_real_distribution<double> distribution;
   std::function<double()> random_f;
 
   inline void flip(char &c) const noexcept {
-    if (c == 0) c = 1; else c = 0;
+    c = c ? 0 : 1;
   }
  public:
   bitstring_mutation() = default;
   bitstring_mutation(const shared_config &config, island_id island_no);
 
-  void operator()(wrapper &wrapper) const noexcept;
+  void operator()(wrapper<sequence<char>, int> &wrapper) const noexcept;
 };
 
 #endif //GENETIC_ACTOR_BITSTRING_MUTATION_HPP

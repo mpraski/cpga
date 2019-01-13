@@ -20,23 +20,23 @@ template<typename individual_value>
 using sequence = std::vector<individual_value>;
 
 template<typename individual, typename fitness_value>
-using individual_wrapper = std::pair<individual, fitness_value>;
+using wrapper = std::pair<individual, fitness_value>;
 
 template<typename individual, typename fitness_value>
-using individual_wrapper_pair = std::pair<individual_wrapper<individual, fitness_value>,
-                                          individual_wrapper<individual, fitness_value>>;
+using wrapper_pair = std::pair<wrapper<individual, fitness_value>,
+                               wrapper<individual, fitness_value>>;
 
 template<typename individual, typename fitness_value>
-using individual_collection = std::vector<individual_wrapper<individual, fitness_value>>;
+using population = std::vector<wrapper<individual, fitness_value>>;
 
 template<typename individual, typename fitness_value>
-using parent_collection = std::vector<individual_wrapper_pair<individual, fitness_value>>;
+using couples = std::vector<wrapper_pair<individual, fitness_value>>;
 
 template<typename individual, typename fitness_value>
-using migration_payload = std::vector<std::pair<island_id, individual_wrapper<individual, fitness_value>>>;
+using migration_payload = std::vector<std::pair<island_id, wrapper<individual, fitness_value>>>;
 
 template<typename individual, typename fitness_value>
-using individual_collection_inserter = std::back_insert_iterator<individual_collection<individual, fitness_value>>;
+using inserter = std::back_insert_iterator<population<individual, fitness_value>>;
 
 // Commonly used data
 namespace constants {
@@ -47,6 +47,10 @@ const constexpr char CSV_FILE[] = "csv_file";
 const constexpr char N_ROWS[] = "n_rows";
 const constexpr char N_COLS[] = "n_cols";
 const constexpr char N_FOLDS[] = "n_folds";
+const constexpr char MUTATION_PROB_C[] = "mutation_prob_c";
+const constexpr char MUTATION_PROB_GAMMA[] = "mutation_prob_gamma";
+const constexpr char RANGE_C[] = "range_c";
+const constexpr char RANGE_GAMMA[] = "range_gamma";
 const constexpr char NODE_GROUP[] = "node_group";
 const constexpr char MESSAGE_BUS_GROUP[] = "message_bus_group";
 

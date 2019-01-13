@@ -7,7 +7,7 @@ bitstring_mutation::bitstring_mutation(const shared_config &config, island_id is
       random_f{std::bind(distribution, generator)} {
 }
 
-void bitstring_mutation::operator()(wrapper &wrapper) const noexcept {
+void bitstring_mutation::operator()(wrapper<sequence<char>, int> &wrapper) const noexcept {
   for (auto &c : wrapper.first) {
     if (random_f() < config->system_props.mutation_probability) {
       flip(c);

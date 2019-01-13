@@ -46,7 +46,10 @@ void time_reporter_state::note_start(const time_point &start,
   if (auto times{start_times.find(island)}; times != start_times.end()) {
     times->second.push(start);
   } else {
-    start_times.emplace(island, std::stack<time_point>{});
+    std::stack<time_point> new_times;
+    new_times.push(start);
+
+    start_times.emplace(island, std::move(new_times));
   }
 }
 

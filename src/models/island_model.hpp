@@ -30,7 +30,7 @@ struct island_model_worker_state : public base_state {
         elitism{config, id},
         current_island{id},
         current_generation{0} {
-    population.reserve(
+    main.reserve(
         config->system_props.population_size
             + config->system_props.elitists_number);
     offspring.reserve(config->system_props.population_size);
@@ -49,10 +49,10 @@ struct island_model_worker_state : public base_state {
   island_id current_island;
   size_t current_generation;
 
-  parent_collection<individual, fitness_value> parents;
-  individual_collection<individual, fitness_value> population;
-  individual_collection<individual, fitness_value> offspring;
-  individual_collection<individual, fitness_value> elitists;
+  couples<individual, fitness_value> parents;
+  population<individual, fitness_value> main;
+  population<individual, fitness_value> offspring;
+  population<individual, fitness_value> elitists;
 };
 
 template<typename individual, typename fitness_value,
@@ -78,7 +78,7 @@ behavior island_model_worker(
         generation_message(self, note_start::value, now(), state.current_island);
         generation_message(self, note_start::value, now(), state.current_island);
 
-        state.initialization(std::back_inserter(state.population));
+        state.initialization(std::back_inserter(state.main));
 
         generation_message(self, note_end::value, now(), actor_phase::init_population, state.current_generation,
                            state.current_island);
@@ -89,15 +89,15 @@ behavior island_model_worker(
 
         generation_message(self, note_start::value, now(), state.current_island);
 
-        for (auto&[ind, value] : state.population) {
+        for (auto&[ind, value] : state.main) {
           value = state.fitness_evaluation(ind);
         }
 
         if (props.is_elitism_active) {
-          state.elitism(state.population, state.elitists);
+          state.elitism(state.main, state.elitists);
         }
 
-        state.parent_selection(state.population, state.parents);
+        state.parent_selection(state.main, state.parents);
 
         for (const auto &couple : state.parents) {
           state.crossover(std::back_inserter(state.offspring), couple);
@@ -114,16 +114,16 @@ behavior island_model_worker(
             value = state.fitness_evaluation(ind);
           }
 
-          state.survival_selection(state.population, state.offspring);
+          state.survival_selection(state.main, state.offspring);
         }
 
-        state.population.swap(state.offspring);
+        state.main.swap(state.offspring);
         state.offspring.clear();
 
         if (props.is_elitism_active) {
-          state.population.insert(state.population.end(),
-                                  std::make_move_iterator(state.elitists.begin()),
-                                  std::make_move_iterator(state.elitists.end()));
+          state.main.insert(state.main.end(),
+                            std::make_move_iterator(state.elitists.begin()),
+                            std::make_move_iterator(state.elitists.end()));
           state.elitists.clear();
         }
 
@@ -133,17 +133,17 @@ behavior island_model_worker(
         ++state.current_generation;
       },
       [self](execute_migration) {
-        return self->state.migration(self->state.current_island, self->state.population);
+        return self->state.migration(self->state.current_island, self->state.main);
       },
-      [self](receive_migration, individual_wrapper<individual, fitness_value> &migrant) {
-        self->state.population.emplace_back(std::move(migrant));
+      [self](receive_migration, wrapper<individual, fitness_value> &migrant) {
+        self->state.main.emplace_back(std::move(migrant));
       },
       [self](finish) {
         auto &state = self->state;
 
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation,
                            state.current_island);
-        individual_message(self, report_population::value, state.population, state.current_generation,
+        individual_message(self, report_population::value, state.main, state.current_generation,
                            state.current_island);
         system_message(self, "Quitting island worker id: ", state.current_island);
         bus_message(self, "worker_finished");

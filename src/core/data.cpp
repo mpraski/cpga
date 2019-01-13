@@ -5,6 +5,10 @@
 #include "data.hpp"
 
 configuration::configuration(const system_properties &system_props,
+                             const user_properties &user_props) : system_props{system_props},
+                                                                  user_props{user_props} {}
+
+configuration::configuration(const system_properties &system_props,
                              const user_properties &user_props,
                              actor &generation_reporter,
                              actor &individual_reporter,

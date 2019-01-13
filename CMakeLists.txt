@@ -17,7 +17,6 @@ include_directories(src/core)
 include_directories(src/cluster)
 
 add_executable(genetic_actor
-        include/genetic-actor/individual.hpp
         src/example/onemax/bitstring_mutation.cpp
         src/example/onemax/onemax_defs.hpp
         src/example/onemax/onemax_fitness_evaluation.hpp
@@ -69,7 +68,14 @@ add_executable(genetic_actor
         src/example/components_fault/components_fault_defs.hpp
         src/example/components_fault/components_fault_defs.cpp
         src/example/onemax/bitstring_mutation.hpp
-        src/utilities/csv_reader.h src/example/onemax/onemax_fitness_evaluation.cpp src/example/components_fault/svm_initialization.cpp src/example/components_fault/svm_initialization.hpp src/example/components_fault/svm_crossover.cpp src/example/components_fault/svm_crossover.hpp src/example/components_fault/svm_mutation.cpp src/example/components_fault/svm_mutation.hpp)
+        src/utilities/csv_reader.hpp
+        src/example/onemax/onemax_fitness_evaluation.cpp
+        src/example/components_fault/svm_initialization.cpp
+        src/example/components_fault/svm_initialization.hpp
+        src/example/components_fault/svm_crossover.cpp
+        src/example/components_fault/svm_crossover.hpp
+        src/example/components_fault/svm_mutation.cpp
+        src/example/components_fault/svm_mutation.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

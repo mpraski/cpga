@@ -28,9 +28,9 @@ struct grid_model_worker_state : public base_state {
   survival_selection_operator survival_selection;
   elitism_operator elitism;
 
-  parent_collection<individual, fitness_value> parents;
-  individual_collection<individual, fitness_value> offspring;
-  individual_collection<individual, fitness_value> elitists;
+  couples<individual, fitness_value> parents;
+  population<individual, fitness_value> offspring;
+  population<individual, fitness_value> elitists;
 
   inline void reset() noexcept {
     parents.clear();
@@ -55,7 +55,7 @@ behavior grid_model_worker(
   self->state = std::move(state);
 
   return {
-      [self](execute_computation, size_t gen, individual_collection<individual, fitness_value> &pop) {
+      [self](execute_computation, size_t gen, population<individual, fitness_value> &pop) {
         auto &state = self->state;
         auto &props = self->state.config->system_props;
 
@@ -152,7 +152,7 @@ behavior grid_model_dispatcher(
       });
 
   return {
-      [self](execute_computation atom, size_t gen, individual_collection<individual, fitness_value> &pop) {
+      [self](execute_computation atom, size_t gen, population<individual, fitness_value> &pop) {
         self->delegate(self->state.get_worker(), atom, gen, std::move(pop));
       },
       [self](finish) {
@@ -179,7 +179,7 @@ struct grid_model_executor_state : public base_state {
         fitness_evaluation{config, island_special},
         random_nums(config->system_props.population_size),
         generator(now().time_since_epoch().count()) {
-    population.reserve(config->system_props.population_size);
+    main.reserve(config->system_props.population_size);
     result.reserve(config->system_props.population_size);
     std::iota(std::begin(random_nums), std::end(random_nums), size_t{});
   }
@@ -193,8 +193,8 @@ struct grid_model_executor_state : public base_state {
 
   std::vector<size_t> random_nums;
   std::default_random_engine generator;
-  individual_collection<individual, fitness_value> population;
-  individual_collection<individual, fitness_value> result;
+  population<individual, fitness_value> main;
+  population<individual, fitness_value> result;
 };
 
 template<typename individual, typename fitness_value,
@@ -227,7 +227,7 @@ behavior grid_model_executor(
         generation_message(self, note_start::value, now(), island_special);
         generation_message(self, note_start::value, now(), island_special);
 
-        state.initialization(std::back_inserter(state.population));
+        state.initialization(std::back_inserter(state.main));
         self->send(self, execute_phase_1::value);
 
         generation_message(self,
@@ -250,7 +250,7 @@ behavior grid_model_executor(
 
         std::shuffle(random_nums.begin(), random_nums.end(), gen);
 
-        for (auto&[ind, value] : state.population) {
+        for (auto&[ind, value] : state.main) {
           value = state.fitness_evaluation(ind);
         }
 
@@ -259,11 +259,11 @@ behavior grid_model_executor(
             times += rem;
           }
 
-          individual_collection<individual, fitness_value> pop;
+          population<individual, fitness_value> pop;
           pop.reserve(times);
 
           for (size_t j = i; j < i + times; ++j) {
-            pop.emplace_back(std::move(state.population[random_nums[j]]));
+            pop.emplace_back(std::move(state.main[random_nums[j]]));
           }
 
           state.computation_counter = islands;
@@ -275,21 +275,15 @@ behavior grid_model_executor(
               self->state.current_generation,
               pop
           ).then(
-              [=](individual_collection<individual, fitness_value> &result) {
+              [=](population<individual, fitness_value> &result) {
                 self->state.result.insert(self->state.result.end(),
                                           std::make_move_iterator(result.begin()),
                                           std::make_move_iterator(result.end()));
 
                 if (++self->state.computation_done == self->state.computation_counter) {
                   self->state.computation_done = 0;
-                  self->state.population.clear();
-                  self->state.population.swap(self->state.result);
-
-                  if (++self->state.current_generation <= generations) {
-                    self->send(self, execute_phase_1::value);
-                  } else {
-                    self->send(self, execute_phase_2::value);
-                  }
+                  self->state.main.clear();
+                  self->state.main.swap(self->state.result);
 
                   generation_message(self,
                                      note_end::value,
@@ -297,6 +291,12 @@ behavior grid_model_executor(
                                      actor_phase::execute_phase_1,
                                      state.current_generation,
                                      island_special);
+
+                  if (++self->state.current_generation <= generations) {
+                    self->send(self, execute_phase_1::value);
+                  } else {
+                    self->send(self, execute_phase_2::value);
+                  }
                 }
               },
               [=](error &err) {
@@ -318,7 +318,7 @@ behavior grid_model_executor(
         auto &state = self->state;
 
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, island_special);
-        individual_message(self, report_population::value, state.population, state.current_generation, island_special);
+        individual_message(self, report_population::value, state.main, state.current_generation, island_special);
 
         self->send(dispatcher, finish::value);
       },

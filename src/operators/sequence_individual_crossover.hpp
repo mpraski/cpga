@@ -5,8 +5,7 @@
 #include <core.hpp>
 
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
-class sequence_individual_crossover : public base_operator<individual, fitness_value> {
-  INCLUDES(individual, fitness_value);
+class sequence_individual_crossover : public base_operator {
  private:
   std::default_random_engine generator;
   std::uniform_int_distribution<size_t> distribution;
@@ -25,13 +24,14 @@ class sequence_individual_crossover : public base_operator<individual, fitness_v
   sequence_individual_crossover() = default;
   sequence_individual_crossover(const shared_config &config,
                                 island_id island_no)
-      : base_operator<individual, fitness_value>{config, island_no},
+      : base_operator{config, island_no},
         generator{get_seed(config->system_props.crossover_seed)},
         distribution{0, config->system_props.individual_size},
         random_f{std::bind(distribution, generator)} {
   }
 
-  void operator()(inserter it, const wrapper_pair &couple) const {
+  void operator()(inserter<individual, fitness_value> it,
+                  const wrapper_pair<individual, fitness_value> &couple) const {
     auto ind_size = config->system_props.individual_size;
 
     auto child1 = create();

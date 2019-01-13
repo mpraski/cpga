@@ -10,8 +10,7 @@
 #include "components_fault_defs.hpp"
 #include "components_fault_defs.hpp"
 
-class svm_fitness_evaluation : public base_operator<rbf_params, double> {
-  INCLUDES(rbf_params, double);
+class svm_fitness_evaluation : public base_operator {
  private:
   int n_rows;
   int n_cols;

@@ -5,16 +5,16 @@
 #include <core.hpp>
 
 template<typename individual, typename fitness_value>
-class best_individual_elitism : public base_operator<individual, fitness_value> {
-  INCLUDES(individual, fitness_value);
+class best_individual_elitism : public base_operator {
  private:
-  constexpr static auto compFunctor = [](const wrapper &w1, const wrapper &w2) {
+  constexpr static auto compFunctor = [](const auto &w1, const auto &w2) {
     return w1.second > w2.second;
   };
  public:
-  using base_operator<individual, fitness_value>::base_operator;
+  using base_operator::base_operator;
 
-  void operator()(population &main, population &elitists) const {
+  void operator()(population<individual, fitness_value> &main,
+                  population<individual, fitness_value> &elitists) const {
     std::sort(main.begin(), main.end(), compFunctor);
 
     auto end = main.begin() + config->system_props.elitists_number;

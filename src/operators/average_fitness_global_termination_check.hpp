@@ -1,8 +1,7 @@
 #include <core.hpp>
 
 template<typename individual, typename fitness_value>
-class average_fitness_global_termination_check : public base_operator<individual, fitness_value> {
-  INCLUDES(individual, fitness_value);
+class average_fitness_global_termination_check : public base_operator {
  private:
   size_t stable_so_far;
   size_t stable_required;
@@ -11,7 +10,7 @@ class average_fitness_global_termination_check : public base_operator<individual
   average_fitness_global_termination_check() = default;
   average_fitness_global_termination_check(const shared_config &config,
                                            island_id island_no)
-      : base_operator<individual, fitness_value>{config, island_no},
+      : base_operator{config, island_no},
         stable_so_far{0},
         stable_required{std::any_cast<size_t>(
             config->user_props.at(constants::STABLE_REQUIRED_KEY))},
@@ -19,7 +18,7 @@ class average_fitness_global_termination_check : public base_operator<individual
             config->user_props.at(constants::MINIMUM_AVERAGE_KEY))} {
   }
 
-  bool operator()(const population &population) noexcept {
+  bool operator()(const population<individual, fitness_value> &population) noexcept {
     if (population.empty()) {
       return true;
     }

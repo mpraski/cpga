@@ -84,9 +84,7 @@ class base_driver {
 
   virtual ~base_driver() = default;
 
-  void run() {
-    actor_system_config cfg;
-    actor_system system{cfg};
+  void run(actor_system &system) {
     scoped_actor self{system};
 
     shared_config const_config{std::const_pointer_cast<const configuration>(config)};

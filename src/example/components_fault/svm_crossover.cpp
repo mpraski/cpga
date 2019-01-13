@@ -12,7 +12,8 @@ svm_crossover::svm_crossover(const shared_config &config, island_id island_no)
 
 }
 
-void svm_crossover::operator()(inserter it, const wrapper_pair &couple) {
+void svm_crossover::operator()(inserter<rbf_params, double> it,
+                               const wrapper_pair<rbf_params, double> &couple) {
   auto &parent1 = couple.first.first;
   auto &parent2 = couple.second.first;
 

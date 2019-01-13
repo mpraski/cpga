@@ -100,9 +100,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/include/genetic-actor/individual.hpp">
-			<Option target="genetic_actor"/>
-		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/atoms.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
@@ -283,7 +280,7 @@
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/reporter.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
-		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/utilities/csv_reader.h">
+		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/utilities/csv_reader.hpp">
 			<Option target="genetic_actor"/>
 		</Unit>
 		<Unit filename="/home/marcin/eclipse-workspace/genetic-actor/src/utilities/finite_state_machine.hpp">

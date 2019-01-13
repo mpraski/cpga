@@ -2,7 +2,7 @@
 // Created by marcinpraski on 10/01/19.
 //
 
-#include <utilities/csv_reader.h>
+#include <utilities/csv_reader.hpp>
 #include "svm_fitness_evaluation.hpp"
 
 svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, island_id island_no)
@@ -94,5 +94,6 @@ svm_fitness_evaluation::~svm_fitness_evaluation() {
   for (int i = 0; i < n_rows; ++i) {
     delete problem->x[i];
   }
+  delete problem->x;
   delete problem;
 }

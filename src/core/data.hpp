@@ -58,6 +58,9 @@ struct system_properties {
  */
 struct configuration {
   configuration(const system_properties &system_props,
+                const user_properties &user_props);
+
+  configuration(const system_properties &system_props,
                 const user_properties &user_props,
                 actor &generation_reporter,
                 actor &individual_reporter,
