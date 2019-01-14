@@ -1,4 +1,4 @@
-#include "../core.hpp"
+#include <core.hpp>
 
 template<typename individual, typename fitness_value>
 class average_fitness_global_termination_check : public base_operator {
@@ -18,19 +18,15 @@ class average_fitness_global_termination_check : public base_operator {
             config->user_props.at(constants::MINIMUM_AVERAGE_KEY))} {
   }
 
-  bool operator()(
-      const individual_collection<individual, fitness_value> &population)
-  noexcept {
+  bool operator()(const population<individual, fitness_value> &population) noexcept {
     if (population.empty()) {
       return true;
     }
 
-    fitness_value total{};
-    for (const auto &member : population) {
-      total += member.second;
-    }
-
-    total = total / population.size();
+    fitness_value total = std::accumulate(std::begin(population),
+                                          std::end(population),
+                                          fitness_value{},
+                                          [](auto acc, const auto &m) { return acc + m.second; }) / population.size();
 
     if (total >= minimum_average) {
       return ++stable_so_far == stable_required;

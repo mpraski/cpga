@@ -4,23 +4,10 @@
 #include <stack>
 #include <fstream>
 #include <memory>
-#include "caf/all.hpp"
-#include "atoms.hpp"
-#include "common.hpp"
+#include <atoms.hpp>
+#include <common.hpp>
 
-using namespace caf;
 using time_point = std::chrono::time_point<std::chrono::system_clock>;
-
-enum class actor_phase {
-  init_population,
-  execute_phase_1,
-  execute_phase_2,
-  execute_phase_3,
-  finish,
-  total,
-  execute_generation,
-  execute_computation
-};
 
 class reporter_state {
  private:
@@ -59,14 +46,14 @@ class individual_reporter_state : public reporter_state {
   using reporter_state::reporter_state;
 
   inline void write_individual(
-      const individual_wrapper<individual, fitness_value> &wrapper,
+      const wrapper<individual, fitness_value> &wrapper,
       size_t generation, island_id island) {
     *out_stream << generation << delimiter << island << delimiter
                 << wrapper.first << delimiter << wrapper.second << std::endl;
   }
 
   void write_population(
-      const individual_collection<individual, fitness_value> &population,
+      const population<individual, fitness_value> &population,
       size_t generation, island_id island) {
     for (const auto &member : population) {
       write_individual(member, generation, island);
@@ -88,8 +75,8 @@ behavior time_reporter(stateful_actor<time_reporter_state> *self);
 template<typename individual, typename fitness_value>
 behavior individual_reporter(
     stateful_actor<individual_reporter_state<individual, fitness_value>> *self) {
-  using member = individual_wrapper<individual, fitness_value>;
-  using population = individual_collection<individual, fitness_value>;
+  using member = wrapper<individual, fitness_value>;
+  using population = population<individual, fitness_value>;
   return {
       [=](init_reporter, const std::string &file, const std::vector<std::string> &headers) {
         self->state.open_stream(file, headers);

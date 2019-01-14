@@ -1,13 +1,11 @@
 #pragma once
 
-#include "../core.hpp"
-
 #include <random>
 #include <vector>
+#include <core.hpp>
 
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
 class sequence_individual_initialization : public base_operator {
-  using distribution = std::uniform_int_distribution<size_t>;
  private:
   std::default_random_engine generator;
   std::vector<constituent> possible_values;
@@ -35,25 +33,22 @@ class sequence_individual_initialization : public base_operator {
     }
   }
 
-  void operator()(
-      individual_collection<individual, fitness_value> &individuals) {
+  void operator()(inserter<individual, fitness_value> it) {
     auto &props = config->system_props;
     auto values = possible_values;
 
+    auto gen = [&] {
+      auto r = std::uniform_int_distribution<size_t>{0, values.size() - 1}(generator);
+      if (!props.can_repeat_individual_elements) {
+        values.erase(values.begin() + r);
+      }
+      return values[r];
+    };
+
     for (size_t i = 0; i < props.population_size; ++i) {
       auto ind = create();
-      auto it = std::begin(ind);
-
-      for (size_t j = 0; j < props.individual_size; ++j) {
-        auto r = distribution{0, values.size() - 1}(generator);
-        *(it++) = values[r];
-
-        if (!props.can_repeat_individual_elements) {
-          erase_quick(values, values.begin() + r);
-        }
-      }
-
-      individuals.emplace_back(std::move(ind), fitness_value{});
+      std::generate(std::begin(ind), std::end(ind), gen);
+      it = {std::move(ind), fitness_value{}};
     }
   }
 };

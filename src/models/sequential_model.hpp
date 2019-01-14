@@ -1,9 +1,7 @@
 #pragma once
 
-#include "caf/all.hpp"
-#include "../core.hpp"
-
-using namespace caf;
+#include <caf/all.hpp>
+#include <core.hpp>
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
@@ -29,38 +27,42 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
     elitism_operator elitism{config, island_0};
     global_termination_check termination_check{config, island_0};
 
-    parent_collection<individual, fitness_value> parents;
+    couples<individual, fitness_value> parents;
 
-    individual_collection<individual, fitness_value> population;
-    individual_collection<individual, fitness_value> offspring;
-    individual_collection<individual, fitness_value> elitists;
+    population<individual, fitness_value> main;
+    population<individual, fitness_value> offspring;
+    population<individual, fitness_value> elitists;
 
     parents.reserve(props.population_size / 2);
-    population.reserve(props.population_size + props.elitists_number);
+    main.reserve(props.population_size + props.elitists_number);
     offspring.reserve(props.population_size);
     elitists.reserve(props.population_size);
 
     if (props.is_generation_reporter_active) {
-      self->send(config->generation_reporter, note_start::value, now());
+      self->send(config->generation_reporter, note_start::value, now(), island_0);
     }
 
-    initialization(population);
+    initialization(std::back_inserter(main));
 
     for (size_t g = 0; g < props.generations_number; ++g) {
-      for (auto &member : population) {
+      if (props.is_generation_reporter_active) {
+        self->send(config->generation_reporter, note_start::value, now(), island_0);
+      }
+
+      for (auto &member : main) {
         member.second = fitness_evaluation(member.first);
       }
 
       if (props.is_elitism_active) {
-        elitism(population, elitists);
+        elitism(main, elitists);
       }
 
       // This will fill parents with individual_wrapper_pairs, each holding two copied individuals
-      parent_selection(population, parents);
+      parent_selection(main, parents);
 
       // This will fill offspring with newly created individual_wrappers
-      for (const auto &parent : parents) {
-        crossover(offspring, parent);
+      for (const auto &couple : parents) {
+        crossover(std::back_inserter(offspring), couple);
       }
 
       // Clear parents for future use
@@ -76,20 +78,24 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
           child.second = fitness_evaluation(child.first);
         }
 
-        survival_selection(population, offspring);
+        survival_selection(main, offspring);
       }
 
-      population.swap(offspring);
+      main.swap(offspring);
       offspring.clear();
 
       if (props.is_elitism_active) {
-        population.insert(population.end(),
-                          std::make_move_iterator(elitists.begin()),
-                          std::make_move_iterator(elitists.end()));
+        main.insert(main.end(),
+                    std::make_move_iterator(elitists.begin()),
+                    std::make_move_iterator(elitists.end()));
         elitists.clear();
       }
 
-      if (termination_check(population)) {
+      if (props.is_generation_reporter_active) {
+        self->send(config->generation_reporter, note_end::value, now(), actor_phase::execute_generation, g, island_0);
+      }
+
+      if (termination_check(main)) {
         break;
       }
     }
@@ -103,7 +109,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
     if (props.is_individual_reporter_active) {
       auto &individual_reporter = config->individual_reporter;
 
-      self->send(individual_reporter, report_population::value, population,
+      self->send(individual_reporter, report_population::value, main,
                  props.generations_number, island_0);
     }
   }

@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../core.hpp"
-
 #include <random>
 #include <vector>
+#include <core.hpp>
 
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
 class sequence_individual_crossover : public base_operator {
@@ -31,17 +30,16 @@ class sequence_individual_crossover : public base_operator {
         random_f{std::bind(distribution, generator)} {
   }
 
-  void operator()(
-      individual_collection<individual, fitness_value> &children,
-      const individual_wrapper_pair<individual, fitness_value> &parents) const {
+  void operator()(inserter<individual, fitness_value> it,
+                  const wrapper_pair<individual, fitness_value> &couple) const {
     auto ind_size = config->system_props.individual_size;
 
     auto child1 = create();
     auto child2 = create();
     auto it1 = std::begin(child1);
     auto it2 = std::begin(child2);
-    auto itp1 = std::begin(parents.first.first);
-    auto itp2 = std::begin(parents.second.first);
+    auto itp1 = std::begin(couple.first.first);
+    auto itp2 = std::begin(couple.second.first);
     auto rand = random_f();
 
     for (size_t i = 0; i < ind_size; ++i) {
@@ -54,7 +52,7 @@ class sequence_individual_crossover : public base_operator {
       }
     }
 
-    children.emplace_back(std::move(child1), fitness_value{});
-    children.emplace_back(std::move(child2), fitness_value{});
+    it = {std::move(child1), fitness_value{}};
+    it = {std::move(child2), fitness_value{}};
   }
 };

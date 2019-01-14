@@ -1,4 +1,4 @@
-#include "caf/atom.hpp"
+#include <caf/atom.hpp>
 
 using namespace caf;
 
@@ -18,6 +18,7 @@ using receive_migration = atom_constant<atom("mirec")>;
 using worker_finished = atom_constant<atom("wof")>;
 using finish_worker = atom_constant<atom("fiw")>;
 using dispatcher_finished = atom_constant<atom("dif")>;
+using assign_id = atom_constant<atom("assi")>;
 
 // Atoms used by grid model actors
 using execute_computation = atom_constant<atom("excomp")>;
@@ -31,3 +32,11 @@ using report_new_line = atom_constant<atom("renl")>;
 using note_start = atom_constant<atom("nst")>;
 using note_end = atom_constant<atom("nen")>;
 using exit_reporter = atom_constant<atom("er")>;
+
+// Atoms used by nodes
+using stage_discover_reporters = atom_constant<atom("rinf")>;
+using stage_discover_workers = atom_constant<atom("winf")>;
+using stage_collect_workers = atom_constant<atom("wpin")>;
+using stage_distribute_reporter_info = atom_constant<atom("swre")>;
+using stage_initiate_worker_node = atom_constant<atom("siwn")>;
+using message_bus_receive = atom_constant<atom("mbr")>;

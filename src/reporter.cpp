@@ -1,12 +1,11 @@
 #include "reporter.hpp"
 
-using namespace caf;
-
 void reporter_state::write_headers(const std::vector<std::string> &headers) {
-  for (const auto &header : headers) {
-    *out_stream << header << delimiter;
-  }
-
+  std::copy(
+      std::begin(headers),
+      std::end(headers),
+      std::ostream_iterator<std::string>{*out_stream, &delimiter}
+  );
   *out_stream << std::endl;
 }
 
@@ -44,33 +43,38 @@ void reporter_state::write_new_line() {
 
 void time_reporter_state::note_start(const time_point &start,
                                      island_id island) {
-  if (start_times.find(island) == start_times.end()) {
-    start_times.emplace(island, std::stack<time_point>{});
-  }
+  if (auto times{start_times.find(island)}; times != start_times.end()) {
+    times->second.push(start);
+  } else {
+    std::stack<time_point> new_times;
+    new_times.push(start);
 
-  start_times[island].push(start);
+    start_times.emplace(island, std::move(new_times));
+  }
 }
 
 void time_reporter_state::write_info(const time_point &end, actor_phase phase,
                                      size_t generation, island_id island) {
   using namespace std::chrono;
-  auto &times = start_times[island];
+  if (auto times{start_times.find(island)}; times != start_times.end()) {
+    if (times->second.empty()) {
+      throw std::runtime_error("Start times stack is empty");
+    }
 
-  if (times.empty()) {
-    throw std::runtime_error("Start times stack is empty");
+    auto start = times->second.top();
+    times->second.pop();
+
+    auto s = time_point_cast<milliseconds>(start);
+    auto e = time_point_cast<milliseconds>(end);
+    auto total = duration_cast<milliseconds>(end - start);
+
+    *out_stream << s.time_since_epoch().count() << delimiter
+                << e.time_since_epoch().count() << delimiter << total.count()
+                << delimiter << constants::ACTOR_PHASE_MAP[to_underlying(phase)]
+                << delimiter << generation << delimiter << island << std::endl;
+  } else {
+    throw std::runtime_error("Start times stack not found for island id " + island);
   }
-
-  auto start = times.top();
-  times.pop();
-
-  auto s = time_point_cast<milliseconds>(start);
-  auto e = time_point_cast<milliseconds>(end);
-  auto total = duration_cast<milliseconds>(end - start);
-
-  *out_stream << s.time_since_epoch().count() << delimiter
-              << e.time_since_epoch().count() << delimiter << total.count()
-              << delimiter << constants::ACTOR_PHASE_MAP[to_underlying(phase)]
-              << delimiter << generation << delimiter << island << std::endl;
 }
 
 void system_reporter_state::write_message(const time_point &time,
