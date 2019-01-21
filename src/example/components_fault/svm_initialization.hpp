@@ -19,6 +19,7 @@ class svm_initialization : public base_operator {
     return std::uniform_real_distribution<double>{std::get<0>(range), std::get<1>(range)};
   }
  public:
+  svm_initialization() = default;
   svm_initialization(const shared_config &config, island_id island_no);
 
   void operator()(inserter<rbf_params, double> it);

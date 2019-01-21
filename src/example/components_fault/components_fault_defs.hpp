@@ -6,6 +6,7 @@
 #define GENETIC_ACTOR_COMPONENTS_FAULT_DEFS_H
 
 #include <common.hpp>
+#include <iomanip>
 
 struct rbf_params {
   double c;

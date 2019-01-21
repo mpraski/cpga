@@ -4,6 +4,11 @@
 
 #include "data.hpp"
 
+system_properties::system_properties() : total_population_size{0},
+                                         population_size{0},
+                                         islands_number{0},
+                                         is_grid_model{false} {}
+
 configuration::configuration(const system_properties &system_props,
                              const user_properties &user_props) : system_props{system_props},
                                                                   user_props{user_props} {}

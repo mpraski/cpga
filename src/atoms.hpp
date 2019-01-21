@@ -33,7 +33,7 @@ using note_start = atom_constant<atom("nst")>;
 using note_end = atom_constant<atom("nen")>;
 using exit_reporter = atom_constant<atom("er")>;
 
-// Atoms used by nodes
+// Atoms used by cluster nodes
 using stage_discover_reporters = atom_constant<atom("rinf")>;
 using stage_discover_workers = atom_constant<atom("winf")>;
 using stage_collect_workers = atom_constant<atom("wpin")>;

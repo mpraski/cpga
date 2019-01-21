@@ -29,7 +29,10 @@ behavior master_node(stateful_actor<master_node_state> *self,
       },
       [=](stage_collect_workers) {
         auto &state = self->state;
-        log(self, "Collected workers from node ", state.current_worker_pings);
+        log(self,
+            "Collected workers from a node. ",
+            (state.cluster_props.expected_worker_nodes - state.current_worker_pings - 1),
+            " more nodes to go");
         if (++state.current_worker_pings == state.cluster_props.expected_worker_nodes) {
           state.workers_online = true;
           log(self, "Collected workers from all nodes");
@@ -66,8 +69,21 @@ behavior master_node_executor(stateful_actor<base_state> *self,
 
         auto[generation_reporter, individual_reporter, system_reporter] = bind_remote_reporters(system, reporter_info);
         auto workers = bind_remote_workers(system, workers_info);
+
+        auto sys_props{system_props};
+        if (workers.size() != system_props.islands_number) {
+          system_message(self,
+                         "Actual number of islands/workers (",
+                         workers.size(),
+                         ") differs from declared one (",
+                         system_props.islands_number,
+                         "). Adjusting system configuration...");
+          sys_props.islands_number = workers.size();
+          sys_props.compute_population_size();
+        }
+
         auto config = make_shared_config(
-            system_props,
+            sys_props,
             user_props,
             generation_reporter,
             individual_reporter,
@@ -81,21 +97,27 @@ behavior master_node_executor(stateful_actor<base_state> *self,
           self->monitor(worker);
         }
 
+        auto active_reporters = get_active_reporters(generation_reporter, individual_reporter, system_reporter);
+
+        log(self, "-- Starting the actual algorithm --");
+        log(self, "-- Reporters: ", join(active_reporters, ", "));
+        log(self, "-- Workers/islands: ", sys_props.islands_number);
+
         auto executor = factory(self, workers);
 
         self->set_down_handler([=](const down_msg &down) {
           if (down.source == executor) {
-            if (system_props.is_system_reporter_active) {
+            if (sys_props.is_system_reporter_active) {
               system_message(self, "Quitting reporters");
 
               self->send(config->system_reporter, exit_reporter::value);
             }
 
-            if (system_props.is_generation_reporter_active) {
+            if (sys_props.is_generation_reporter_active) {
               self->send(config->generation_reporter, exit_reporter::value);
             }
 
-            if (system_props.is_individual_reporter_active) {
+            if (sys_props.is_individual_reporter_active) {
               self->send(config->individual_reporter, exit_reporter::value);
             }
 

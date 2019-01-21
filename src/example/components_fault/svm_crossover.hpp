@@ -14,6 +14,7 @@ class svm_crossover : public base_operator {
   std::bernoulli_distribution distribution;
   std::function<bool()> coin_toss;
  public:
+  svm_crossover() = default;
   svm_crossover(const shared_config &config, island_id island_no);
 
   void operator()(inserter<rbf_params, double> it, const wrapper_pair<rbf_params, double> &couple);

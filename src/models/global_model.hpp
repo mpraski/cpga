@@ -350,6 +350,8 @@ behavior global_model_executor(
           self->send(self, execute_phase_1::value);
         }
 
+        log(self, "Generations so far: ", state.current_generation);
+
         generation_message(self,
                            note_end::value,
                            now(),

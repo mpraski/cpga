@@ -17,19 +17,19 @@ class random_migration : public base_operator {
 
   virtual ~random_migration() = default;
 
-  virtual island_id next_destination(
-      const wrapper<individual, fitness_value> &wrapper, size_t population) = 0;
+  virtual island_id next_destination(const wrapper<individual, fitness_value> &wrapper) = 0;
 
   auto operator()(island_id from, population<individual, fitness_value> &population) {
     migration_payload<individual, fitness_value> payload;
     auto quota = config->system_props.migration_quota;
 
     for (size_t i = 0; i < quota; ++i) {
-      auto next = population.begin()
-          + std::uniform_int_distribution<size_t>{0, population.size() - 1}(generator);
-      auto dest = next_destination(*next, population.size());
+      auto next = std::next(
+          population.begin(),
+          std::uniform_int_distribution<size_t>{0, population.size() - 1}(generator)
+      );
 
-      payload.emplace_back(dest, std::move(*next));
+      payload.emplace_back(next_destination(*next), std::move(*next));
       population.erase(next);
     }
 

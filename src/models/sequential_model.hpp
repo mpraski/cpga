@@ -36,7 +36,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
     parents.reserve(props.population_size / 2);
     main.reserve(props.population_size + props.elitists_number);
     offspring.reserve(props.population_size);
-    elitists.reserve(props.population_size);
+    elitists.reserve(props.elitists_number);
 
     if (props.is_generation_reporter_active) {
       self->send(config->generation_reporter, note_start::value, now(), island_0);
@@ -61,8 +61,9 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
       parent_selection(main, parents);
 
       // This will fill offspring with newly created individual_wrappers
+      auto offspring_inserter{std::back_inserter(offspring)};
       for (const auto &couple : parents) {
-        crossover(std::back_inserter(offspring), couple);
+        crossover(offspring_inserter, couple);
       }
 
       // Clear parents for future use
@@ -95,13 +96,20 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
         self->send(config->generation_reporter, note_end::value, now(), actor_phase::execute_generation, g, island_0);
       }
 
+      log(self, "Generations so far: ", g);
+
       if (termination_check(main)) {
         break;
       }
     }
 
+    for (auto &member : main) {
+      member.second = fitness_evaluation(member.first);
+    }
+
     if (props.is_generation_reporter_active) {
       auto &generation_reporter = config->generation_reporter;
+
       self->send(generation_reporter, note_end::value, now(),
                  actor_phase::total, props.generations_number, island_0);
     }
@@ -117,8 +125,7 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
  public:
   using base_driver<individual, fitness_value>::base_driver;
 
-  void perform(shared_config &config, actor_system &system, scoped_actor &self)
-  override {
+  void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
     run_pga(self, config);
   }
 };

@@ -141,6 +141,10 @@ behavior island_model_worker(
       [self](finish) {
         auto &state = self->state;
 
+        for (auto&[ind, value] : state.main) {
+          value = state.fitness_evaluation(ind);
+        }
+
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation,
                            state.current_island);
         individual_message(self, report_population::value, state.main, state.current_generation,
@@ -152,9 +156,9 @@ behavior island_model_worker(
       }
   };
 
-  self->set_default_handler([](scheduled_actor *, message_view &) {
-    return skip();
-  });
+  //self->set_default_handler([](scheduled_actor *, message_view &) {
+  //  return skip();
+  //});
 
   return {
       [=](assign_id, island_id id) {
@@ -227,6 +231,8 @@ behavior island_model_dispatcher(
     self->send(worker, assign_id::value, id);
   }
 
+  std::this_thread::sleep_for(1s);
+
   /*
    * Monitor island workers, restart ones that die
    * for abnormal reasons
@@ -264,7 +270,7 @@ behavior island_model_dispatcher(
 
         auto rp = self->make_response_promise<bool>();
         for (const auto&[id, worker] : self->state.islands) {
-          self->request(worker, timeout, atom).then(
+          self->request(worker, infinite, atom).then(
               [=](const migration_payload<individual, fitness_value> &payload) mutable {
                 auto &islands = self->state.islands;
 
@@ -343,24 +349,29 @@ behavior island_model_executor(
         self->send(dispatcher, init_population::value);
 
         if (props.is_migration_active) {
-          self->send(self, execute_phase_2::value);
+          self->send(self, execute_phase_2::value, props.migration_period);
         } else {
           self->send(self, execute_phase_3::value);
         }
       },
-      [=](execute_phase_2) {
-        for (size_t i = 0; i < props.migration_period; ++i) {
+      [=](execute_phase_2, size_t period) {
+        for (size_t i = 0; i < period; ++i) {
           self->send(dispatcher, execute_generation::value);
         }
 
         self->request(dispatcher, infinite, execute_migration::value).await(
             [&](bool flag) {
               if (!flag) return;
+              auto &props = self->state.config->system_props;
 
-              self->state.generations_so_far += props.migration_period;
+              self->state.generations_so_far += period;
 
-              if (self->state.generations_so_far + props.migration_period <= props.generations_number) {
-                self->send(self, execute_phase_2::value);
+              log(self, "Generations so far: ", self->state.generations_so_far);
+
+              if (self->state.generations_so_far < props.generations_number) {
+                self->send(self,
+                           execute_phase_2::value,
+                           std::min(props.migration_period, props.generations_number - self->state.generations_so_far));
               } else {
                 self->send(self, execute_phase_4::value);
               }
@@ -370,6 +381,7 @@ behavior island_model_executor(
       [=](execute_phase_3) {
         for (size_t i = 0; i < props.generations_number; ++i) {
           self->send(dispatcher, execute_generation::value);
+          log(self, "Generations so far: ", i + 1);
         }
         self->send(self, execute_phase_4::value);
       },
@@ -378,22 +390,3 @@ behavior island_model_executor(
       },
   };
 }
-
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator,
-    typename survival_selection_operator = default_survival_selection_operator<
-        individual, fitness_value>,
-    typename elitism_operator = default_elitism_operator<individual,
-                                                         fitness_value>,
-    typename migration_operator = default_migration_operator<individual,
-                                                             fitness_value>>
-class island_model_driver : public base_driver<individual, fitness_value> {
- public:
-  using base_driver<individual, fitness_value>::base_driver;
-
-  void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
-
-  }
-};

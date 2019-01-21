@@ -47,8 +47,8 @@ const constexpr char CSV_FILE[] = "csv_file";
 const constexpr char N_ROWS[] = "n_rows";
 const constexpr char N_COLS[] = "n_cols";
 const constexpr char N_FOLDS[] = "n_folds";
-const constexpr char MUTATION_PROB_C[] = "mutation_prob_c";
-const constexpr char MUTATION_PROB_GAMMA[] = "mutation_prob_gamma";
+const constexpr char MUTATION_RANGE_C[] = "mutation_range_c";
+const constexpr char MUTATION_RANGE_GAMMA[] = "mutation_range_gamma";
 const constexpr char RANGE_C[] = "range_c";
 const constexpr char RANGE_GAMMA[] = "range_gamma";
 const constexpr char NODE_GROUP[] = "node_group";
@@ -100,6 +100,22 @@ constexpr auto all_in_range(unsigned upper, unsigned lower, Args &&... args) {
   };
 
   return (... && pred(args));
+}
+
+template<typename Range, typename Value = typename Range::value_type>
+std::string join(Range const &elements, const char *const delimiter) {
+  std::ostringstream os;
+  auto b = std::begin(elements), e = std::end(elements);
+
+  if (b != e) {
+    std::copy(b, std::prev(e), std::ostream_iterator<Value>(os, delimiter));
+    b = std::prev(e);
+  }
+  if (b != e) {
+    os << *b;
+  }
+
+  return os.str();
 }
 
 struct identity {
@@ -213,7 +229,7 @@ cluster_properties::cluster_properties() { \
   add_message_type<std::pair<IND, FIT>>("std::pair<IND, FIT>"); \
   add_message_type<std::pair<std::pair<IND, FIT>, \
                              std::pair<IND, FIT>>>("std::pair<std::pair<IND, FIT>, std::pair<IND, FIT>"); \
-  add_message_type<std::pair<island_id, std::pair<IND, FIT>>>("std::pair<island_id, std::pair<IND, FIT>>"); \
+  add_message_type<std::pair<size_t, std::pair<IND, FIT>>>("std::pair<size_t, std::pair<IND, FIT>>"); \
  \
   opt_group{custom_options_, "global"} \
       .add(master_node_host, "master-node-host,mnh", "set the host name for the master node") \
@@ -278,3 +294,7 @@ inline void log(A &&self, As &&... as) {
 std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
 
 std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);
+
+std::vector<std::string> get_active_reporters(actor generation_reporter,
+                                              actor individual_reporter,
+                                              actor system_repoter);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <random>
-#include <vector>
 #include <random_migration.hpp>
 
 template<typename individual, typename fitness_value>
@@ -20,8 +18,7 @@ class star_random_migration : public random_migration<individual, fitness_value>
     }
   }
 
-  island_id next_destination(
-      const wrapper<individual, fitness_value> &wrapper, size_t population) override {
+  island_id next_destination(const wrapper<individual, fitness_value> &wrapper) override {
     return (++counter % (this->config->system_props.islands_number - 1));
   }
 };

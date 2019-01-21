@@ -19,6 +19,7 @@ class svm_mutation : public base_operator {
     return std::uniform_real_distribution<double>{-a, a};
   }
  public:
+  svm_mutation() = default;
   svm_mutation(const shared_config &config, island_id island_no);
 
   void operator()(wrapper<rbf_params, double> &wrapper);

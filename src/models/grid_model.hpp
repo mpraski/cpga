@@ -297,6 +297,8 @@ behavior grid_model_executor(
                   } else {
                     self->send(self, execute_phase_2::value);
                   }
+
+                  log(self, "Generations so far: ", self->state.current_generation);
                 }
               },
               [=](error &err) {
@@ -324,21 +326,4 @@ behavior grid_model_executor(
       },
   };
 }
-
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
-    typename parent_selection_operator,
-    typename survival_selection_operator = default_survival_selection_operator<
-        individual, fitness_value>,
-    typename elitism_operator = default_elitism_operator<individual,
-                                                         fitness_value>>
-class grid_model_driver : public base_driver<individual, fitness_value> {
- public:
-  using base_driver<individual, fitness_value>::base_driver;
-
-  void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
-
-  }
-};
 

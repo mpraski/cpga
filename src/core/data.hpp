@@ -21,6 +21,7 @@ using user_properties = std::unordered_map<std::string, std::any>;
  * by the framework.
  */
 struct system_properties {
+  size_t total_population_size;
   size_t population_size;
   size_t individual_size;
   size_t islands_number;
@@ -28,6 +29,7 @@ struct system_properties {
   size_t elitists_number;
   size_t migration_period;
   size_t migration_quota;
+  bool is_grid_model;
   bool is_elitism_active;
   bool is_survival_selection_active;
   bool is_migration_active;
@@ -38,8 +40,8 @@ struct system_properties {
   unsigned long crossover_seed;
   unsigned long parent_selection_seed;
   unsigned long survival_selection_seed;
-  unsigned long supervisor_seed;
   unsigned long migration_seed;
+  double crossover_probability;
   double mutation_probability;
 
   bool is_system_reporter_active;
@@ -50,6 +52,16 @@ struct system_properties {
 
   bool is_individual_reporter_active;
   std::string individual_reporter_log;
+
+  inline void compute_population_size() {
+    if (total_population_size && islands_number) {
+      population_size = total_population_size / islands_number;
+    } else if (!population_size) {
+      throw std::runtime_error("Either total_population_size != 0 && islands_number != 0 or population_size != 0");
+    }
+  }
+
+  system_properties();
 };
 
 /*

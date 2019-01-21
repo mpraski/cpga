@@ -7,7 +7,7 @@
 svm_crossover::svm_crossover(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.crossover_seed)},
-      distribution{0.5},
+      distribution{config->system_props.crossover_probability},
       coin_toss{std::bind(distribution, generator)} {
 
 }
@@ -18,9 +18,10 @@ void svm_crossover::operator()(inserter<rbf_params, double> it,
   auto &parent2 = couple.second.first;
 
   auto produce = [&] {
+    auto toss = coin_toss();
     return rbf_params{
-        coin_toss() ? parent1.c : parent2.c,
-        coin_toss() ? parent1.gamma : parent2.gamma
+        toss ? parent1.c : parent2.c,
+        toss ? parent2.gamma : parent1.gamma
     };
   };
 

@@ -7,8 +7,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
-include_directories(include)
-include_directories(include/genetic-actor)
 include_directories(src)
 include_directories(src/example)
 include_directories(src/models)
@@ -75,7 +73,7 @@ add_executable(genetic_actor
         src/example/components_fault/svm_crossover.cpp
         src/example/components_fault/svm_crossover.hpp
         src/example/components_fault/svm_mutation.cpp
-        src/example/components_fault/svm_mutation.hpp)
+        src/example/components_fault/svm_mutation.hpp src/operators/best_migration.hpp src/utilities/population_sorter.hpp src/operators/ring_best_migration.hpp src/models/single_machine/global_model_driver.hpp src/models/single_machine/grid_model_driver.hpp src/models/single_machine/island_driver.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

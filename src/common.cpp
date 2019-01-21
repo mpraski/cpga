@@ -48,3 +48,13 @@ std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, cons
       bind_reporter(info.system_reporter_port)
   };
 }
+
+std::vector<std::string> get_active_reporters(actor generation_reporter,
+                                              actor individual_reporter,
+                                              actor system_reporter) {
+  std::vector<std::string> reporters;
+  reporters.push_back("generation reporter");
+  reporters.push_back("individual reporter");
+  reporters.push_back("system reporter");
+  return reporters;
+}
