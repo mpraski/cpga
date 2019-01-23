@@ -14,6 +14,9 @@
 #include <models/distributed/global_model_cluster.hpp>
 #include <models/distributed/grid_model_cluster.hpp>
 #include <models/distributed/island_model_cluster.hpp>
+#include <models/single_machine/island_model_single_machine.hpp>
+#include <models/single_machine/global_model_single_machine.hpp>
+#include <models/single_machine/grid_model_single_machine.hpp>
 #include <models/sequential_model.hpp>
 #include <example/components_fault/components_fault_defs.hpp>
 #include <example/components_fault/svm_fitness_evaluation.hpp>
@@ -31,10 +34,11 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
    */
   system_properties system_props;
   // core settings
-  system_props.total_population_size = 200;
-  system_props.islands_number = 6;
-  system_props.elitists_number = 2;
-  system_props.generations_number = 100;
+  system_props.grid_model();
+  system_props.total_population_size = 120;
+  system_props.islands_number = recommended_worker_number();
+  system_props.elitists_number = 5;
+  system_props.generations_number = 50;
   system_props.migration_period = 30;
   system_props.migration_quota = 2;
   // seeds & probabilities
@@ -69,7 +73,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   user_properties user_props{
       {constants::STABLE_REQUIRED_KEY, size_t{10}},
       {constants::MINIMUM_AVERAGE_KEY, 0.9},
-      {constants::CSV_FILE, "log4j-trainset.csv"s},
+      {constants::CSV_FILE, "../log4j-trainset.csv"s},
       {constants::N_ROWS, 244},
       {constants::N_COLS, 9},
       {constants::N_FOLDS, 5},
@@ -92,7 +96,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                                             user_props,
                                                                                             cluster_props);*/
 
-  island_cluster_runner<rbf_params, double,
+  /*island_cluster_runner<rbf_params, double,
                         svm_fitness_evaluation,
                         svm_initialization,
                         svm_crossover,
@@ -103,7 +107,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                         ring_best_migration<rbf_params, double>>::run(system,
                                                                       system_props,
                                                                       user_props,
-                                                                      cluster_props);
+                                                                      cluster_props);*/
 
   /*grid_cluster_runner<sequence<char>, int,
                       onemax_fitness_evaluation,
@@ -117,17 +121,38 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                          user_props,
                                                                          cluster_props);*/
 
-  /*sequential_model_driver<rbf_params, double,
-                          svm_fitness_evaluation,
-                          svm_initialization,
-                          svm_crossover,
-                          svm_mutation,
-                          roulette_wheel_parent_selection<rbf_params, double>,
-                          roulette_wheel_survival_selection<rbf_params, double>,
-                          best_individual_elitism<rbf_params, double>,
-                          average_fitness_global_termination_check<rbf_params, double>>
-      driver{system_props, user_props};
-  driver.run(system);*/
+  /*island_model_single_machine<rbf_params, double,
+                              svm_fitness_evaluation,
+                              svm_initialization,
+                              svm_crossover,
+                              svm_mutation,
+                              roulette_wheel_parent_selection<rbf_params, double>,
+                              roulette_wheel_survival_selection<rbf_params, double>,
+                              best_individual_elitism<rbf_params, double>,
+                              ring_best_migration<rbf_params, double>> machine{system, system_props, user_props};
+  machine.run(system);*/
+
+  /*global_model_single_machine<rbf_params, double,
+                      svm_fitness_evaluation,
+                      svm_initialization,
+                      svm_crossover,
+                      svm_mutation,
+                      roulette_wheel_parent_selection<rbf_params, double>,
+                      roulette_wheel_survival_selection<rbf_params, double>,
+                      best_individual_elitism<rbf_params, double>,
+                      average_fitness_global_termination_check<rbf_params, double>>
+      machine{system, system_props, user_props};
+  machine.run(system);*/
+
+  grid_model_single_machine<rbf_params, double,
+                            svm_fitness_evaluation,
+                            svm_initialization,
+                            svm_crossover,
+                            svm_mutation,
+                            roulette_wheel_parent_selection<rbf_params, double>,
+                            roulette_wheel_survival_selection<rbf_params, double>,
+                            best_individual_elitism<rbf_params, double>> machine{system, system_props, user_props};
+  machine.run(system);
 }
 
 CLUSTER_CONFIG(rbf_params, double)

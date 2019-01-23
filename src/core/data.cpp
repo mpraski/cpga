@@ -10,8 +10,10 @@ system_properties::system_properties() : total_population_size{0},
                                          is_grid_model{false} {}
 
 configuration::configuration(const system_properties &system_props,
-                             const user_properties &user_props) : system_props{system_props},
-                                                                  user_props{user_props} {}
+                             const user_properties &user_props,
+                             message_bus &&bus) : system_props{system_props},
+                                                  user_props{user_props},
+                                                  bus{std::move(bus)} {}
 
 configuration::configuration(const system_properties &system_props,
                              const user_properties &user_props,

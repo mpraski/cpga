@@ -59,6 +59,8 @@ const constexpr char *const ACTOR_PHASE_MAP[] = {"init_population",
                                                  "finish", "total",
                                                  "execute_generation", "execute_computation"};
 
+const constexpr char *const PGA_MODEL_MAP[] = {"Global", "Island", "Grid", "Sequential"};
+
 const std::vector<std::string> SYSTEM_HEADERS{"Time", "Message"};
 const std::vector<std::string> TIME_HEADERS{"Start", "End", "Total (ms)", "Phase", "Generation", "Island"};
 const std::vector<std::string> INDIVIDUAL_HEADERS{"Generation", "Island", "Individual", "Fitness value"};
@@ -102,13 +104,13 @@ constexpr auto all_in_range(unsigned upper, unsigned lower, Args &&... args) {
   return (... && pred(args));
 }
 
-template<typename Range, typename Value = typename Range::value_type>
-std::string join(Range const &elements, const char *const delimiter) {
+template<typename T, typename V = typename T::value_type>
+auto join(const T &elements, const char *const delimiter) {
   std::ostringstream os;
   auto b = std::begin(elements), e = std::end(elements);
 
   if (b != e) {
-    std::copy(b, std::prev(e), std::ostream_iterator<Value>(os, delimiter));
+    std::copy(b, std::prev(e), std::ostream_iterator<V>(os, delimiter));
     b = std::prev(e);
   }
   if (b != e) {
@@ -174,6 +176,10 @@ enum class actor_phase {
 
 enum class cluster_mode {
   MASTER, WORKER, REPORTER
+};
+
+enum class pga_model {
+  GLOBAL, ISLAND, GRID, SEQUENTIAL
 };
 
 class cluster_properties : public actor_system_config {
@@ -294,7 +300,3 @@ inline void log(A &&self, As &&... as) {
 std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
 
 std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);
-
-std::vector<std::string> get_active_reporters(actor generation_reporter,
-                                              actor individual_reporter,
-                                              actor system_repoter);

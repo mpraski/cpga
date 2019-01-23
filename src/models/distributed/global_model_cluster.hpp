@@ -27,8 +27,7 @@ class global_master_node_driver : public master_node_driver {
     auto &config = self->state.config;
 
     auto supervisor = self->spawn<detached>(
-        global_model_supervisor<individual, fitness_value,
-                                fitness_evaluation_operator>,
+        global_model_supervisor<individual, fitness_value>,
         global_model_supervisor_state{config, workers});
 
     auto executor = self->spawn<detached + monitored>(
@@ -53,45 +52,23 @@ class global_worker_node_driver : public worker_node_driver {
  public:
   using worker_node_driver::worker_node_driver;
 
-  std::vector<uint16_t> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
+  std::vector<actor> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
     auto &system = self->system();
     auto &middleman = system.middleman();
     auto &config = self->state.config;
-    auto port_factory = make_worker_port_factory();
 
     std::vector<actor> workers(system_props.islands_number);
     auto spawn_worker = [&] {
       auto worker = self->spawn<detached + monitored>(global_model_worker<individual,
                                                                           fitness_value,
                                                                           fitness_evaluation_operator>,
-                                                      global_model_worker_state<fitness_evaluation_operator>{
-                                                          config});
+                                                      config);
       system_message(self, "Spawning worker (actor id: ", worker.id(), ")");
       return worker;
     };
     std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-    self->set_down_handler([=](const down_msg &down) {
-      if (std::any_of(std::begin(workers),
-                      std::end(workers),
-                      [src = down.source](const auto &worker) { return worker == src; })
-          && ++self->state.workers_counter == workers.size()) {
-        self->quit();
-      }
-    });
-
-    std::vector<uint16_t> ports;
-    auto publish_worker = [&](const actor &worker) -> uint16_t {
-      auto port = port_factory();
-      if (auto published{middleman.publish(worker, port)}; !published) {
-        throw std::runtime_error(str("unable to publish global model worker: ", system.render(published.error())));
-      }
-      system_message(self, "Publishing global model worker (actor id: ", worker.id(), ") on port ", port);
-      return port;
-    };
-    std::transform(std::begin(workers), std::end(workers), std::back_inserter(ports), publish_worker);
-
-    return ports;
+    return workers;
   }
 };
 

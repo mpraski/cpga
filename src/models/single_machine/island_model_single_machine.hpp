@@ -2,8 +2,8 @@
 // Created by marcin on 21/01/19.
 //
 
-#ifndef GENETIC_ACTOR_ISLAND_DRIVER_H
-#define GENETIC_ACTOR_ISLAND_DRIVER_H
+#ifndef GENETIC_ACTOR_ISLAND_MODEL_DRIVER_H
+#define GENETIC_ACTOR_ISLAND_MODEL_DRIVER_H
 
 #include <atoms.hpp>
 #include <core.hpp>
@@ -19,24 +19,24 @@ template<typename individual, typename fitness_value,
                                                          fitness_value>,
     typename migration_operator = default_migration_operator<individual,
                                                              fitness_value>>
-class island_model_driver : public base_driver<individual, fitness_value> {
+class island_model_single_machine : public base_single_machine_driver<individual, fitness_value> {
  public:
-  using base_driver<individual, fitness_value>::base_driver;
+  using base_single_machine_driver<individual, fitness_value>::base_single_machine_driver;
 
   void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
-    auto &middleman = system.middleman();
-
     std::vector<actor> workers(config->system_props.islands_number);
     auto spawn_worker = [&] {
-      return self->template spawn<monitored + detached>(island_model_worker<individual, fitness_value,
-                                                                            fitness_evaluation_operator,
-                                                                            initialization_operator,
-                                                                            crossover_operator,
-                                                                            mutation_operator,
-                                                                            parent_selection_operator,
-                                                                            survival_selection_operator,
-                                                                            elitism_operator,
-                                                                            migration_operator>, config);
+      auto island = self->template spawn<monitored + detached>(island_model_worker<individual, fitness_value,
+                                                                                   fitness_evaluation_operator,
+                                                                                   initialization_operator,
+                                                                                   crossover_operator,
+                                                                                   mutation_operator,
+                                                                                   parent_selection_operator,
+                                                                                   survival_selection_operator,
+                                                                                   elitism_operator,
+                                                                                   migration_operator>, config);
+      system_message(self, config->system_reporter, "Spawning island (actor id: ", island.id(), ")");
+      return island;
     };
     std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
@@ -57,4 +57,4 @@ class island_model_driver : public base_driver<individual, fitness_value> {
   }
 };
 
-#endif //GENETIC_ACTOR_ISLAND_DRIVER_H
+#endif //GENETIC_ACTOR_ISLAND_MODEL_DRIVER_H

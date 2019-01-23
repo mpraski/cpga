@@ -329,7 +329,8 @@ struct island_model_executor_state : public base_state {
 
 behavior island_model_executor(
     stateful_actor<island_model_executor_state> *self,
-    island_model_executor_state state, const actor &dispatcher) {
+    island_model_executor_state state,
+    const actor &dispatcher) {
   self->state = std::move(state);
   self->monitor(dispatcher);
 

@@ -14,7 +14,7 @@ struct worker_node_executor_state : public base_state {
   size_t workers_counter;
 };
 
-using worker_spawner = std::function<std::vector<uint16_t>(stateful_actor<worker_node_executor_state> *self)>;
+using worker_spawner = std::function<std::vector<actor>(stateful_actor<worker_node_executor_state> *self)>;
 
 behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const system_properties &system_props,
@@ -22,7 +22,8 @@ behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const cluster_properties &cluster_props,
                               const actor &master_node,
                               const group &message_bus_group,
-                              const worker_spawner &factory);
+                              const worker_spawner &factory,
+                              const std::function<uint16_t()> &port_factory);
 
 behavior worker_node(event_based_actor *self,
                      const actor &master_node,
@@ -31,7 +32,7 @@ behavior worker_node(event_based_actor *self,
 
 class worker_node_driver : public base_cluster_driver {
  protected:
-  virtual std::vector<uint16_t> spawn_workers(stateful_actor<worker_node_executor_state> *self) = 0;
+  virtual std::vector<actor> spawn_workers(stateful_actor<worker_node_executor_state> *self) = 0;
  public:
   using base_cluster_driver::base_cluster_driver;
 

@@ -11,7 +11,7 @@
 #include "data.hpp"
 
 template<typename individual, typename fitness_value>
-class base_driver {
+class base_single_machine_driver {
  private:
   std::shared_ptr<configuration> config;
   system_properties system_props;
@@ -71,26 +71,37 @@ class base_driver {
       self->send(config->individual_reporter, exit_reporter::value);
     }
   }
+
+  auto make_shared_configuration(actor_system &system,
+                                 const system_properties &system_props,
+                                 const user_properties &user_props) {
+    auto message_bus_group = system.groups().get_local(constants::MESSAGE_BUS_GROUP);
+    return std::make_shared<configuration>(system_props, user_props, message_bus{message_bus_group});
+  }
  protected:
   virtual void perform(shared_config &config, actor_system &system,
                        scoped_actor &self) = 0;
  public:
-  base_driver(const system_properties &system_props,
-              const user_properties &user_props)
-      : config{std::make_shared<configuration>(system_props, user_props)},
+  base_single_machine_driver(
+      actor_system &system,
+      const system_properties &system_props,
+      const user_properties &user_props)
+      : config{make_shared_configuration(system, system_props, user_props)},
         system_props{system_props},
         user_props{user_props} {
   }
 
-  virtual ~base_driver() = default;
+  virtual ~base_single_machine_driver() = default;
 
   void run(actor_system &system) {
     scoped_actor self{system};
 
     shared_config const_config{std::const_pointer_cast<const configuration>(config)};
 
+    show_model_info(self, system_props);
     start_reporters(config, system, self);
     perform(const_config, system, self);
+    log(self, "** End of execution **");
     stop_reporters(config, self);
   }
 };

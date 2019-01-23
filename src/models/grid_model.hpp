@@ -49,10 +49,11 @@ behavior grid_model_worker(
                                 fitness_evaluation_operator, crossover_operator, mutation_operator,
                                 parent_selection_operator, survival_selection_operator,
                                 elitism_operator>> *self,
-    grid_model_worker_state<individual, fitness_value,
-                            fitness_evaluation_operator, crossover_operator, mutation_operator,
-                            parent_selection_operator, survival_selection_operator, elitism_operator> state) {
-  self->state = std::move(state);
+    const shared_config &config) {
+  self->state = grid_model_worker_state<individual, fitness_value,
+                                        fitness_evaluation_operator, crossover_operator, mutation_operator,
+                                        parent_selection_operator, survival_selection_operator, elitism_operator>{
+      config};
 
   return {
       [self](execute_computation, size_t gen, population<individual, fitness_value> &pop) {
@@ -70,8 +71,9 @@ behavior grid_model_worker(
 
         state.parent_selection(population, state.parents);
 
+        auto inserter = std::back_inserter(state.offspring);
         for (const auto &couple : state.parents) {
-          state.crossover(std::back_inserter(state.offspring), couple);
+          state.crossover(inserter, couple);
         }
 
         state.parents.clear();
@@ -203,10 +205,11 @@ behavior grid_model_executor(
     stateful_actor<
         grid_model_executor_state<individual, fitness_value,
                                   initialization_operator, fitness_evaluation_operator>> *self,
-    grid_model_executor_state<individual, fitness_value,
-                              initialization_operator, fitness_evaluation_operator> state,
+    const shared_config &config,
     const actor &dispatcher) {
-  self->state = std::move(state);
+  self->state =
+      grid_model_executor_state<individual, fitness_value, initialization_operator, fitness_evaluation_operator>{
+          config};
   self->monitor(dispatcher);
 
   system_message(self, "Spawning grid model executor");
@@ -260,8 +263,6 @@ behavior grid_model_executor(
           }
 
           population<individual, fitness_value> pop;
-          pop.reserve(times);
-
           for (size_t j = i; j < i + times; ++j) {
             pop.emplace_back(std::move(state.main[random_nums[j]]));
           }
@@ -275,7 +276,7 @@ behavior grid_model_executor(
               self->state.current_generation,
               pop
           ).then(
-              [=](population<individual, fitness_value> &result) {
+              [self, generations](population<individual, fitness_value> &result) {
                 self->state.result.insert(self->state.result.end(),
                                           std::make_move_iterator(result.begin()),
                                           std::make_move_iterator(result.end()));
@@ -289,7 +290,7 @@ behavior grid_model_executor(
                                      note_end::value,
                                      now(),
                                      actor_phase::execute_phase_1,
-                                     state.current_generation,
+                                     self->state.current_generation,
                                      island_special);
 
                   if (++self->state.current_generation <= generations) {
@@ -301,7 +302,7 @@ behavior grid_model_executor(
                   log(self, "Generations so far: ", self->state.current_generation);
                 }
               },
-              [=](error &err) {
+              [self, i](error &err) {
                 system_message(self,
                                "Failed to execute computation for batch no: ",
                                i,
@@ -318,6 +319,10 @@ behavior grid_model_executor(
       },
       [=](execute_phase_2) {
         auto &state = self->state;
+
+        for (auto&[ind, value] : state.main) {
+          value = state.fitness_evaluation(ind);
+        }
 
         generation_message(self, note_end::value, now(), actor_phase::total, state.current_generation, island_special);
         individual_message(self, report_population::value, state.main, state.current_generation, island_special);

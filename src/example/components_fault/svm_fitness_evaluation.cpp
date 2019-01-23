@@ -18,7 +18,7 @@ svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, isla
   svm_set_print_string_function(&print_null);
 }
 
-svm_fitness_evaluation::svm_fitness_evaluation(svm_fitness_evaluation &&other) {
+svm_fitness_evaluation::svm_fitness_evaluation(svm_fitness_evaluation &&other) noexcept {
   if (this != &other) {
     if (cv_result) free_memory();
 
@@ -95,6 +95,7 @@ double svm_fitness_evaluation::operator()(const rbf_params &params) {
   parameter.gamma = params.gamma;
 
   if (auto *error{svm_check_parameter(&problem, &parameter)}; error) {
+    std::cout << str("LibSVM parameter error: ", error) << std::endl;
     return 0;
   }
 
@@ -127,7 +128,7 @@ void svm_fitness_evaluation::free_memory() {
   delete[] problem.x;
 }
 
-svm_fitness_evaluation &svm_fitness_evaluation::operator=(svm_fitness_evaluation &&other) {
+svm_fitness_evaluation &svm_fitness_evaluation::operator=(svm_fitness_evaluation &&other) noexcept {
   if (this != &other) {
     if (cv_result) free_memory();
 

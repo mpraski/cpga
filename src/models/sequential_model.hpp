@@ -13,7 +13,7 @@ template<typename individual, typename fitness_value,
                                                          fitness_value>,
     typename global_termination_check = default_global_termination_check<
         individual, fitness_value>>
-class sequential_model_driver : public base_driver<individual, fitness_value> {
+class sequential_model_driver : public base_single_machine_driver<individual, fitness_value> {
  private:
   void run_pga(const scoped_actor &self, const shared_config &config) {
     auto &props = config->system_props;
@@ -123,7 +123,11 @@ class sequential_model_driver : public base_driver<individual, fitness_value> {
   }
 
  public:
-  using base_driver<individual, fitness_value>::base_driver;
+  using base_single_machine_driver<individual, fitness_value>::base_single_machine_driver;
+
+  pga_model get_model() override {
+    return pga_model::SEQUENTIAL;
+  }
 
   void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
     run_pga(self, config);

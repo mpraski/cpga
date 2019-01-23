@@ -30,13 +30,13 @@ class svm_fitness_evaluation : public base_operator {
   void free_memory();
  public:
   svm_fitness_evaluation() = default;
-  svm_fitness_evaluation(svm_fitness_evaluation &&other);
+  svm_fitness_evaluation(svm_fitness_evaluation &&other) noexcept;
   svm_fitness_evaluation(const svm_fitness_evaluation &other) = delete;
   ~svm_fitness_evaluation();
 
   svm_fitness_evaluation(const shared_config &config, island_id island_no);
 
-  svm_fitness_evaluation &operator=(svm_fitness_evaluation &&other);
+  svm_fitness_evaluation &operator=(svm_fitness_evaluation &&other) noexcept;
   svm_fitness_evaluation &operator=(const svm_fitness_evaluation &other) = delete;
   double operator()(const rbf_params &ind);
 };

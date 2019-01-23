@@ -3,7 +3,7 @@
 
 #include <core/base_cluster_driver.hpp>
 #include <core/base_cluster_state.hpp>
-#include <core/base_driver.hpp>
+#include <core/base_single_machine_driver.hpp>
 #include <core/base_operator.hpp>
 #include <core/base_state.hpp>
 #include <core/data.hpp>

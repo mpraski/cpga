@@ -2,6 +2,7 @@
 // Created by marcin on 01/01/19.
 //
 
+#include <csignal>
 #include "master_node.hpp"
 
 master_node_state::master_node_state(const cluster_properties &props) : base_cluster_state{props},
@@ -16,6 +17,8 @@ behavior master_node(stateful_actor<master_node_state> *self,
                      const actor &executor) {
   self->state = std::move(state);
   self->join(workers_group);
+
+  log(self, "** Beginning node discovery **");
 
   return {
       [=](stage_discover_reporters, reporter_node_info &info) {
@@ -97,11 +100,7 @@ behavior master_node_executor(stateful_actor<base_state> *self,
           self->monitor(worker);
         }
 
-        auto active_reporters = get_active_reporters(generation_reporter, individual_reporter, system_reporter);
-
-        log(self, "-- Starting the actual algorithm --");
-        log(self, "-- Reporters: ", join(active_reporters, ", "));
-        log(self, "-- Workers/islands: ", sys_props.islands_number);
+        show_model_info(self, sys_props);
 
         auto executor = factory(self, workers);
 

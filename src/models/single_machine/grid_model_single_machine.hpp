@@ -17,13 +17,11 @@ template<typename individual, typename fitness_value,
         individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
                                                          fitness_value>>
-class grid_model_driver : public base_driver<individual, fitness_value> {
+class grid_model_single_machine : public base_single_machine_driver<individual, fitness_value> {
  public:
-  using base_driver<individual, fitness_value>::base_driver;
+  using base_single_machine_driver<individual, fitness_value>::base_single_machine_driver;
 
   void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
-    auto &middleman = system.middleman();
-
     std::vector<actor> workers(config->system_props.islands_number);
     auto spawn_worker = [&]() -> actor {
       auto &worker_fun = grid_model_worker<individual, fitness_value,
@@ -31,15 +29,9 @@ class grid_model_driver : public base_driver<individual, fitness_value> {
                                            crossover_operator, mutation_operator,
                                            parent_selection_operator,
                                            survival_selection_operator, elitism_operator>;
-
-      using worker_state = grid_model_worker_state<individual, fitness_value,
-                                                   fitness_evaluation_operator,
-                                                   crossover_operator, mutation_operator,
-                                                   parent_selection_operator,
-                                                   survival_selection_operator, elitism_operator>;
-
-      return self->template spawn<monitored + detached>(worker_fun,
-                                                        worker_state{config});
+      auto worker = self->template spawn<monitored + detached>(worker_fun, config);
+      system_message(self, config->system_reporter, "Spawning worker (actor id: ", worker.id(), ")");
+      return worker;
     };
     std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
@@ -53,8 +45,7 @@ class grid_model_driver : public base_driver<individual, fitness_value> {
     auto executor = self->spawn<detached + monitored>(
         grid_model_executor<individual, fitness_value, initialization_operator,
                             fitness_evaluation_operator>,
-        grid_model_executor_state<individual, fitness_value,
-                                  initialization_operator, fitness_evaluation_operator>{config},
+        config,
         dispatcher);
 
     self->send(executor, init_population::value);

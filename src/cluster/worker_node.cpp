@@ -10,10 +10,12 @@ behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const cluster_properties &cluster_props,
                               const actor &master_node,
                               const group &message_bus_group,
-                              const worker_spawner &factory) {
+                              const worker_spawner &factory,
+                              const std::function<uint16_t()> &port_factory) {
   return {
       [=](const reporter_node_info &reporter_info) {
         auto &system = self->system();
+        auto &middleman = system.middleman();
 
         auto[generation_reporter, individual_reporter, system_reporter] = bind_remote_reporters(system, reporter_info);
         auto config = make_shared_config(
@@ -27,9 +29,34 @@ behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
 
         self->state = worker_node_executor_state{config};
 
+        auto workers = factory(self);
+
+        self->set_down_handler([=](const down_msg &down) {
+          if (std::any_of(std::begin(workers),
+                          std::end(workers),
+                          [src = down.source](const auto &worker) { return worker == src; })
+              && ++self->state.workers_counter == workers.size()) {
+            self->quit();
+          } else if (down.source == master_node) {
+            log(self, "Master node is down. Quitting...");
+            self->quit();
+          }
+        });
+
+        std::vector<uint16_t> ports;
+        auto publish_worker = [&](const actor &worker) -> uint16_t {
+          auto port = port_factory();
+          if (auto published{middleman.publish(worker, port)}; !published) {
+            throw std::runtime_error(str("unable to publish worker: ", system.render(published.error())));
+          }
+          system_message(self, "Publishing worker (actor id: ", worker.id(), ") on port ", port);
+          return port;
+        };
+        std::transform(std::begin(workers), std::end(workers), std::back_inserter(ports), publish_worker);
+
         self->send(master_node,
                    stage_discover_workers::value,
-                   worker_node_info{cluster_props.this_node_host, factory(self)});
+                   worker_node_info{cluster_props.this_node_host, ports});
       }
   };
 }
@@ -39,6 +66,7 @@ behavior worker_node(event_based_actor *self,
                      const actor &executor,
                      const group &node_group) {
   self->join(node_group);
+  self->monitor(master_node);
 
   return {
       [=](stage_initiate_worker_node) {
@@ -59,6 +87,7 @@ void worker_node_driver::perform(scoped_actor &self) {
   auto master_node = wait_for_master_node(middleman);
   auto node_group = wait_for_node_group(system);
   auto message_bus_group = wait_for_message_bus_group(system);
+  auto port_factory = make_worker_port_factory();
 
   auto executor =
       self->spawn<detached>(worker_node_executor,
@@ -67,7 +96,8 @@ void worker_node_driver::perform(scoped_actor &self) {
                             cluster_props,
                             master_node,
                             message_bus_group,
-                            std::bind(&worker_node_driver::spawn_workers, this, _1));
+                            std::bind(&worker_node_driver::spawn_workers, this, _1),
+                            port_factory);
 
   auto node = self->spawn<detached>(worker_node, master_node, executor, node_group);
 

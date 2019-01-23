@@ -36,8 +36,7 @@ class grid_master_node_driver : public master_node_driver {
     auto executor = self->spawn<detached + monitored>(
         grid_model_executor<individual, fitness_value, initialization_operator,
                             fitness_evaluation_operator>,
-        grid_model_executor_state<individual, fitness_value,
-                                  initialization_operator, fitness_evaluation_operator>{config},
+        config,
         dispatcher);
 
     self->send(executor, init_population::value);
@@ -57,12 +56,11 @@ class grid_worker_node_driver : public worker_node_driver {
  public:
   using worker_node_driver::worker_node_driver;
 
-  std::vector<uint16_t> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
+  std::vector<actor> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
     auto &system = self->system();
     auto &middleman = system.middleman();
     auto &state = self->state;
     auto &config = state.config;
-    auto port_factory = make_worker_port_factory();
 
     std::vector<actor> workers(system_props.islands_number);
     auto spawn_worker = [&]() -> actor {
@@ -72,38 +70,11 @@ class grid_worker_node_driver : public worker_node_driver {
                                            parent_selection_operator,
                                            survival_selection_operator, elitism_operator>;
 
-      using worker_state = grid_model_worker_state<individual, fitness_value,
-                                                   fitness_evaluation_operator,
-                                                   crossover_operator, mutation_operator,
-                                                   parent_selection_operator,
-                                                   survival_selection_operator, elitism_operator>;
-
-      return self->template spawn<monitored + detached>(worker_fun,
-                                                        worker_state{config});
+      return self->template spawn<monitored + detached>(worker_fun, config);
     };
     std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-    self->set_down_handler([=](const down_msg &down) {
-      if (std::any_of(std::begin(workers),
-                      std::end(workers),
-                      [src = down.source](const auto &worker) { return worker == src; })
-          && ++self->state.workers_counter == workers.size()) {
-        self->quit();
-      }
-    });
-
-    std::vector<uint16_t> ports;
-    auto publish_worker = [&](const actor &worker) -> uint16_t {
-      auto port = port_factory();
-      if (auto published{middleman.publish(worker, port)}; !published) {
-        throw std::runtime_error(str("unable to publish grid model worker: ", system.render(published.error())));
-      }
-      system_message(self, "Publishing grid model worker (actor id: ", worker.id(), ") on port ", port);
-      return port;
-    };
-    std::transform(std::begin(workers), std::end(workers), std::back_inserter(ports), publish_worker);
-
-    return ports;
+    return workers;
   }
 };
 
