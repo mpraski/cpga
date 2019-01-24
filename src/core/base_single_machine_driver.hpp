@@ -7,7 +7,7 @@
 
 #include <atoms.hpp>
 #include <common.hpp>
-#include <reporter.hpp>
+#include <utilities/reporter.hpp>
 #include "data.hpp"
 
 template<typename individual, typename fitness_value>
@@ -79,8 +79,7 @@ class base_single_machine_driver {
     return std::make_shared<configuration>(system_props, user_props, message_bus{message_bus_group});
   }
  protected:
-  virtual void perform(shared_config &config, actor_system &system,
-                       scoped_actor &self) = 0;
+  virtual void perform(shared_config &config, scoped_actor &self) = 0;
  public:
   base_single_machine_driver(
       actor_system &system,
@@ -100,7 +99,7 @@ class base_single_machine_driver {
 
     show_model_info(self, system_props);
     start_reporters(config, system, self);
-    perform(const_config, system, self);
+    perform(const_config, self);
     log(self, "** End of execution **");
     stop_reporters(config, self);
   }

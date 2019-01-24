@@ -39,3 +39,4 @@ Debug/
 cmake-build-debug/
 cmake-build-debug-gcc7/
 Debug/
+.idea/

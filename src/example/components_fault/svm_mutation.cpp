@@ -6,7 +6,7 @@
 
 svm_mutation::svm_mutation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
-      generator{config->system_props.mutation_seed},
+      generator{get_seed(config->system_props.mutation_seed)},
       min_c{std::get<0>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_C)))},
       max_c{std::get<1>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_C)))},
       min_gamma{std::get<0>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_GAMMA)))},

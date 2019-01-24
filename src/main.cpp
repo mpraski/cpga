@@ -1,30 +1,12 @@
+#include <models.hpp>
+#include <operators.hpp>
 
-
-#include "core.hpp"
-#include "operators/average_fitness_global_termination_check.hpp"
-#include "operators/best_individual_elitism.hpp"
-#include "operators/roulette_wheel_parent_selection.hpp"
-#include "operators/roulette_wheel_survival_selection.hpp"
-#include "operators/sequence_individual_initialization.hpp"
-#include "operators/sequence_individual_crossover.hpp"
-#include "operators/ring_best_migration.hpp"
-#include "example/onemax/onemax_defs.hpp"
-#include "example/onemax/bitstring_mutation.hpp"
-#include "example/onemax/onemax_fitness_evaluation.hpp"
-#include <models/distributed/global_model_cluster.hpp>
-#include <models/distributed/grid_model_cluster.hpp>
-#include <models/distributed/island_model_cluster.hpp>
-#include <models/single_machine/island_model_single_machine.hpp>
-#include <models/single_machine/global_model_single_machine.hpp>
-#include <models/single_machine/grid_model_single_machine.hpp>
-#include <models/sequential_model.hpp>
 #include <example/components_fault/components_fault_defs.hpp>
 #include <example/components_fault/svm_fitness_evaluation.hpp>
 #include <example/components_fault/svm_initialization.hpp>
 #include <example/components_fault/svm_crossover.hpp>
 #include <example/components_fault/svm_mutation.hpp>
 
-using namespace caf;
 using namespace std::string_literals;
 
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
@@ -82,44 +64,6 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
       {constants::MUTATION_RANGE_C, 200.0},
       {constants::MUTATION_RANGE_GAMMA, 1e-4}
   };
-
-  /*global_cluster_runner<sequence<char>, int,
-                        onemax_fitness_evaluation,
-                        sequence_individual_initialization<char, int>,
-                        sequence_individual_crossover<char, int>,
-                        bitstring_mutation,
-                        roulette_wheel_parent_selection<sequence<char>, int>,
-                        roulette_wheel_survival_selection<sequence<char>, int>,
-                        best_individual_elitism<sequence<char>, int>,
-                        average_fitness_global_termination_check<sequence<char>, int>>::run(system,
-                                                                                            system_props,
-                                                                                            user_props,
-                                                                                            cluster_props);*/
-
-  /*island_cluster_runner<rbf_params, double,
-                        svm_fitness_evaluation,
-                        svm_initialization,
-                        svm_crossover,
-                        svm_mutation,
-                        roulette_wheel_parent_selection<rbf_params, double>,
-                        roulette_wheel_survival_selection<rbf_params, double>,
-                        best_individual_elitism<rbf_params, double>,
-                        ring_best_migration<rbf_params, double>>::run(system,
-                                                                      system_props,
-                                                                      user_props,
-                                                                      cluster_props);*/
-
-  /*grid_cluster_runner<sequence<char>, int,
-                      onemax_fitness_evaluation,
-                      sequence_individual_initialization<char, int>,
-                      sequence_individual_crossover<char, int>,
-                      bitstring_mutation,
-                      roulette_wheel_parent_selection<sequence<char>, int>,
-                      roulette_wheel_survival_selection<sequence<char>, int>,
-                      best_individual_elitism<sequence<char>, int>>::run(system,
-                                                                         system_props,
-                                                                         user_props,
-                                                                         cluster_props);*/
 
   /*grid_single_machine_runner<rbf_params, double,
                              svm_fitness_evaluation,

@@ -21,7 +21,7 @@ class grid_model_single_machine : public base_single_machine_driver<individual, 
  public:
   using base_single_machine_driver<individual, fitness_value>::base_single_machine_driver;
 
-  void perform(shared_config &config, actor_system &system, scoped_actor &self) override {
+  void perform(shared_config &config, scoped_actor &self) override {
     std::vector<actor> workers(config->system_props.islands_number);
     auto spawn_worker = [&]() -> actor {
       auto &worker_fun = grid_model_worker<individual, fitness_value,

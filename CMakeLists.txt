@@ -13,6 +13,7 @@ include_directories(src/models)
 include_directories(src/operators)
 include_directories(src/core)
 include_directories(src/cluster)
+include_directories(src/utilities)
 
 add_executable(genetic_actor
         src/example/onemax/bitstring_mutation.cpp
@@ -36,8 +37,8 @@ add_executable(genetic_actor
         src/common.cpp
         src/core.hpp
         src/main.cpp
-        src/reporter.cpp
-        src/reporter.hpp
+        src/utilities/reporter.cpp
+        src/utilities/reporter.hpp
         src/utilities/finite_state_machine.hpp
         src/models/distributed/global_model_cluster.hpp
         src/core/data.cpp src/core/data.hpp
@@ -73,7 +74,16 @@ add_executable(genetic_actor
         src/example/components_fault/svm_crossover.cpp
         src/example/components_fault/svm_crossover.hpp
         src/example/components_fault/svm_mutation.cpp
-        src/example/components_fault/svm_mutation.hpp src/operators/best_migration.hpp src/utilities/population_sorter.hpp src/operators/ring_best_migration.hpp src/models/single_machine/global_model_single_machine.hpp src/models/single_machine/grid_model_single_machine.hpp src/models/single_machine/island_model_single_machine.hpp src/core/single_machine_runner.hpp)
+        src/example/components_fault/svm_mutation.hpp
+        src/operators/best_migration.hpp
+        src/utilities/population_sorter.hpp
+        src/operators/ring_best_migration.hpp
+        src/models/single_machine/global_model_single_machine.hpp
+        src/models/single_machine/grid_model_single_machine.hpp
+        src/models/single_machine/island_model_single_machine.hpp
+        src/core/single_machine_runner.hpp
+        src/operators.hpp
+        src/models.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)
