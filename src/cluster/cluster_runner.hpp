@@ -5,7 +5,6 @@
 #ifndef GENETIC_ACTOR_CLUSTER_RUNNER_H
 #define GENETIC_ACTOR_CLUSTER_RUNNER_H
 
-#include <caf/all.hpp>
 #include <core.hpp>
 
 template<typename master_driver, typename worker_driver, typename reporter_driver>

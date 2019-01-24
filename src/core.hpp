@@ -9,5 +9,6 @@
 #include <core/data.hpp>
 #include <core/defaults.hpp>
 #include <core/message_bus.hpp>
+#include <core/single_machine_runner.hpp>
 
 #endif //GENETIC_ACTOR_CORE_H

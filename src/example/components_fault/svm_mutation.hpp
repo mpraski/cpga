@@ -11,12 +11,20 @@
 class svm_mutation : public base_operator {
  private:
   std::default_random_engine generator;
+  double min_c;
+  double max_c;
+  double min_gamma;
+  double max_gamma;
   std::uniform_real_distribution<double> dist_mutate;
   std::uniform_real_distribution<double> dist_mutate_c;
   std::uniform_real_distribution<double> dist_mutate_gamma;
 
   static inline auto make_range(double a) {
     return std::uniform_real_distribution<double>{-a, a};
+  }
+
+  inline auto from_range(std::tuple<double, double> range) {
+    return std::uniform_real_distribution<double>{std::get<0>(range), std::get<1>(range)};
   }
  public:
   svm_mutation() = default;

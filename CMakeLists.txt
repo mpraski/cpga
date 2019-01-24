@@ -73,7 +73,7 @@ add_executable(genetic_actor
         src/example/components_fault/svm_crossover.cpp
         src/example/components_fault/svm_crossover.hpp
         src/example/components_fault/svm_mutation.cpp
-        src/example/components_fault/svm_mutation.hpp src/operators/best_migration.hpp src/utilities/population_sorter.hpp src/operators/ring_best_migration.hpp src/models/single_machine/global_model_single_machine.hpp src/models/single_machine/grid_model_single_machine.hpp src/models/single_machine/island_model_single_machine.hpp)
+        src/example/components_fault/svm_mutation.hpp src/operators/best_migration.hpp src/utilities/population_sorter.hpp src/operators/ring_best_migration.hpp src/models/single_machine/global_model_single_machine.hpp src/models/single_machine/grid_model_single_machine.hpp src/models/single_machine/island_model_single_machine.hpp src/core/single_machine_runner.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

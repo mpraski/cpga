@@ -10,15 +10,14 @@
 #include <island_model.hpp>
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename initialization_operator,
-    typename crossover_operator, typename mutation_operator,
+    typename fitness_evaluation_operator,
+    typename initialization_operator,
+    typename crossover_operator,
+    typename mutation_operator,
     typename parent_selection_operator,
-    typename survival_selection_operator = default_survival_selection_operator<
-        individual, fitness_value>,
-    typename elitism_operator = default_elitism_operator<individual,
-                                                         fitness_value>,
-    typename migration_operator = default_migration_operator<individual,
-                                                             fitness_value>>
+    typename survival_selection_operator,
+    typename elitism_operator,
+    typename migration_operator>
 class island_model_single_machine : public base_single_machine_driver<individual, fitness_value> {
  public:
   using base_single_machine_driver<individual, fitness_value>::base_single_machine_driver;
@@ -56,5 +55,26 @@ class island_model_single_machine : public base_single_machine_driver<individual
     self->wait_for(executor);
   }
 };
+
+template<typename individual, typename fitness_value,
+    typename fitness_evaluation_operator, typename initialization_operator,
+    typename crossover_operator, typename mutation_operator,
+    typename parent_selection_operator,
+    typename survival_selection_operator = default_survival_selection_operator<
+        individual, fitness_value>,
+    typename elitism_operator = default_elitism_operator<individual,
+                                                         fitness_value>,
+    typename migration_operator = default_migration_operator<individual,
+                                                             fitness_value>>
+using island_single_machine_runner = single_machine_runner<island_model_single_machine<individual,
+                                                                                       fitness_value,
+                                                                                       fitness_evaluation_operator,
+                                                                                       initialization_operator,
+                                                                                       crossover_operator,
+                                                                                       mutation_operator,
+                                                                                       parent_selection_operator,
+                                                                                       survival_selection_operator,
+                                                                                       elitism_operator,
+                                                                                       migration_operator>>;
 
 #endif //GENETIC_ACTOR_ISLAND_MODEL_DRIVER_H

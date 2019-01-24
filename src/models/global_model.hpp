@@ -207,7 +207,7 @@ behavior global_model_executor(
     }
   });
 
-  auto main_fitness_computation = [self, supervisor](std::function<void(decltype(self))> callback) {
+  auto main_fitness_evaluation = [self, supervisor](std::function<void(decltype(self))> callback) {
     auto &state = self->state;
 
     state.population_size_counter = state.main.size();
@@ -295,10 +295,10 @@ behavior global_model_executor(
                            state.current_generation,
                            state.current_island);
       },
-      [self, main_fitness_computation](execute_phase_1) {
+      [self, main_fitness_evaluation](execute_phase_1) {
         generation_message(self, note_start::value, now(), self->state.current_island);
 
-        main_fitness_computation([](auto self) {
+        main_fitness_evaluation([](auto self) {
           auto &state = self->state;
 
           self->send(self, execute_phase_2::value);
@@ -378,8 +378,8 @@ behavior global_model_executor(
                            state.current_generation,
                            state.current_island);
       },
-      [self, supervisor, main_fitness_computation](finish) {
-        main_fitness_computation([supervisor](auto self) {
+      [self, supervisor, main_fitness_evaluation](finish) {
+        main_fitness_evaluation([supervisor](auto self) {
           auto &state = self->state;
 
           generation_message(self,
