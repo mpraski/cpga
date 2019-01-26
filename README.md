@@ -12,3 +12,10 @@ Exemplary genetic operators (for one-max and code fault detection problems) are 
 A sample run of global model for the one-max problem is defined in `main.cpp`. The indivudual type is an array of boolean values (`std::vector<char>`), fitness value is an interger (`int`).
 
 I will annotate the code properly using Doxygen once main development work is completed.
+
+#### To-Do
+
+- [x] Add documentation for user-facing classes
+- [ ] Improve code quality (define namespaces, extract headers to a dedicated directory for including)
+- [ ] Write unit tests (leverage CAF testing DSL for actor code)
+- [ ] Provide benchmarks
