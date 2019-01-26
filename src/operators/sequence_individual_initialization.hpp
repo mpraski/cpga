@@ -1,9 +1,22 @@
-#pragma once
+#ifndef GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_INITIALIZATION_H
+#define GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_INITIALIZATION_H
 
 #include <random>
 #include <vector>
 #include <core.hpp>
 
+/**
+ * @brief Genetic operator performing initialisation of a population of 'sequence' individuals.
+ * @details This class is meant to facilitate initializing a population of individuals who are
+ * 'sequences' - standard library containers such as vector, list, set, or any custom type supporting
+ * STL iterators. The user must define the size of the sequence (system_properties.individual_size), as
+ * well as provide a vector of possible 'constituent' values (constants::POSSIBLE_VALUES_KEY) which will be
+ * picked at random to create the sequence individual (e.g. a vector<bool>{true, false} to build a bitstring
+ * individual.
+ * @tparam constituent
+ * @tparam fitness_value
+ * @tparam individual
+ */
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
 class sequence_individual_initialization : public base_operator {
  private:
@@ -33,6 +46,10 @@ class sequence_individual_initialization : public base_operator {
     }
   }
 
+  /**
+   * @brief Initialize the population by assigning newly created individuals to it.
+   * @param it the back_insert_iterator for the population collection
+   */
   void operator()(inserter<individual, fitness_value> it) {
     auto &props = config->system_props;
     auto values = possible_values;
@@ -52,3 +69,5 @@ class sequence_individual_initialization : public base_operator {
     }
   }
 };
+
+#endif //GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_INITIALIZATION_H

@@ -7,6 +7,13 @@
 
 #include <best_migration.hpp>
 
+/**
+ * @brief Genetic operator performing best individual migration using ring topology.
+ * @details This implementation of best_migration by sending each individual in the payload
+ * to the next immediate island (as if arranged in a ring).
+ * @tparam individual
+ * @tparam fitness_value
+ */
 template<typename individual, typename fitness_value>
 class ring_best_migration : public best_migration<individual, fitness_value> {
  public:

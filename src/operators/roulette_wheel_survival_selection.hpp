@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GENETIC_ACTOR_ROULETTE_WHEEL_SURVIVAL_SELECTION_H
+#define GENETIC_ACTOR_ROULETTE_WHEEL_SURVIVAL_SELECTION_H
 
 #include <random>
 #include <core.hpp>
@@ -53,3 +54,5 @@ class roulette_wheel_survival_selection : public base_operator {
     }
   }
 };
+
+#endif //GENETIC_ACTOR_ROULETTE_WHEEL_SURVIVAL_SELECTION_H

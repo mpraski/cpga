@@ -27,10 +27,7 @@ class grid_master_node_driver : public master_node_driver {
     auto &config = self->state.config;
 
     auto dispatcher = self->spawn<detached>(
-        grid_model_dispatcher<individual, fitness_value,
-                              fitness_evaluation_operator, crossover_operator, mutation_operator,
-                              parent_selection_operator, survival_selection_operator,
-                              elitism_operator>,
+        grid_model_dispatcher<individual, fitness_value>,
         grid_model_dispatcher_state{config, workers});
 
     auto executor = self->spawn<detached + monitored>(

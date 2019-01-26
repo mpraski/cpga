@@ -7,6 +7,11 @@
 
 #include "core.hpp"
 
+/**
+ * @brief Fitness evaluation genetic operator for onemax problem
+ * @details This class defines fitness evaluation for a bitstring (defined
+ * by std::vector<char>) by summing the '1' values.
+ */
 class onemax_fitness_evaluation : public base_operator {
  public:
   using base_operator::base_operator;

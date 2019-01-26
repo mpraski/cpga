@@ -40,9 +40,12 @@ struct grid_model_worker_state : public base_state {
 };
 
 template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename crossover_operator,
-    typename mutation_operator, typename parent_selection_operator,
-    typename survival_selection_operator, typename elitism_operator>
+    typename fitness_evaluation_operator,
+    typename crossover_operator,
+    typename mutation_operator,
+    typename parent_selection_operator,
+    typename survival_selection_operator,
+    typename elitism_operator>
 behavior grid_model_worker(
     stateful_actor<
         grid_model_worker_state<individual, fitness_value,
@@ -128,10 +131,7 @@ struct grid_model_dispatcher_state : public base_state {
   std::vector<actor> workers;
 };
 
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator, typename crossover_operator,
-    typename mutation_operator, typename parent_selection_operator,
-    typename survival_selection_operator, typename elitism_operator>
+template<typename individual, typename fitness_value>
 behavior grid_model_dispatcher(
     stateful_actor<grid_model_dispatcher_state> *self,
     grid_model_dispatcher_state state) {
@@ -169,7 +169,8 @@ behavior grid_model_dispatcher(
 }
 
 template<typename individual, typename fitness_value,
-    typename initialization_operator, typename fitness_evaluation_operator>
+    typename initialization_operator,
+    typename fitness_evaluation_operator>
 struct grid_model_executor_state : public base_state {
   grid_model_executor_state() = default;
   grid_model_executor_state(const shared_config &config)
@@ -200,7 +201,8 @@ struct grid_model_executor_state : public base_state {
 };
 
 template<typename individual, typename fitness_value,
-    typename initialization_operator, typename fitness_evaluation_operator>
+    typename initialization_operator,
+    typename fitness_evaluation_operator>
 behavior grid_model_executor(
     stateful_actor<
         grid_model_executor_state<individual, fitness_value,

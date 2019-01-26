@@ -7,6 +7,11 @@
 
 #include "core.hpp"
 
+/**
+ * @brief Mutation genetic operator for onemax problem
+ * @details This class defines mutation for a bitstring (represented by
+ * std::vector<char>) as flipping randomly chosen chars.
+ */
 class bitstring_mutation : public base_operator {
  private:
   std::default_random_engine generator;

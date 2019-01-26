@@ -9,6 +9,11 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
+/**
+ * @brief Population initialization genetic operator for the component fault prediction problem.
+ * @details This class initialized a population of rbf_param's by picking values from uniform distributions
+ * defined for C and gamma respectively by ranges (pairs of doubles): constants::RANGE_C and constants::RANGE_GAMMA.
+ */
 class svm_initialization : public base_operator {
  private:
   std::default_random_engine generator;

@@ -1,7 +1,15 @@
-#pragma once
+#ifndef GENETIC_ACTOR_STAR_RANDOM_MIGRATION_H
+#define GENETIC_ACTOR_STAR_RANDOM_MIGRATION_H
 
 #include <random_migration.hpp>
 
+/**
+ * @brief Genetic operator performing best individual migration using 'star' topology
+ * @details This implementation of random_migration by sending each individual in the payload
+ * to the next island in the round-robin manner (with the counter incremented every call).
+ * @tparam individual
+ * @tparam fitness_value
+ */
 template<typename individual, typename fitness_value>
 class star_random_migration : public random_migration<individual, fitness_value> {
  private:
@@ -22,3 +30,5 @@ class star_random_migration : public random_migration<individual, fitness_value>
     return (++counter % (this->config->system_props.islands_number - 1));
   }
 };
+
+#endif //GENETIC_ACTOR_STAR_RANDOM_MIGRATION_H

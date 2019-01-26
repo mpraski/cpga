@@ -9,15 +9,15 @@
 #include <common.hpp>
 #include "message_bus.hpp"
 
-/*
- * user_properties is a map dedicated for
+/**
+ * @brief This alias to a map between string and any is dedicated for
  * storage of arbitrary user-defined data (necessary for passing
  * custom arguments to some genetic operators)
  */
 using user_properties = std::unordered_map<std::string, std::any>;
 
-/*
- * system_properties struct defined parameters commonly used
+/**
+ * @brief This struct defines parameters commonly used
  * by the framework.
  */
 struct system_properties {
@@ -55,6 +55,11 @@ struct system_properties {
 
   pga_model model;
 
+  /**
+   * @brief Apply model-specific configuration.
+   * @details This function primarily computes the island population size
+   * for the user. It should be called after all parameters are set.
+   */
   inline void compute_population_size() {
     if (model == pga_model::ISLAND) {
       if (total_population_size && islands_number) {
@@ -90,9 +95,10 @@ struct system_properties {
   system_properties();
 };
 
-/*
- * configuration struct represents the user-defined
- * settings as well as some utilities (access to reporter actors)
+/**
+ * @brief This struct encapsulates system- and user-specific
+ * settings as well as access to certain utilities (reporter actors and
+ * message bus).
  */
 struct configuration {
   configuration(const system_properties &system_props,
@@ -118,6 +124,11 @@ struct configuration {
   message_bus bus;
 };
 
+/**
+ * @brief This shared pointer is the only way configuration can be accessed
+ * during model runtime. It needs to be safely published (immutable) to ensure
+ * tread safety.
+ */
 using shared_config = std::shared_ptr<const configuration>;
 
 template<typename... Args>

@@ -1,19 +1,11 @@
 #include <models.hpp>
 #include <operators.hpp>
-
-#include <example/components_fault/components_fault_defs.hpp>
-#include <example/components_fault/svm_fitness_evaluation.hpp>
-#include <example/components_fault/svm_initialization.hpp>
-#include <example/components_fault/svm_crossover.hpp>
-#include <example/components_fault/svm_mutation.hpp>
+#include <example/components_fault/components_fault.hpp>
 
 using namespace std::string_literals;
 
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
-  /**
-   * Core framework configuration is represented by
-   * system_properties struct. See definition in core.hpp
-   */
+
   system_properties system_props;
   // core settings
   system_props.island_model();
@@ -46,12 +38,6 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   // need to call this to make sure population_size holds appropriate value
   system_props.compute_population_size();
 
-  /**
-   * All other values defined by the user and somehow needed,
-   * for instance in custom genetic operators (see operators/sequence_individual_initialization.hpp)
-   * can be put in the user_properties map. It's a std::unordered_map<std::string, std::any>, so
-   * any value can be stored (has to be cast to appropriate type using std::any_cast)
-   */
   user_properties user_props{
       {constants::STABLE_REQUIRED_KEY, size_t{10}},
       {constants::MINIMUM_AVERAGE_KEY, 0.9},

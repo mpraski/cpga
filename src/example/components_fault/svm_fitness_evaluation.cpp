@@ -70,8 +70,7 @@ svm_problem svm_fitness_evaluation::create_problem() const {
         std::accumulate(
             std::next(std::begin(parsed[i])),
             std::end(parsed[i]),
-            1,
-            adder
+            1, adder
         )
     };
     labels[i] = parsed[i][0];
@@ -90,6 +89,12 @@ svm_problem svm_fitness_evaluation::create_problem() const {
   return svm_problem{n_rows, labels, nodes};
 }
 
+/**
+ * @brief Computes the F-measure for RBF kernel parameters.
+ * @param params the rbf_params struct defining C and gamma RBF parameters
+ * @return The computed F-measure
+ * @note If the parameters fail svm_check_parameter test 0 is returned immediatelly.
+ */
 double svm_fitness_evaluation::operator()(const rbf_params &params) {
   parameter.C = params.c;
   parameter.gamma = params.gamma;
@@ -122,9 +127,8 @@ double svm_fitness_evaluation::operator()(const rbf_params &params) {
 void svm_fitness_evaluation::free_memory() {
   delete[] cv_result;
   delete[] problem.y;
-  for (int i = 0; i < problem.l; ++i) {
+  for (int i = 0; i < problem.l; ++i)
     delete[] problem.x[i];
-  }
   delete[] problem.x;
 }
 

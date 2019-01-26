@@ -70,7 +70,6 @@ const constexpr auto timeout = std::chrono::seconds(10);
 const constexpr auto island_0 = island_id{0};
 const constexpr auto island_special = std::numeric_limits<island_id>::max();
 
-// Commonly used functions
 inline auto now() noexcept {
   return std::chrono::high_resolution_clock::now();
 }
@@ -182,6 +181,13 @@ enum class pga_model {
   GLOBAL, ISLAND, GRID, SEQUENTIAL
 };
 
+/**
+ * @brief This class represents program configuration, where public members
+ * are populated by appropriate command line arguments to the main executable.
+ * @note One needs to invoke the CLUSTER_CONFIG macro defined below in order for the
+ * definition of this class to be complete.
+ * @see CLUSTER_CONFIG
+ */
 class cluster_properties : public actor_system_config {
  public:
   std::string master_node_host;
@@ -225,6 +231,15 @@ class cluster_properties : public actor_system_config {
   }
 };
 
+/**
+ * @brief This macro turned out to be the easiest way of configuring the
+ * custom message types (CAF requires us to do so, since we're passing not only atoms but
+ * individuals, fitness_values and migration payloads etc.) Since custom message types can only
+ * be declared in a class inheriting from actor_system_config I've decided to create a macro expanding
+ * to the implementation of default constructor of cluster_properties (it's the fitting place to add types).
+ * @note The used has to invoke this macro with their intended individual and fitness_value types, otherwise they won't
+ * even be able to launch the program with desired command line params which are also declared here.
+ */
 #define CLUSTER_CONFIG(IND, FIT) \
 cluster_properties::cluster_properties() { \
   add_message_type<worker_node_info>("worker_node_info"); \

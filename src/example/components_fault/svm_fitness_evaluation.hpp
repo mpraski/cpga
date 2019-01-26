@@ -10,6 +10,24 @@
 #include "components_fault_defs.hpp"
 #include "components_fault_defs.hpp"
 
+/**
+ * @brief Fitness evaluation operator for the component fault prediction problem.
+ * @details This class performs fitness evaluation of the radial basis function (RBF) kernel
+ * parameters used to train a SVM predicting whether a given software component is faulty or not.
+ * Fitness value if computed by first applying a 5-fold cross-validation on the training set and
+ * taking the F-measure of the resulting test. The dataset is accessed by reading appropriate number of
+ * rows from a specifically encoded CSV files. For this reason this class expects following user parameters to be present:
+ * @li constants::CSV_FILE: The path to CSV file
+ * @li constants::N_ROWS: The number of rows to be read from the CSV file
+ * @li constants::N_COLS: The number of columns to be read from the CSV file
+ * @li constants::N_FOLDS: THe number of folds for cross-validation
+ * @line
+ * The CSV files can only include numerical values (that can be parsed using std::stod), and the first column has
+ * to contain the class assigned to this data point (1 or 0). Remaining rows form the attribute vector.
+ * No header is expected.
+ * @note This class can only be move constructed or assigned (to facilitate reasoning about memory dynamically allocated
+ * for the cross validation result and other LibSVM data.
+ */
 class svm_fitness_evaluation : public base_operator {
  private:
   int n_rows;

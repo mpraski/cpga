@@ -1,9 +1,19 @@
-#pragma once
+#ifndef GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_CROSSOVER_H
+#define GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_CROSSOVER_H
 
 #include <random>
 #include <vector>
 #include <core.hpp>
 
+/**
+ * @brief Genetic operator performing crossover for a population of 'sequence' individuals.
+ * @details This class performs single-point crossover for individual who can be represented as
+ * a sequence (see sequence_individual_initialization). Crossover is performed at a random
+ * index in range 0..system_props.individual_size.
+ * @tparam constituent
+ * @tparam fitness_value
+ * @tparam individual
+ */
 template<typename constituent, typename fitness_value, typename individual = std::vector<constituent>>
 class sequence_individual_crossover : public base_operator {
  private:
@@ -30,6 +40,11 @@ class sequence_individual_crossover : public base_operator {
         random_f{std::bind(distribution, generator)} {
   }
 
+  /**
+   * @brief Generate two offspring for a couple and add it to the collection by assigning to it.
+   * @param it the back_insert_iterator for the offspring collection
+   * @param couple the previously selected couple (pair of individual wrappers)
+   */
   void operator()(inserter<individual, fitness_value> it,
                   const wrapper_pair<individual, fitness_value> &couple) const {
     auto ind_size = config->system_props.individual_size;
@@ -56,3 +71,5 @@ class sequence_individual_crossover : public base_operator {
     it = {std::move(child2), fitness_value{}};
   }
 };
+
+#endif //GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_CROSSOVER_H

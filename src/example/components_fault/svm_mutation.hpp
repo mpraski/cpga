@@ -8,6 +8,14 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
+/**
+ * @brief Mutation genetic operator for the component fault prediction problem.
+ * @details This class performs mutation on rbf_params individuals. The new C and gamma
+ * values are chosen as follows: add random double value in range -r..r to exisiting parameter value,
+ * then make sure the result is within acceptable parameter range. The r is defined by constants::MUTATION_RANGE_C and
+ * constants::MUTATION_RANGE_GAMMA for C and gamma respectively, whereas the acceptable ranges are the same ones used
+ * by svm_initialization (constants::RANGE_C and constants::RANGE_GAMMA).
+ */
 class svm_mutation : public base_operator {
  private:
   std::default_random_engine generator;

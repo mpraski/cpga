@@ -16,6 +16,10 @@ svm_mutation::svm_mutation(const shared_config &config, island_id island_no)
       dist_mutate_gamma{make_range(std::any_cast<double>(config->user_props.at(constants::MUTATION_RANGE_GAMMA)))} {
 }
 
+/**
+ * @brief Perform in-place mutation on an rbf_params individual.
+ * @param wrapper A wrapper of rbf_params and double
+ */
 void svm_mutation::operator()(wrapper<rbf_params, double> &wrapper) {
   if (dist_mutate(generator) < config->system_props.mutation_probability) {
     wrapper.first.c = std::clamp(

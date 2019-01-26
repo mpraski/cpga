@@ -1,8 +1,16 @@
-#pragma once
+#ifndef GENETIC_ACTOR_ROULETTE_WHEEL_PARENT_SELECTION_H
+#define GENETIC_ACTOR_ROULETTE_WHEEL_PARENT_SELECTION_H
 
 #include <random>
 #include <core.hpp>
 
+/**
+ * @brief Genetic operator performing parent selection for crossover using roulette-wheel method.
+ * @details This class perform parent selection bt applying the
+ * <a href="https://en.wikipedia.org/wiki/Fitness_proportionate_selection">fitness proportionate selection</a>.
+ * @tparam individual
+ * @tparam fitness_value
+ */
 template<typename individual, typename fitness_value>
 class roulette_wheel_parent_selection : public base_operator {
  private:
@@ -31,6 +39,11 @@ class roulette_wheel_parent_selection : public base_operator {
         random_one{std::bind(distribution, generator)} {
   }
 
+  /**
+   * @brief Fills couples with selected individidual pairs.
+   * @param population the common population
+   * @param couples the collection of resulting couples (a vector of wrapper pairs)
+   */
   void operator()(population<individual, fitness_value> &population,
                   couples<individual, fitness_value> &couples) const {
     auto couples_num = population.size() / 2;
@@ -51,5 +64,6 @@ class roulette_wheel_parent_selection : public base_operator {
       couples.emplace_back(population[first], population[second]);
     }
   }
-
 };
+
+#endif //GENETIC_ACTOR_ROULETTE_WHEEL_PARENT_SELECTION_H

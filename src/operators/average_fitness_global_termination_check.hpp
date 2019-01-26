@@ -1,5 +1,17 @@
+#ifndef GENETIC_ACTOR_AVERAGE_GLOBAL_TERMINATION_CHECK_H
+#define GENETIC_ACTOR_AVERAGE_GLOBAL_TERMINATION_CHECK_H
+
 #include <core.hpp>
 
+/**
+ * @brief Genetic operator determining whether a stopping condition has been reached.
+ * @details This class computes the average fitness value of a population and compares
+ * it with a specified average. If it is greater for n consecutive times then the stopping
+ * condition has been reached. The minimum average is specified by constants::STABLE_REQUIRED_KEY,
+ * and the number of consecutive successful checks by constants::MINIMUM_AVERAGE_KEY.
+ * @tparam individual
+ * @tparam fitness_value
+ */
 template<typename individual, typename fitness_value>
 class average_fitness_global_termination_check : public base_operator {
  private:
@@ -18,6 +30,11 @@ class average_fitness_global_termination_check : public base_operator {
             config->user_props.at(constants::MINIMUM_AVERAGE_KEY))} {
   }
 
+  /**
+   * @bried perform actual check on a population.
+   * @param population the common population
+   * @return Whether the stopping condition has been reached.
+   */
   bool operator()(const population<individual, fitness_value> &population) noexcept {
     if (population.empty()) {
       return true;
@@ -36,3 +53,5 @@ class average_fitness_global_termination_check : public base_operator {
     return false;
   }
 };
+
+#endif //GENETIC_ACTOR_AVERAGE_GLOBAL_TERMINATION_CHECK_H

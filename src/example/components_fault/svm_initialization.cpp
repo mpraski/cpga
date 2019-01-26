@@ -12,6 +12,10 @@ svm_initialization::svm_initialization(const shared_config &config, island_id is
 
 }
 
+/**
+ * @brief Creates props.population_size new individuals and inserts them to the population.
+ * @param it the back_insert_iterator for the population
+ */
 void svm_initialization::operator()(inserter<rbf_params, double> it) {
   auto &props = config->system_props;
 

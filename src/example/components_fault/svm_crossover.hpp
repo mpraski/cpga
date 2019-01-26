@@ -8,6 +8,11 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
+/**
+ * @brief Crossover genetic operator for the component fault prediction problem.
+ * @details This class applies a single-point crossover to a pair of individuals. Each pair of parents
+ * (p1, p2) produces two offspring such that o = (p1.c, p2.gamma) or (p2.c, p1.gamma).
+ */
 class svm_crossover : public base_operator {
  private:
   std::default_random_engine generator;
