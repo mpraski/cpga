@@ -13,12 +13,7 @@
 
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
-    typename initialization_operator,
-    typename crossover_operator,
-    typename mutation_operator,
-    typename parent_selection_operator,
-    typename survival_selection_operator,
-    typename elitism_operator>
+    typename initialization_operator>
 class grid_master_node_driver : public master_node_driver {
  public:
   using master_node_driver::master_node_driver;
@@ -75,23 +70,22 @@ class grid_worker_node_driver : public worker_node_driver {
   }
 };
 
+/**
+ * @brief This alias facilitates running grid model PGA on a cluster.
+ * @see cluster_runner
+ */
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
     typename initialization_operator,
     typename crossover_operator,
     typename mutation_operator,
     typename parent_selection_operator,
-    typename survival_selection_operator,
-    typename elitism_operator>
+    typename survival_selection_operator = default_survival_selection_operator<individual, fitness_value>,
+    typename elitism_operator = default_elitism_operator<individual, fitness_value>>
 using grid_cluster_runner = cluster_runner<grid_master_node_driver<individual,
                                                                    fitness_value,
                                                                    fitness_evaluation_operator,
-                                                                   initialization_operator,
-                                                                   crossover_operator,
-                                                                   mutation_operator,
-                                                                   parent_selection_operator,
-                                                                   survival_selection_operator,
-                                                                   elitism_operator>,
+                                                                   initialization_operator>,
                                            grid_worker_node_driver<individual,
                                                                    fitness_value,
                                                                    fitness_evaluation_operator,

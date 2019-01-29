@@ -54,6 +54,10 @@ class global_model_single_machine : public base_single_machine_driver<individual
   }
 };
 
+/**
+ * @brief This alias facilitates running global model PGA on a single machine.
+ * @see single_machine_runner
+ */
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
     typename initialization_operator,

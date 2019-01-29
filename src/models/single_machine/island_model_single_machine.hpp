@@ -39,12 +39,7 @@ class island_model_single_machine : public base_single_machine_driver<individual
     };
     std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-    auto &dispatcher_func = island_model_dispatcher<individual, fitness_value,
-                                                    fitness_evaluation_operator, initialization_operator,
-                                                    crossover_operator, mutation_operator, parent_selection_operator,
-                                                    survival_selection_operator, elitism_operator, migration_operator>;
-
-    auto dispatcher = self->spawn<detached>(dispatcher_func,
+    auto dispatcher = self->spawn<detached>(island_model_dispatcher<individual, fitness_value>,
                                             island_model_dispatcher_state{config, workers});
 
     auto executor = self->spawn<detached + monitored>(island_model_executor,
@@ -56,6 +51,10 @@ class island_model_single_machine : public base_single_machine_driver<individual
   }
 };
 
+/**
+ * @brief This alias facilitates running island model PGA on a single machine.
+ * @see single_machine_runner
+ */
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,

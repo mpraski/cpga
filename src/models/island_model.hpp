@@ -206,15 +206,7 @@ inline void forward(stateful_actor<T> *self, A &&atom) {
   }
 }
 
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator,
-    typename initialization_operator,
-    typename crossover_operator,
-    typename mutation_operator,
-    typename parent_selection_operator,
-    typename survival_selection_operator,
-    typename elitism_operator,
-    typename migration_operator>
+template<typename individual, typename fitness_value>
 behavior island_model_dispatcher(
     stateful_actor<island_model_dispatcher_state> *self,
     island_model_dispatcher_state state) {

@@ -83,7 +83,9 @@ add_executable(genetic_actor
         src/models/single_machine/island_model_single_machine.hpp
         src/core/single_machine_runner.hpp
         src/operators.hpp
-        src/models.hpp src/example/components_fault/components_fault.hpp src/example/onemax/onemax.hpp)
+        src/models.hpp
+        src/example/components_fault/components_fault.hpp
+        src/example/onemax/onemax.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

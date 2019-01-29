@@ -72,6 +72,10 @@ class global_worker_node_driver : public worker_node_driver {
   }
 };
 
+/**
+ * @brief This alias facilitates running global model PGA on a cluster.
+ * @see cluster_runner
+ */
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
     typename initialization_operator,

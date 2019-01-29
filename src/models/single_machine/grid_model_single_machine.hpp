@@ -50,6 +50,10 @@ class grid_model_single_machine : public base_single_machine_driver<individual, 
   }
 };
 
+/**
+ * @brief This alias facilitates running grid model PGA on a single machine.
+ * @see single_machine_runner
+ */
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,

@@ -10,15 +10,7 @@
 #include <island_model.hpp>
 #include <cluster.hpp>
 
-template<typename individual, typename fitness_value,
-    typename fitness_evaluation_operator,
-    typename initialization_operator,
-    typename crossover_operator,
-    typename mutation_operator,
-    typename parent_selection_operator,
-    typename survival_selection_operator,
-    typename elitism_operator,
-    typename migration_operator>
+template<typename individual, typename fitness_value>
 class island_master_node_driver : public master_node_driver {
  public:
   using master_node_driver::master_node_driver;
@@ -26,12 +18,7 @@ class island_master_node_driver : public master_node_driver {
   actor spawn_executor(stateful_actor<base_state> *self, std::vector<actor> &workers) override {
     auto &config = self->state.config;
 
-    auto &dispatcher_func = island_model_dispatcher<individual, fitness_value,
-                                                    fitness_evaluation_operator, initialization_operator,
-                                                    crossover_operator, mutation_operator, parent_selection_operator,
-                                                    survival_selection_operator, elitism_operator, migration_operator>;
-
-    auto dispatcher = self->spawn<detached>(dispatcher_func,
+    auto dispatcher = self->spawn<detached>(island_model_dispatcher<individual, fitness_value>,
                                             island_model_dispatcher_state{config, workers});
 
     auto executor = self->spawn<detached + monitored>(island_model_executor,
@@ -79,6 +66,10 @@ class island_worker_node_driver : public worker_node_driver {
   }
 };
 
+/**
+ * @brief This alias facilitates running island model PGA on a cluster.
+ * @see cluster_runner
+ */
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
     typename initialization_operator,
@@ -92,15 +83,7 @@ template<typename individual, typename fitness_value,
     typename migration_operator = default_migration_operator<individual,
                                                              fitness_value>>
 using island_cluster_runner = cluster_runner<island_master_node_driver<individual,
-                                                                       fitness_value,
-                                                                       fitness_evaluation_operator,
-                                                                       initialization_operator,
-                                                                       crossover_operator,
-                                                                       mutation_operator,
-                                                                       parent_selection_operator,
-                                                                       survival_selection_operator,
-                                                                       elitism_operator,
-                                                                       migration_operator>,
+                                                                       fitness_value>,
                                              island_worker_node_driver<individual,
                                                                        fitness_value,
                                                                        fitness_evaluation_operator,
