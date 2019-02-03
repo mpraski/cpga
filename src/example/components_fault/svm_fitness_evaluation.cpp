@@ -5,8 +5,6 @@
 #include <utilities/csv_reader.hpp>
 #include "svm_fitness_evaluation.hpp"
 
-void print_null(const char *) {}
-
 svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       n_rows{std::any_cast<int>(config->user_props.at(constants::N_ROWS))},
@@ -15,7 +13,11 @@ svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, isla
       cv_result{new double[n_rows]},
       parameter{create_parameter()},
       problem{create_problem()} {
-  svm_set_print_string_function(&print_null);
+  // Output LibSVM output to an empty function. Do it only once per program execution.
+  static std::once_flag flag;
+  std::call_once(flag, [] {
+    svm_set_print_string_function([](const char *) {});
+  });
 }
 
 svm_fitness_evaluation::svm_fitness_evaluation(svm_fitness_evaluation &&other) noexcept {

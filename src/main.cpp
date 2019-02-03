@@ -12,7 +12,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   system_props.total_population_size = 200;
   system_props.islands_number = recommended_worker_number();
   system_props.elitists_number = 2;
-  system_props.generations_number = 200;
+  system_props.generations_number = 50;
   system_props.migration_period = 30;
   system_props.migration_quota = 3;
   // seeds & probabilities
