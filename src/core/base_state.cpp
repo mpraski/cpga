@@ -4,7 +4,8 @@
 
 #include "base_state.hpp"
 
-using namespace cpga::core;
-
-base_state::base_state(const shared_config &config) : config{config} {
+namespace cpga {
+namespace core {
+base_state::base_state(const shared_config &config) : config{config} {}
+}
 }

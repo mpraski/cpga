@@ -4,9 +4,9 @@
 
 #include "worker_node.hpp"
 
-using namespace cpga::cluster;
-using namespace cpga::core;
-
+namespace cpga {
+using namespace core;
+namespace cluster {
 behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const system_properties &system_props,
                               const user_properties &user_props,
@@ -107,4 +107,6 @@ void worker_node_driver::perform(scoped_actor &self) {
   anon_send(node, stage_initiate_worker_node::value);
   self->wait_for(executor);
   anon_send_exit(node, exit_reason::user_shutdown);
+}
+}
 }

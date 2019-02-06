@@ -1,7 +1,7 @@
 #include "reporter.hpp"
 
-using namespace cpga::utilities;
-
+namespace cpga {
+namespace utilities {
 void reporter_state::write_headers(const std::vector<std::string> &headers) {
   std::copy(
       std::begin(headers),
@@ -136,4 +136,6 @@ behavior system_reporter(stateful_actor<system_reporter_state> *self) {
         self->state.write_message(time, message);
       },
   };
+}
+}
 }

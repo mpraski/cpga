@@ -4,9 +4,9 @@
 
 #include "onemax_fitness_evaluation.hpp"
 
-using namespace cpga::examples;
-using namespace cpga::core;
-
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Compute fitness value for a bitstring by summing the ones.
  * @param ind the individual bitstring
@@ -16,4 +16,6 @@ int onemax_fitness_evaluation::operator()(const std::vector<char> &ind) const no
   int i{0};
   for (auto b : ind) if (b) ++i;
   return i;
+}
+}
 }

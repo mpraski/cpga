@@ -4,8 +4,8 @@
 
 #include "data.hpp"
 
-using namespace cpga::core;
-
+namespace cpga {
+namespace core {
 system_properties::system_properties() : total_population_size{0},
                                          population_size{0},
                                          islands_number{0},
@@ -28,3 +28,5 @@ configuration::configuration(const system_properties &system_props,
                                                   individual_reporter{std::move(individual_reporter)},
                                                   system_reporter{std::move(system_reporter)},
                                                   bus{std::move(bus)} {}
+}
+}

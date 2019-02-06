@@ -19,18 +19,18 @@ class island_master_node_driver : public master_node_driver {
   using master_node_driver::master_node_driver;
 
   actor spawn_executor(stateful_actor<base_state> *self, std::vector<actor> &workers) override {
-      auto &config = self->state.config;
+    auto &config = self->state.config;
 
-      auto dispatcher = self->spawn<detached>(island_model_dispatcher<individual, fitness_value>,
-                                              island_model_dispatcher_state{config, workers});
+    auto dispatcher = self->spawn<detached>(island_model_dispatcher<individual, fitness_value>,
+                                            island_model_dispatcher_state{config, workers});
 
-      auto executor = self->spawn<detached + monitored>(island_model_executor,
-                                                        island_model_executor_state{config},
-                                                        dispatcher);
+    auto executor = self->spawn<detached + monitored>(island_model_executor,
+                                                      island_model_executor_state{config},
+                                                      dispatcher);
 
-      self->send(executor, execute_phase_1::value);
+    self->send(executor, execute_phase_1::value);
 
-      return executor;
+    return executor;
   }
 };
 
@@ -48,24 +48,24 @@ class island_worker_node_driver : public worker_node_driver {
   using worker_node_driver::worker_node_driver;
 
   std::vector<actor> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
-      auto &config = self->state.config;
+    auto &config = self->state.config;
 
-      std::vector<actor> workers(system_props.islands_number);
-      auto spawn_worker = [&] {
-        return self->template spawn<monitored + detached>(island_model_worker<individual, fitness_value,
-                                                                              fitness_evaluation_operator,
-                                                                              initialization_operator,
-                                                                              crossover_operator,
-                                                                              mutation_operator,
-                                                                              parent_selection_operator,
-                                                                              survival_selection_operator,
-                                                                              elitism_operator,
-                                                                              migration_operator>,
-                                                          config);
-      };
-      std::generate(std::begin(workers), std::end(workers), spawn_worker);
+    std::vector<actor> workers(system_props.islands_number);
+    auto spawn_worker = [&] {
+      return self->template spawn<monitored + detached>(island_model_worker<individual, fitness_value,
+                                                                            fitness_evaluation_operator,
+                                                                            initialization_operator,
+                                                                            crossover_operator,
+                                                                            mutation_operator,
+                                                                            parent_selection_operator,
+                                                                            survival_selection_operator,
+                                                                            elitism_operator,
+                                                                            migration_operator>,
+                                                        config);
+    };
+    std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-      return workers;
+    return workers;
   }
 };
 

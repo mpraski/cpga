@@ -5,9 +5,9 @@
 #include <csignal>
 #include "master_node.hpp"
 
-using namespace cpga::cluster;
-using namespace cpga::core;
-
+namespace cpga {
+using namespace core;
+namespace cluster {
 master_node_state::master_node_state(const cluster_properties &props) : base_cluster_state{props},
                                                                         current_worker_pings{0},
                                                                         current_worker_infos{0},
@@ -152,4 +152,6 @@ void master_node_driver::perform(scoped_actor &self) {
 
   self->wait_for(executor);
   anon_send_exit(node, exit_reason::user_shutdown);
+}
+}
 }

@@ -4,9 +4,9 @@
 
 #include "svm_mutation.hpp"
 
-using namespace cpga::examples;
-using namespace cpga::core;
-
+namespace cpga {
+using namespace core;
+namespace examples {
 svm_mutation::svm_mutation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.mutation_seed)},
@@ -36,4 +36,6 @@ void svm_mutation::operator()(wrapper<rbf_params, double> &wrapper) {
         max_gamma
     );
   }
+}
+}
 }

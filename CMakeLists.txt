@@ -8,7 +8,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 include_directories(src)
-include_directories(src/example)
+include_directories(src/examples)
 include_directories(src/models)
 include_directories(src/operators)
 include_directories(src/core)
@@ -16,9 +16,9 @@ include_directories(src/cluster)
 include_directories(src/utilities)
 
 add_executable(genetic_actor
-        src/example/onemax/bitstring_mutation.cpp
-        src/example/onemax/onemax_defs.hpp
-        src/example/onemax/onemax_fitness_evaluation.hpp
+        src/examples/onemax/bitstring_mutation.cpp
+        src/examples/onemax/onemax_defs.hpp
+        src/examples/onemax/onemax_fitness_evaluation.hpp
         src/models/global_model.hpp
         src/models/grid_model.hpp
         src/models/island_model.hpp
@@ -60,21 +60,21 @@ add_executable(genetic_actor
         src/core/message_bus.cpp
         src/core/message_bus.hpp
         src/models/distributed/grid_model_cluster.hpp
-        src/example/components_fault/vendor/libsvm/svm.hpp
-        src/example/components_fault/vendor/libsvm/svm.cpp
-        src/example/components_fault/svm_fitness_evaluation.cpp
-        src/example/components_fault/svm_fitness_evaluation.hpp
-        src/example/components_fault/components_fault_defs.hpp
-        src/example/components_fault/components_fault_defs.cpp
-        src/example/onemax/bitstring_mutation.hpp
+        src/examples/components_fault/vendor/libsvm/svm.hpp
+        src/examples/components_fault/vendor/libsvm/svm.cpp
+        src/examples/components_fault/svm_fitness_evaluation.cpp
+        src/examples/components_fault/svm_fitness_evaluation.hpp
+        src/examples/components_fault/components_fault_defs.hpp
+        src/examples/components_fault/components_fault_defs.cpp
+        src/examples/onemax/bitstring_mutation.hpp
         src/utilities/csv_reader.hpp
-        src/example/onemax/onemax_fitness_evaluation.cpp
-        src/example/components_fault/svm_initialization.cpp
-        src/example/components_fault/svm_initialization.hpp
-        src/example/components_fault/svm_crossover.cpp
-        src/example/components_fault/svm_crossover.hpp
-        src/example/components_fault/svm_mutation.cpp
-        src/example/components_fault/svm_mutation.hpp
+        src/examples/onemax/onemax_fitness_evaluation.cpp
+        src/examples/components_fault/svm_initialization.cpp
+        src/examples/components_fault/svm_initialization.hpp
+        src/examples/components_fault/svm_crossover.cpp
+        src/examples/components_fault/svm_crossover.hpp
+        src/examples/components_fault/svm_mutation.cpp
+        src/examples/components_fault/svm_mutation.hpp
         src/operators/best_migration.hpp
         src/utilities/population_sorter.hpp
         src/operators/ring_best_migration.hpp
@@ -84,8 +84,8 @@ add_executable(genetic_actor
         src/core/single_machine_runner.hpp
         src/operators.hpp
         src/models.hpp
-        src/example/components_fault/components_fault.hpp
-        src/example/onemax/onemax.hpp)
+        src/examples/components_fault/components_fault.hpp
+        src/examples/onemax/onemax.hpp)
 
 target_link_libraries(genetic_actor libcaf_core.so)
 target_link_libraries(genetic_actor libcaf_io.so)

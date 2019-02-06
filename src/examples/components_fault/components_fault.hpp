@@ -11,4 +11,7 @@
 #include "svm_crossover.hpp"
 #include "svm_mutation.hpp"
 
+using cpga::examples::operator<<;
+using cpga::examples::inspect;
+
 #endif //GENETIC_ACTOR_COMPONENTS_FAULT_H

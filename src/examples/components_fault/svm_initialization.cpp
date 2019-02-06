@@ -4,9 +4,9 @@
 
 #include "svm_initialization.hpp"
 
-using namespace cpga::examples;
-using namespace cpga::core;
-
+namespace cpga {
+using namespace core;
+namespace examples {
 svm_initialization::svm_initialization(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.initialization_seed)},
@@ -25,4 +25,6 @@ void svm_initialization::operator()(inserter<rbf_params, double> it) {
   for (size_t i = 0; i < props.population_size; ++i) {
     it = {rbf_params{dist_c(generator), dist_gamma(generator)}, 0};
   }
+}
+}
 }

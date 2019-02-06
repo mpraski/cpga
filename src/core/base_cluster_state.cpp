@@ -4,6 +4,8 @@
 
 #include "base_cluster_state.hpp"
 
-using namespace cpga::core;
-
+namespace cpga {
+namespace core {
 base_cluster_state::base_cluster_state(const cluster_properties &cluster_props) : cluster_props{cluster_props} {}
+}
+}

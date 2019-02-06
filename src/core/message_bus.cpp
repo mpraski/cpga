@@ -4,6 +4,8 @@
 
 #include "message_bus.hpp"
 
-using namespace cpga::core;
-
+namespace cpga {
+namespace core {
 message_bus::message_bus(const group &mg) : message_group{mg} {}
+}
+}

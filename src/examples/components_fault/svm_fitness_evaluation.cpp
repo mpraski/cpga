@@ -5,9 +5,9 @@
 #include <utilities/csv_reader.hpp>
 #include "svm_fitness_evaluation.hpp"
 
-using namespace cpga::examples;
-using namespace cpga::core;
-
+namespace cpga {
+using namespace core;
+namespace examples {
 svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       n_rows{std::any_cast<int>(config->user_props.at(constants::N_ROWS))},
@@ -155,4 +155,6 @@ svm_fitness_evaluation &svm_fitness_evaluation::operator=(svm_fitness_evaluation
 
 svm_fitness_evaluation::~svm_fitness_evaluation() {
   if (cv_result) free_memory();
+}
+}
 }

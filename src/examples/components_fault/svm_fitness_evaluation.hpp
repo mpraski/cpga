@@ -6,7 +6,6 @@
 #define GENETIC_ACTOR_SVM_FITNESS_EVALUATION_H
 
 #include <core.hpp>
-#include <threads.h>
 #include "vendor/libsvm/svm.hpp"
 #include "components_fault_defs.hpp"
 #include "components_fault_defs.hpp"

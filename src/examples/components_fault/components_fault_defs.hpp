@@ -15,12 +15,12 @@ struct rbf_params {
   double gamma;
 };
 
+std::ostream &operator<<(std::ostream &os, const rbf_params &params);
+
 template<class Inspector>
 typename Inspector::result_type inspect(Inspector &f, rbf_params &x) {
   return f(meta::type_name("rbf_params"), x.c, x.gamma);
 }
-
-std::ostream &operator<<(std::ostream &os, const rbf_params &params);
 }
 }
 

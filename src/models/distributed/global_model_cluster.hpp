@@ -27,26 +27,26 @@ class global_master_node_driver : public master_node_driver {
   using master_node_driver::master_node_driver;
 
   actor spawn_executor(stateful_actor<base_state> *self, std::vector<actor> &workers) override {
-      auto &config = self->state.config;
+    auto &config = self->state.config;
 
-      auto supervisor = self->spawn<detached>(
-          global_model_supervisor<individual, fitness_value>,
-          global_model_supervisor_state{config, workers});
+    auto supervisor = self->spawn<detached>(
+        global_model_supervisor<individual, fitness_value>,
+        global_model_supervisor_state{config, workers});
 
-      auto executor = self->spawn<detached + monitored>(
-          global_model_executor<individual, fitness_value,
-                                initialization_operator, crossover_operator, mutation_operator,
-                                parent_selection_operator, global_termination_check,
-                                survival_selection_operator, elitism_operator>,
-          global_model_executor_state<individual, fitness_value,
-                                      initialization_operator, crossover_operator, mutation_operator,
-                                      parent_selection_operator, global_termination_check,
-                                      survival_selection_operator, elitism_operator>{config},
-          supervisor);
+    auto executor = self->spawn<detached + monitored>(
+        global_model_executor<individual, fitness_value,
+                              initialization_operator, crossover_operator, mutation_operator,
+                              parent_selection_operator, global_termination_check,
+                              survival_selection_operator, elitism_operator>,
+        global_model_executor_state<individual, fitness_value,
+                                    initialization_operator, crossover_operator, mutation_operator,
+                                    parent_selection_operator, global_termination_check,
+                                    survival_selection_operator, elitism_operator>{config},
+        supervisor);
 
-      self->send(executor, init_population::value);
+    self->send(executor, init_population::value);
 
-      return executor;
+    return executor;
   }
 };
 
@@ -56,22 +56,22 @@ class global_worker_node_driver : public worker_node_driver {
   using worker_node_driver::worker_node_driver;
 
   std::vector<actor> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
-      auto &system = self->system();
-      auto &middleman = system.middleman();
-      auto &config = self->state.config;
+    auto &system = self->system();
+    auto &middleman = system.middleman();
+    auto &config = self->state.config;
 
-      std::vector<actor> workers(system_props.islands_number);
-      auto spawn_worker = [&] {
-        auto worker = self->spawn<detached + monitored>(global_model_worker<individual,
-                                                                            fitness_value,
-                                                                            fitness_evaluation_operator>,
-                                                        config);
-        system_message(self, "Spawning worker (actor id: ", worker.id(), ")");
-        return worker;
-      };
-      std::generate(std::begin(workers), std::end(workers), spawn_worker);
+    std::vector<actor> workers(system_props.islands_number);
+    auto spawn_worker = [&] {
+      auto worker = self->spawn<detached + monitored>(global_model_worker<individual,
+                                                                          fitness_value,
+                                                                          fitness_evaluation_operator>,
+                                                      config);
+      system_message(self, "Spawning worker (actor id: ", worker.id(), ")");
+      return worker;
+    };
+    std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-      return workers;
+    return workers;
   }
 };
 

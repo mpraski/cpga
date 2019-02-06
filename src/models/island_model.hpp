@@ -159,9 +159,9 @@ behavior island_model_worker(
       }
   };
 
-  //self->set_default_handler([](scheduled_actor *, message_view &) {
-  //  return skip();
-  //});
+  self->set_default_handler([](scheduled_actor *, message_view &) {
+    return skip();
+  });
 
   return {
       [=](assign_id, island_id id) {
@@ -225,8 +225,6 @@ behavior island_model_dispatcher(
     self->monitor(worker);
     self->send(worker, assign_id::value, id);
   }
-
-  std::this_thread::sleep_for(1s);
 
   /*
    * Monitor island workers, restart ones that die

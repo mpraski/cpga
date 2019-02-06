@@ -4,8 +4,8 @@
 
 #include "base_cluster_driver.hpp"
 
-using namespace cpga::core;
-
+namespace cpga {
+namespace core {
 std::function<uint16_t()> base_cluster_driver::make_reporter_port_factory() const {
   return create_counter(cluster_props.reporter_range_start);
 }
@@ -44,4 +44,6 @@ base_cluster_driver::base_cluster_driver(const system_properties &system_props,
 void base_cluster_driver::run(actor_system &system) {
   scoped_actor self{system};
   perform(self);
+}
+}
 }

@@ -22,21 +22,21 @@ class grid_master_node_driver : public master_node_driver {
   using master_node_driver::master_node_driver;
 
   actor spawn_executor(stateful_actor<base_state> *self, std::vector<actor> &workers) override {
-      auto &config = self->state.config;
+    auto &config = self->state.config;
 
-      auto dispatcher = self->spawn<detached>(
-          grid_model_dispatcher<individual, fitness_value>,
-          grid_model_dispatcher_state{config, workers});
+    auto dispatcher = self->spawn<detached>(
+        grid_model_dispatcher<individual, fitness_value>,
+        grid_model_dispatcher_state{config, workers});
 
-      auto executor = self->spawn<detached + monitored>(
-          grid_model_executor<individual, fitness_value, initialization_operator,
-                              fitness_evaluation_operator>,
-          config,
-          dispatcher);
+    auto executor = self->spawn<detached + monitored>(
+        grid_model_executor<individual, fitness_value, initialization_operator,
+                            fitness_evaluation_operator>,
+        config,
+        dispatcher);
 
-      self->send(executor, init_population::value);
+    self->send(executor, init_population::value);
 
-      return executor;
+    return executor;
   }
 };
 
@@ -52,24 +52,24 @@ class grid_worker_node_driver : public worker_node_driver {
   using worker_node_driver::worker_node_driver;
 
   std::vector<actor> spawn_workers(stateful_actor<worker_node_executor_state> *self) override {
-      auto &system = self->system();
-      auto &middleman = system.middleman();
-      auto &state = self->state;
-      auto &config = state.config;
+    auto &system = self->system();
+    auto &middleman = system.middleman();
+    auto &state = self->state;
+    auto &config = state.config;
 
-      std::vector<actor> workers(system_props.islands_number);
-      auto spawn_worker = [&]() -> actor {
-        auto &worker_fun = grid_model_worker<individual, fitness_value,
-                                             fitness_evaluation_operator,
-                                             crossover_operator, mutation_operator,
-                                             parent_selection_operator,
-                                             survival_selection_operator, elitism_operator>;
+    std::vector<actor> workers(system_props.islands_number);
+    auto spawn_worker = [&]() -> actor {
+      auto &worker_fun = grid_model_worker<individual, fitness_value,
+                                           fitness_evaluation_operator,
+                                           crossover_operator, mutation_operator,
+                                           parent_selection_operator,
+                                           survival_selection_operator, elitism_operator>;
 
-        return self->template spawn<monitored + detached>(worker_fun, config);
-      };
-      std::generate(std::begin(workers), std::end(workers), spawn_worker);
+      return self->template spawn<monitored + detached>(worker_fun, config);
+    };
+    std::generate(std::begin(workers), std::end(workers), spawn_worker);
 
-      return workers;
+    return workers;
   }
 };
 

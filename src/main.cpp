@@ -1,12 +1,13 @@
-#include <example/components_fault/components_fault.hpp>
+#include <examples/components_fault/components_fault.hpp>
 #include <models.hpp>
 #include <operators.hpp>
 
 using namespace std::string_literals;
-using namespace cpga::examples;
+
 using namespace cpga::core;
 using namespace cpga::models;
 using namespace cpga::operators;
+using namespace cpga::examples;
 
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
 

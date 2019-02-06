@@ -13,7 +13,8 @@ Exemplary genetic operators (for one-max and code fault detection problems) are 
 #### To-Do
 
 - [x] Add documentation for user-facing classes
-- [ ] Improve code quality (define namespaces, extract headers to a dedicated directory for including)
+- [X] Add namespaces to separate packages
+- [ ] Extract headers to a dedicated directory for including as a library
 - [ ] Write unit tests (leverage CAF testing DSL for actor code)
 - [ ] Provide benchmarks
 
