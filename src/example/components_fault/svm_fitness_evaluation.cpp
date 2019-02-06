@@ -5,6 +5,9 @@
 #include <utilities/csv_reader.hpp>
 #include "svm_fitness_evaluation.hpp"
 
+using namespace cpga::examples;
+using namespace cpga::core;
+
 svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       n_rows{std::any_cast<int>(config->user_props.at(constants::N_ROWS))},
@@ -101,7 +104,7 @@ double svm_fitness_evaluation::operator()(const rbf_params &params) {
   parameter.C = params.c;
   parameter.gamma = params.gamma;
 
-  if (auto *error{svm_check_parameter(&problem, &parameter)}; error) {
+  if (const auto *error{svm_check_parameter(&problem, &parameter)}; error) {
     std::cout << str("LibSVM parameter error: ", error) << std::endl;
     return 0;
   }

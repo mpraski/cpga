@@ -8,6 +8,9 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Crossover genetic operator for the component fault prediction problem.
  * @details This class applies a single-point crossover to a pair of individuals. Each pair of parents
@@ -24,5 +27,7 @@ class svm_crossover : public base_operator {
 
   void operator()(inserter<rbf_params, double> it, const wrapper_pair<rbf_params, double> &couple);
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SVM_CROSSOVER_H

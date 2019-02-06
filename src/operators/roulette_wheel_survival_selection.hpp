@@ -4,6 +4,8 @@
 #include <random>
 #include <core.hpp>
 
+namespace cpga {
+namespace operators {
 template<typename individual, typename fitness_value>
 class roulette_wheel_survival_selection : public base_operator {
  private:
@@ -54,5 +56,7 @@ class roulette_wheel_survival_selection : public base_operator {
     }
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_ROULETTE_WHEEL_SURVIVAL_SELECTION_H

@@ -4,6 +4,9 @@
 
 #include "svm_crossover.hpp"
 
+using namespace cpga::examples;
+using namespace cpga::core;
+
 svm_crossover::svm_crossover(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.crossover_seed)},

@@ -7,6 +7,9 @@
 
 #include "core.hpp"
 
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Fitness evaluation genetic operator for onemax problem
  * @details This class defines fitness evaluation for a bitstring (defined
@@ -18,5 +21,7 @@ class onemax_fitness_evaluation : public base_operator {
 
   int operator()(const std::vector<char> &ind) const noexcept;
 };
+}
+}
 
 #endif //GENETIC_ACTOR_ONEMAX_FITNESS_EVALUATION_HPP

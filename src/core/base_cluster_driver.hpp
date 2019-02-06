@@ -8,6 +8,8 @@
 #include <common.hpp>
 #include "data.hpp"
 
+namespace cpga {
+namespace core {
 class base_cluster_driver {
  private:
   template<typename T>
@@ -67,5 +69,7 @@ class base_cluster_driver {
 
   void run(actor_system &system);
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BASE_CLUSTER_DRIVER_H

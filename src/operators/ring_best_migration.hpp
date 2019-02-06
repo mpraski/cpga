@@ -7,6 +7,8 @@
 
 #include <best_migration.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator performing best individual migration using ring topology.
  * @details This implementation of best_migration by sending each individual in the payload
@@ -23,5 +25,7 @@ class ring_best_migration : public best_migration<individual, fitness_value> {
     return (this->island_no + 1) % this->config->system_props.islands_number;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_RING_BEST_MIGRATION_H

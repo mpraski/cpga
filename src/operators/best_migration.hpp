@@ -10,6 +10,8 @@
 #include <core.hpp>
 #include <utilities/population_sorter.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator producing a migration payload for a given island.
  * @details This class performs migration by first sorting the population by fitness value
@@ -57,5 +59,7 @@ class best_migration : public base_operator {
     return payload;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BEST_MIGRATION_H

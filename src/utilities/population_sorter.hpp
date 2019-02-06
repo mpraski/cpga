@@ -5,6 +5,8 @@
 #ifndef GENETIC_ACTOR_INDIVIDUAL_COMPARATOR_H
 #define GENETIC_ACTOR_INDIVIDUAL_COMPARATOR_H
 
+namespace cpga {
+namespace utilities {
 template<typename individual, typename fitness_value>
 class population_sorter {
  private:
@@ -16,5 +18,7 @@ class population_sorter {
     std::sort(std::begin(pop), std::end(pop), compFunctor);
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_INDIVIDUAL_COMPARATOR_H

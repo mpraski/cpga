@@ -8,6 +8,8 @@
 #include <common.hpp>
 #include "base_state.hpp"
 
+namespace cpga {
+namespace core {
 class base_operator : public base_state {
  protected:
   inline auto get_seed(unsigned long seed) const noexcept {
@@ -24,5 +26,7 @@ class base_operator : public base_state {
 
   island_id island_no;
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BASE_OPERATOR_H

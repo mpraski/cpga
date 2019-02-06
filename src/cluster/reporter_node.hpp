@@ -7,6 +7,9 @@
 
 #include <core.hpp>
 
+namespace cpga {
+using namespace utilities;
+namespace cluster {
 template<typename individual, typename fitness_value>
 class reporter_node_driver : public base_cluster_driver {
  public:
@@ -61,7 +64,7 @@ class reporter_node_driver : public base_cluster_driver {
         throw std::runtime_error("actor_reporter_log is empty");
       }
 
-      auto actor = system.spawn(individual_reporter<individual, fitness_value>);
+      auto actor = system.spawn(individual_reporter < individual, fitness_value > );
       auto port = port_factory();
       if (auto published{middleman.publish(actor, port)}; !published) {
         throw std::runtime_error(str("unable to publish system reporter: ", system.render(published.error())));
@@ -82,5 +85,7 @@ class reporter_node_driver : public base_cluster_driver {
     self->await_all_other_actors_done();
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_REPORTER_NODE_H

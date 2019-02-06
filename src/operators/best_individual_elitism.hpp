@@ -6,6 +6,8 @@
 #include <core.hpp>
 #include <utilities/population_sorter.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator selecting and saving eletists from a common population.
  * @details This class performs elitism by first sorting the population by fitness
@@ -38,5 +40,7 @@ class best_individual_elitism : public base_operator {
     main.erase(main.begin(), end);
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BEST_INDIVIDUAL_ELITISM_H

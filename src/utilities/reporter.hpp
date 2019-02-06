@@ -7,6 +7,8 @@
 #include <atoms.hpp>
 #include <common.hpp>
 
+namespace cpga {
+namespace utilities {
 using time_point = std::chrono::time_point<std::chrono::system_clock>;
 
 class reporter_state {
@@ -95,3 +97,5 @@ behavior individual_reporter(
 }
 
 behavior system_reporter(stateful_actor<system_reporter_state> *self);
+}
+}

@@ -4,6 +4,9 @@
 
 #include "worker_node.hpp"
 
+using namespace cpga::cluster;
+using namespace cpga::core;
+
 behavior worker_node_executor(stateful_actor<worker_node_executor_state> *self,
                               const system_properties &system_props,
                               const user_properties &user_props,

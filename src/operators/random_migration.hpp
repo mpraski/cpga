@@ -5,6 +5,8 @@
 #include <vector>
 #include <core.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator producing a migration payload for a given island.
  * @details This class performs migration by randomly moving at most system_properties.migration_quota
@@ -56,5 +58,7 @@ class random_migration : public base_operator {
     return payload;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_RANDOM_MIGRATION_H

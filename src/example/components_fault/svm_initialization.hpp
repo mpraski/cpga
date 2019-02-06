@@ -9,6 +9,9 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Population initialization genetic operator for the component fault prediction problem.
  * @details This class initialized a population of rbf_param's by picking values from uniform distributions
@@ -29,5 +32,7 @@ class svm_initialization : public base_operator {
 
   void operator()(inserter<rbf_params, double> it);
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SVM_INITIALIZATION_H

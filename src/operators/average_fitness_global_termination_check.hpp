@@ -3,6 +3,8 @@
 
 #include <core.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator determining whether a stopping condition has been reached.
  * @details This class computes the average fitness value of a population and compares
@@ -53,5 +55,7 @@ class average_fitness_global_termination_check : public base_operator {
     return false;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_AVERAGE_GLOBAL_TERMINATION_CHECK_H

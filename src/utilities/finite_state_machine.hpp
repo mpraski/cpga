@@ -11,6 +11,8 @@
 #include <iostream>
 #include <memory>
 
+namespace cpga {
+namespace utilities {
 constexpr const auto SIZE = 2 << 7;
 constexpr const auto MAX = SIZE - 1;
 
@@ -53,5 +55,7 @@ class state_machine {
     current = trans[static_cast<event_u>(e)][current];
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_FINITE_STATE_MACHINE_H

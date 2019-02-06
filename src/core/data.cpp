@@ -4,6 +4,8 @@
 
 #include "data.hpp"
 
+using namespace cpga::core;
+
 system_properties::system_properties() : total_population_size{0},
                                          population_size{0},
                                          islands_number{0},

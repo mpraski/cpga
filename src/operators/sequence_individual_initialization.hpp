@@ -5,6 +5,8 @@
 #include <vector>
 #include <core.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator performing initialisation of a population of 'sequence' individuals.
  * @details This class is meant to facilitate initializing a population of individuals who are
@@ -69,5 +71,7 @@ class sequence_individual_initialization : public base_operator {
     }
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_INITIALIZATION_H

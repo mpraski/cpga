@@ -9,6 +9,8 @@
 #include <core.hpp>
 #include <global_model.hpp>
 
+namespace cpga {
+namespace models {
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
     typename initialization_operator,
@@ -80,5 +82,7 @@ using global_single_machine_runner = single_machine_runner<global_model_single_m
                                                                                        survival_selection_operator,
                                                                                        elitism_operator,
                                                                                        global_termination_check>>;
+}
+}
 
 #endif //GENETIC_ACTOR_GLOBAL_MODEL_DRIVER_H

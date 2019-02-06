@@ -5,6 +5,8 @@
 #include <vector>
 #include <core.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator performing crossover for a population of 'sequence' individuals.
  * @details This class performs single-point crossover for individual who can be represented as
@@ -71,5 +73,7 @@ class sequence_individual_crossover : public base_operator {
     it = {std::move(child2), fitness_value{}};
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SEQUENCE_INDIVIDUAL_CROSSOVER_H

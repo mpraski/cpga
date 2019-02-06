@@ -11,6 +11,9 @@
 #include "components_fault_defs.hpp"
 #include "components_fault_defs.hpp"
 
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Fitness evaluation operator for the component fault prediction problem.
  * @details This class performs fitness evaluation of the radial basis function (RBF) kernel
@@ -59,5 +62,7 @@ class svm_fitness_evaluation : public base_operator {
   svm_fitness_evaluation &operator=(const svm_fitness_evaluation &other) = delete;
   double operator()(const rbf_params &ind);
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SVM_FITNESS_EVALUATION_H

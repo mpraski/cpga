@@ -8,6 +8,8 @@
 #include <common.hpp>
 #include <iomanip>
 
+namespace cpga {
+namespace examples {
 struct rbf_params {
   double c;
   double gamma;
@@ -19,5 +21,7 @@ typename Inspector::result_type inspect(Inspector &f, rbf_params &x) {
 }
 
 std::ostream &operator<<(std::ostream &os, const rbf_params &params);
+}
+}
 
 #endif //GENETIC_ACTOR_COMPONENTS_FAULT_DEFS_H

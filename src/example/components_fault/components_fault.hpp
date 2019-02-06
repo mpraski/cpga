@@ -6,7 +6,6 @@
 #define GENETIC_ACTOR_COMPONENTS_FAULT_H
 
 #include "components_fault_defs.hpp"
-#include "components_fault_defs.hpp"
 #include "svm_fitness_evaluation.hpp"
 #include "svm_initialization.hpp"
 #include "svm_crossover.hpp"

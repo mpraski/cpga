@@ -4,6 +4,9 @@
 
 #include "onemax_fitness_evaluation.hpp"
 
+using namespace cpga::examples;
+using namespace cpga::core;
+
 /**
  * @brief Compute fitness value for a bitstring by summing the ones.
  * @param ind the individual bitstring

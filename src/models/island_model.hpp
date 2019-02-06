@@ -6,6 +6,9 @@
 #include <thread>
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace models {
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator,
     typename initialization_operator,
@@ -382,4 +385,6 @@ behavior island_model_executor(
         self->send(dispatcher, finish::value);
       },
   };
+}
+}
 }

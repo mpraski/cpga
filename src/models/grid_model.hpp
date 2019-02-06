@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace models {
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename crossover_operator,
     typename mutation_operator, typename parent_selection_operator,
@@ -333,4 +336,5 @@ behavior grid_model_executor(
       },
   };
 }
-
+}
+}

@@ -7,6 +7,8 @@
 
 #include "base_operator.hpp"
 
+namespace cpga {
+namespace core {
 // Default implementations of optional operators (for default template arguments)
 template<typename individual, typename fitness_value>
 struct default_survival_selection_operator : base_operator {
@@ -52,5 +54,7 @@ struct default_global_termination_check : base_operator {
     return false;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_DEFAULTS_H

@@ -10,6 +10,8 @@
 #include <iostream>
 #include <sstream>
 
+namespace cpga {
+namespace utilities {
 class csv_reader {
  public:
   static auto read_double(const std::string &file, size_t rows, size_t cols, char delim = ',') {
@@ -38,5 +40,7 @@ class csv_reader {
     return data;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_CSV_READER_H

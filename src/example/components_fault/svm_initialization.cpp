@@ -4,6 +4,9 @@
 
 #include "svm_initialization.hpp"
 
+using namespace cpga::examples;
+using namespace cpga::core;
+
 svm_initialization::svm_initialization(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.initialization_seed)},

@@ -5,6 +5,9 @@
 #include <csignal>
 #include "master_node.hpp"
 
+using namespace cpga::cluster;
+using namespace cpga::core;
+
 master_node_state::master_node_state(const cluster_properties &props) : base_cluster_state{props},
                                                                         current_worker_pings{0},
                                                                         current_worker_infos{0},

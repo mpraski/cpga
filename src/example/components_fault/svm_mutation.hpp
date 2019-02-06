@@ -8,6 +8,9 @@
 #include <core.hpp>
 #include "components_fault_defs.hpp"
 
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Mutation genetic operator for the component fault prediction problem.
  * @details This class performs mutation on rbf_params individuals. The new C and gamma
@@ -40,5 +43,7 @@ class svm_mutation : public base_operator {
 
   void operator()(wrapper<rbf_params, double> &wrapper);
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SVM_MUTATION_H

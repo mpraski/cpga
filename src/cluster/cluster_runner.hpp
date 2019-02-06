@@ -7,6 +7,9 @@
 
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace cluster {
 /**
  * @brief This class provides a simple way to bootstrap a PGA model on a cluster.
  * @details The user supplies classes defining behaviour of the three node types and calls run to
@@ -43,5 +46,7 @@ class cluster_runner {
     driver->run(system);
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_CLUSTER_RUNNER_H

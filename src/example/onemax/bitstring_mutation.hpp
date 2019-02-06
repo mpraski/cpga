@@ -7,6 +7,9 @@
 
 #include "core.hpp"
 
+namespace cpga {
+using namespace core;
+namespace examples {
 /**
  * @brief Mutation genetic operator for onemax problem
  * @details This class defines mutation for a bitstring (represented by
@@ -27,5 +30,7 @@ class bitstring_mutation : public base_operator {
 
   void operator()(wrapper<sequence<char>, int> &wrapper) const noexcept;
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BITSTRING_MUTATION_HPP

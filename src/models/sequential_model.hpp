@@ -3,6 +3,9 @@
 #include <caf/all.hpp>
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace models {
 template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator, typename initialization_operator,
     typename crossover_operator, typename mutation_operator,
@@ -133,3 +136,5 @@ class sequential_model_driver : public base_single_machine_driver<individual, fi
     run_pga(self, config);
   }
 };
+}
+}

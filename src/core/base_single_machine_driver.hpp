@@ -10,6 +10,9 @@
 #include <utilities/reporter.hpp>
 #include "data.hpp"
 
+namespace cpga {
+using namespace utilities;
+namespace core {
 template<typename individual, typename fitness_value>
 class base_single_machine_driver {
  private:
@@ -104,5 +107,7 @@ class base_single_machine_driver {
     stop_reporters(config, self);
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BASE_DRIVER_H

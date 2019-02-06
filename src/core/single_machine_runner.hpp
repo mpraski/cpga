@@ -8,6 +8,8 @@
 #include <caf/all.hpp>
 #include "data.hpp"
 
+namespace cpga {
+namespace core {
 /**
  * @brief This class provides a simple way to bootstrap a PGA model on a single machine.
  * @tparam driver the subclass of base_single_machine_driver<individual, fitness_value>, defining behaviour of a PGA run on a single computer
@@ -28,5 +30,7 @@ class single_machine_runner {
     dr.run(system);
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_SINGLE_MACHINE_RUNNER_H

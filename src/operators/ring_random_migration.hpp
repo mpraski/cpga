@@ -3,6 +3,8 @@
 
 #include <random_migration.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator performing best individual migration using ring topology.
  * @details This implementation of random_migration by sending each individual in the payload
@@ -19,5 +21,7 @@ class ring_random_migration : public random_migration<individual, fitness_value>
     return (this->island_no + 1) % this->config->system_props.islands_number;
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_RING_RANDOM_MIGRATION_H

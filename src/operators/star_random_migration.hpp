@@ -3,6 +3,8 @@
 
 #include <random_migration.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator performing best individual migration using 'star' topology
  * @details This implementation of random_migration by sending each individual in the payload
@@ -30,5 +32,7 @@ class star_random_migration : public random_migration<individual, fitness_value>
     return (++counter % (this->config->system_props.islands_number - 1));
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_STAR_RANDOM_MIGRATION_H

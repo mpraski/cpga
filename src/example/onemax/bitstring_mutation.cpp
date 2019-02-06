@@ -1,5 +1,8 @@
 #include "bitstring_mutation.hpp"
 
+using namespace cpga::examples;
+using namespace cpga::core;
+
 bitstring_mutation::bitstring_mutation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{config->system_props.mutation_seed},

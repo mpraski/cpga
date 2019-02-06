@@ -7,6 +7,8 @@
 
 #include <common.hpp>
 
+namespace cpga {
+namespace core {
 class message_bus {
  private:
   group message_group;
@@ -39,6 +41,8 @@ static constexpr auto bus_receive(const std::string &key, Fun &&f) noexcept {
       fun(message);
     }
   };
+}
+}
 }
 
 #endif //GENETIC_ACTOR_MESSAGE_BUS_H

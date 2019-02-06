@@ -9,6 +9,8 @@
 #include <common.hpp>
 #include "message_bus.hpp"
 
+namespace cpga {
+namespace core {
 /**
  * @brief This alias to a map between string and any is dedicated for
  * storage of arbitrary user-defined data (necessary for passing
@@ -164,6 +166,8 @@ inline void show_model_info(A &&self, const system_properties &props) {
     reporters.push_back("system reporter (" + props.system_reporter_log + ")");
   log(self, "-- Reporters: ", join(reporters, ", "));
   log(self, "** Starting execution now **");
+}
+}
 }
 
 #endif //GENETIC_ACTOR_DATA_H

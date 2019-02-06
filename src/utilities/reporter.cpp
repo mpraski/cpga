@@ -1,5 +1,7 @@
 #include "reporter.hpp"
 
+using namespace cpga::utilities;
+
 void reporter_state::write_headers(const std::vector<std::string> &headers) {
   std::copy(
       std::begin(headers),

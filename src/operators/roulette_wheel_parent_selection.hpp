@@ -4,6 +4,8 @@
 #include <random>
 #include <core.hpp>
 
+namespace cpga {
+namespace operators {
 /**
  * @brief Genetic operator performing parent selection for crossover using roulette-wheel method.
  * @details This class perform parent selection bt applying the
@@ -65,5 +67,7 @@ class roulette_wheel_parent_selection : public base_operator {
     }
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_ROULETTE_WHEEL_PARENT_SELECTION_H

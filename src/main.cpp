@@ -1,8 +1,12 @@
+#include <example/components_fault/components_fault.hpp>
 #include <models.hpp>
 #include <operators.hpp>
-#include <example/components_fault/components_fault.hpp>
 
 using namespace std::string_literals;
+using namespace cpga::examples;
+using namespace cpga::core;
+using namespace cpga::models;
+using namespace cpga::operators;
 
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
 
@@ -81,9 +85,9 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                roulette_wheel_parent_selection<rbf_params, double>,
                                roulette_wheel_survival_selection<rbf_params, double>,
                                best_individual_elitism<rbf_params, double>,
-                               ring_best_migration<rbf_params, double>>::run(system,
-                                                                             system_props,
-                                                                             user_props);
+                               ring_best_migration<rbf_params, double >>::run(system,
+                                                                              system_props,
+                                                                              user_props);
 }
 
 CLUSTER_CONFIG(rbf_params, double)

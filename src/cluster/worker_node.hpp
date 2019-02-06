@@ -7,6 +7,9 @@
 
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace cluster {
 struct worker_node_executor_state : public base_state {
   worker_node_executor_state() = default;
   explicit worker_node_executor_state(const shared_config &config) : base_state{config}, workers_counter{0} {}
@@ -40,5 +43,7 @@ class worker_node_driver : public base_cluster_driver {
 
   void perform(scoped_actor &self) override;
 };
+}
+}
 
 #endif //GENETIC_ACTOR_WORKER_NODE_H

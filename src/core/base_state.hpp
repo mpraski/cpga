@@ -7,6 +7,8 @@
 
 #include "data.hpp"
 
+namespace cpga {
+namespace core {
 struct base_state {
   base_state() = default;
   explicit base_state(const shared_config &config);
@@ -18,5 +20,7 @@ struct base_state {
     config->bus.join(actor);
   }
 };
+}
+}
 
 #endif //GENETIC_ACTOR_BASE_STATE_H

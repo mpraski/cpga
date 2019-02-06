@@ -4,6 +4,9 @@
 #include <random>
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace models {
 /*
  * This file defines the behaviour of global model PGA.
  * Conceptually, the Driver (global_model_single_machine) initiates the computation
@@ -397,4 +400,6 @@ behavior global_model_executor(
         });
       },
   };
+}
+}
 }

@@ -55,9 +55,13 @@ const constexpr char NODE_GROUP[] = "node_group";
 const constexpr char MESSAGE_BUS_GROUP[] = "message_bus_group";
 
 const constexpr char *const ACTOR_PHASE_MAP[] = {"init_population",
-                                                 "execute_phase_1", "execute_phase_2", "execute_phase_3",
-                                                 "finish", "total",
-                                                 "execute_generation", "execute_computation"};
+                                                 "execute_phase_1",
+                                                 "execute_phase_2",
+                                                 "execute_phase_3",
+                                                 "finish",
+                                                 "total",
+                                                 "execute_generation",
+                                                 "execute_computation"};
 
 const constexpr char *const PGA_MODEL_MAP[] = {"Global", "Island", "Grid", "Sequential"};
 

@@ -7,6 +7,9 @@
 
 #include <core.hpp>
 
+namespace cpga {
+using namespace core;
+namespace cluster {
 struct master_node_state : public base_cluster_state {
   master_node_state() = default;
   explicit master_node_state(const cluster_properties &props);
@@ -42,5 +45,7 @@ class master_node_driver : public base_cluster_driver {
 
   void perform(scoped_actor &self) override;
 };
+}
+}
 
 #endif //GENETIC_ACTOR_MASTER_NODE_H
