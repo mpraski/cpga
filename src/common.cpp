@@ -1,4 +1,4 @@
-#include "common.hpp"
+#include <cpga/common.hpp>
 
 std::ostream &operator<<(std::ostream &os, const worker_node_info &x) {
   os << "worker_node_info(" << x.host << ", ";

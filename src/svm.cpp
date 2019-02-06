@@ -7,7 +7,7 @@
 #include <stdarg.h>
 #include <limits.h>
 #include <locale.h>
-#include "svm.hpp"
+#include <cpga/examples/components_fault/vendor/libsvm/svm.hpp>
 
 int libsvm_version = LIBSVM_VERSION;
 typedef float Qfloat;

@@ -31,7 +31,7 @@ add_executable(genetic_actor
         include/cpga/operators/star_random_migration.hpp
         include/cpga/atoms.hpp
         include/cpga/common.hpp
-        include/cpga/common.cpp
+        src/common.cpp
         include/cpga/core.hpp
         src/main.cpp
         src/reporter.cpp
@@ -58,7 +58,7 @@ add_executable(genetic_actor
         include/cpga/core/message_bus.hpp
         include/cpga/models/distributed/grid_model_cluster.hpp
         include/cpga/examples/components_fault/vendor/libsvm/svm.hpp
-        include/cpga/examples/components_fault/vendor/libsvm/svm.cpp
+        src/svm.cpp
         src/svm_fitness_evaluation.cpp
         include/cpga/examples/components_fault/svm_fitness_evaluation.hpp
         include/cpga/examples/components_fault/components_fault_defs.hpp
