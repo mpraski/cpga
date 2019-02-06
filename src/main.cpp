@@ -4,6 +4,7 @@
 
 using namespace std::string_literals;
 
+using namespace cpga;
 using namespace cpga::core;
 using namespace cpga::models;
 using namespace cpga::operators;
@@ -44,16 +45,16 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   system_props.compute_population_size();
 
   user_properties user_props{
-      {constants::STABLE_REQUIRED_KEY, size_t{10}},
-      {constants::MINIMUM_AVERAGE_KEY, 0.9},
-      {constants::CSV_FILE, "../log4j-trainset.csv"s},
-      {constants::N_ROWS, 244},
-      {constants::N_COLS, 9},
-      {constants::N_FOLDS, 5},
-      {constants::RANGE_C, std::make_pair(8.0, 32000.0)},
-      {constants::RANGE_GAMMA, std::make_pair(1e-6, 1e-2)},
-      {constants::MUTATION_RANGE_C, 200.0},
-      {constants::MUTATION_RANGE_GAMMA, 1e-4}
+      {strings::STABLE_REQUIRED_KEY, size_t{10}},
+      {strings::MINIMUM_AVERAGE_KEY, 0.9},
+      {strings::CSV_FILE, "../log4j-trainset.csv"s},
+      {strings::N_ROWS, 244},
+      {strings::N_COLS, 9},
+      {strings::N_FOLDS, 5},
+      {strings::RANGE_C, std::make_pair(8.0, 32000.0)},
+      {strings::RANGE_GAMMA, std::make_pair(1e-6, 1e-2)},
+      {strings::MUTATION_RANGE_C, 200.0},
+      {strings::MUTATION_RANGE_GAMMA, 1e-4}
   };
 
   /*grid_single_machine_runner<rbf_params, double,

@@ -1,5 +1,6 @@
 #include <cpga/common.hpp>
 
+namespace cpga {
 std::ostream &operator<<(std::ostream &os, const worker_node_info &x) {
   os << "worker_node_info(" << x.host << ", ";
   std::copy(std::begin(x.worker_ports), std::end(x.worker_ports), std::ostream_iterator<uint16_t>{os, ", "});
@@ -47,4 +48,5 @@ std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, cons
       bind_reporter(info.individual_reporter_port),
       bind_reporter(info.system_reporter_port)
   };
+}
 }

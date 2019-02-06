@@ -10,9 +10,9 @@ using namespace core;
 namespace examples {
 svm_fitness_evaluation::svm_fitness_evaluation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
-      n_rows{std::any_cast<int>(config->user_props.at(constants::N_ROWS))},
-      n_cols{std::any_cast<int>(config->user_props.at(constants::N_COLS))},
-      n_folds{std::any_cast<int>(config->user_props.at(constants::N_FOLDS))},
+      n_rows{std::any_cast<int>(config->user_props.at(strings::N_ROWS))},
+      n_cols{std::any_cast<int>(config->user_props.at(strings::N_COLS))},
+      n_folds{std::any_cast<int>(config->user_props.at(strings::N_FOLDS))},
       cv_result{new double[n_rows]},
       parameter{create_parameter()},
       problem{create_problem()} {
@@ -60,7 +60,7 @@ svm_parameter svm_fitness_evaluation::create_parameter() const {
 }
 
 svm_problem svm_fitness_evaluation::create_problem() const {
-  auto csv_file = std::any_cast<std::string>(config->user_props.at(constants::CSV_FILE));
+  auto csv_file = std::any_cast<std::string>(config->user_props.at(strings::CSV_FILE));
   auto parsed = csv_reader::read_double(csv_file, n_rows, n_cols);
   auto *labels = new double[n_rows];
   auto **nodes = new svm_node *[n_rows];

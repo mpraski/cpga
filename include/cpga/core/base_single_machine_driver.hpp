@@ -30,7 +30,7 @@ class base_single_machine_driver {
       config->system_reporter = system.spawn(system_reporter);
 
       self->send(config->system_reporter, init_reporter::value,
-                 system_props.system_reporter_log, constants::SYSTEM_HEADERS);
+                 system_props.system_reporter_log, strings::SYSTEM_HEADERS);
 
       system_message(self, config->system_reporter, "Spawning reporters");
     }
@@ -43,7 +43,7 @@ class base_single_machine_driver {
       config->generation_reporter = system.spawn(time_reporter);
 
       self->send(config->generation_reporter, init_reporter::value,
-                 system_props.generation_reporter_log, constants::TIME_HEADERS);
+                 system_props.generation_reporter_log, strings::TIME_HEADERS);
     }
 
     if (system_props.is_individual_reporter_active) {
@@ -55,7 +55,7 @@ class base_single_machine_driver {
 
       self->send(config->individual_reporter, init_reporter::value,
                  system_props.individual_reporter_log,
-                 constants::INDIVIDUAL_HEADERS);
+                 strings::INDIVIDUAL_HEADERS);
     }
   }
 
@@ -78,7 +78,7 @@ class base_single_machine_driver {
   auto make_shared_configuration(actor_system &system,
                                  const system_properties &system_props,
                                  const user_properties &user_props) {
-    auto message_bus_group = system.groups().get_local(constants::MESSAGE_BUS_GROUP);
+    auto message_bus_group = system.groups().get_local(strings::MESSAGE_BUS_GROUP);
     return std::make_shared<configuration>(system_props, user_props, message_bus{message_bus_group});
   }
  protected:

@@ -73,7 +73,7 @@ void time_reporter_state::write_info(const time_point &end, actor_phase phase,
 
     *out_stream << s.time_since_epoch().count() << delimiter
                 << e.time_since_epoch().count() << delimiter << total.count()
-                << delimiter << constants::ACTOR_PHASE_MAP[to_underlying(phase)]
+                << delimiter << strings::ACTOR_PHASE_MAP[to_underlying(phase)]
                 << delimiter << generation << delimiter << island << std::endl;
   } else {
     throw std::runtime_error("Start times stack not found for island id " + island);

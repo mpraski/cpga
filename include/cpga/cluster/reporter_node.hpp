@@ -36,7 +36,7 @@ class reporter_node_driver : public base_cluster_driver {
         throw std::runtime_error(str("unable to publish system reporter: ", system.render(published.error())));
       } else {
         self->send(actor, init_reporter::value,
-                   system_props.system_reporter_log, constants::SYSTEM_HEADERS);
+                   system_props.system_reporter_log, strings::SYSTEM_HEADERS);
 
         info.system_reporter_port = port;
         sys_rep = std::move(actor);
@@ -54,7 +54,7 @@ class reporter_node_driver : public base_cluster_driver {
         throw std::runtime_error(str("unable to publish system reporter: ", system.render(published.error())));
       } else {
         self->send(actor, init_reporter::value,
-                   system_props.generation_reporter_log, constants::TIME_HEADERS);
+                   system_props.generation_reporter_log, strings::TIME_HEADERS);
 
         info.generation_reporter_port = port;
       }
@@ -72,7 +72,7 @@ class reporter_node_driver : public base_cluster_driver {
       } else {
         self->send(actor, init_reporter::value,
                    system_props.individual_reporter_log,
-                   constants::INDIVIDUAL_HEADERS);
+                   strings::INDIVIDUAL_HEADERS);
 
         info.individual_reporter_port = port;
       }

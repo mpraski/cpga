@@ -1,9 +1,9 @@
 #include <caf/atom.hpp>
 
-using namespace caf;
-
 namespace cpga {
 namespace atoms {
+using namespace caf;
+
 // Atoms used by global model actors
 using init_population = atom_constant<atom("ip")>;
 using execute_phase_1 = atom_constant<atom("exp1")>;

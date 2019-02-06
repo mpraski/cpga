@@ -10,8 +10,8 @@ namespace examples {
 svm_initialization::svm_initialization(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.initialization_seed)},
-      dist_c{from_range(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_C)))},
-      dist_gamma{from_range(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_GAMMA)))} {
+      dist_c{from_range(std::any_cast<std::pair<double, double>>(config->user_props.at(strings::RANGE_C)))},
+      dist_gamma{from_range(std::any_cast<std::pair<double, double>>(config->user_props.at(strings::RANGE_GAMMA)))} {
 
 }
 

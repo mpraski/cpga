@@ -190,10 +190,10 @@ template<typename individual, typename fitness_value,
     typename elitism_operator>
 behavior global_model_executor(
     stateful_actor<
-        global_model_executor_state<individual, fitness_value,
-                                    initialization_operator, crossover_operator, mutation_operator,
-                                    parent_selection_operator, global_termination_check,
-                                    survival_selection_operator, elitism_operator>> *self,
+    global_model_executor_state<individual, fitness_value,
+                                initialization_operator, crossover_operator, mutation_operator,
+                                parent_selection_operator, global_termination_check,
+                                survival_selection_operator, elitism_operator>> *self,
     global_model_executor_state<individual, fitness_value,
                                 initialization_operator, crossover_operator, mutation_operator,
                                 parent_selection_operator, global_termination_check,

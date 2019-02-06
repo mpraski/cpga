@@ -27,9 +27,9 @@ class average_fitness_global_termination_check : public base_operator {
       : base_operator{config, island_no},
         stable_so_far{0},
         stable_required{std::any_cast<size_t>(
-            config->user_props.at(constants::STABLE_REQUIRED_KEY))},
+            config->user_props.at(strings::STABLE_REQUIRED_KEY))},
         minimum_average{std::any_cast<fitness_value>(
-            config->user_props.at(constants::MINIMUM_AVERAGE_KEY))} {
+            config->user_props.at(strings::MINIMUM_AVERAGE_KEY))} {
   }
 
   /**

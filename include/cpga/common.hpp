@@ -10,6 +10,7 @@
 #include <caf/io/all.hpp>
 #include "atoms.hpp"
 
+namespace cpga {
 using namespace caf;
 using namespace caf::io;
 using namespace cpga::atoms;
@@ -40,7 +41,7 @@ template<typename individual, typename fitness_value>
 using inserter = std::back_insert_iterator<population<individual, fitness_value>>;
 
 // Commonly used data
-namespace constants {
+namespace strings {
 const constexpr char POSSIBLE_VALUES_KEY[] = "possible_initialization_values";
 const constexpr char STABLE_REQUIRED_KEY[] = "stable_required";
 const constexpr char MINIMUM_AVERAGE_KEY[] = "minimum_average";
@@ -311,3 +312,4 @@ inline void log(A &&self, As &&... as) {
 std::vector<actor> bind_remote_workers(actor_system &system, const std::vector<worker_node_info> &infos);
 
 std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, const reporter_node_info &info);
+}

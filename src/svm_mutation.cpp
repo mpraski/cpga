@@ -10,13 +10,13 @@ namespace examples {
 svm_mutation::svm_mutation(const shared_config &config, island_id island_no)
     : base_operator{config, island_no},
       generator{get_seed(config->system_props.mutation_seed)},
-      min_c{std::get<0>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_C)))},
-      max_c{std::get<1>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_C)))},
-      min_gamma{std::get<0>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_GAMMA)))},
-      max_gamma{std::get<1>(std::any_cast<std::pair<double, double>>(config->user_props.at(constants::RANGE_GAMMA)))},
+      min_c{std::get<0>(std::any_cast<std::pair<double, double>>(config->user_props.at(strings::RANGE_C)))},
+      max_c{std::get<1>(std::any_cast<std::pair<double, double>>(config->user_props.at(strings::RANGE_C)))},
+      min_gamma{std::get<0>(std::any_cast<std::pair<double, double>>(config->user_props.at(strings::RANGE_GAMMA)))},
+      max_gamma{std::get<1>(std::any_cast<std::pair<double, double>>(config->user_props.at(strings::RANGE_GAMMA)))},
       dist_mutate{0.0, 1.0},
-      dist_mutate_c{make_range(std::any_cast<double>(config->user_props.at(constants::MUTATION_RANGE_C)))},
-      dist_mutate_gamma{make_range(std::any_cast<double>(config->user_props.at(constants::MUTATION_RANGE_GAMMA)))} {
+      dist_mutate_c{make_range(std::any_cast<double>(config->user_props.at(strings::MUTATION_RANGE_C)))},
+      dist_mutate_gamma{make_range(std::any_cast<double>(config->user_props.at(strings::MUTATION_RANGE_GAMMA)))} {
 }
 
 /**

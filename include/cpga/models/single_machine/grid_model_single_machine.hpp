@@ -26,13 +26,16 @@ class grid_model_single_machine : public base_single_machine_driver<individual, 
 
   void perform(shared_config &config, scoped_actor &self) override {
     std::vector<actor> workers(config->system_props.islands_number);
-    auto spawn_worker = [&]() -> actor {
-      auto &worker_fun = grid_model_worker<individual, fitness_value,
-                                           fitness_evaluation_operator,
-                                           crossover_operator, mutation_operator,
-                                           parent_selection_operator,
-                                           survival_selection_operator, elitism_operator>;
-      auto worker = self->template spawn<monitored + detached>(worker_fun, config);
+    auto spawn_worker = [&] {
+      auto worker = self->template spawn<monitored + detached>(grid_model_worker<individual,
+                                                                                 fitness_value,
+                                                                                 fitness_evaluation_operator,
+                                                                                 crossover_operator,
+                                                                                 mutation_operator,
+                                                                                 parent_selection_operator,
+                                                                                 survival_selection_operator,
+                                                                                 elitism_operator>,
+                                                               config);
       system_message(self, config->system_reporter, "Spawning worker (actor id: ", worker.id(), ")");
       return worker;
     };
@@ -62,9 +65,9 @@ template<typename individual, typename fitness_value,
     typename crossover_operator, typename mutation_operator,
     typename parent_selection_operator,
     typename survival_selection_operator = default_survival_selection_operator<
-    individual, fitness_value>,
+        individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
-    fitness_value>>
+                                                         fitness_value>>
 using grid_single_machine_runner = single_machine_runner<grid_model_single_machine<individual,
                                                                                    fitness_value,
                                                                                    fitness_evaluation_operator,

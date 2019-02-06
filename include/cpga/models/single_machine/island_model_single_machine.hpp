@@ -63,11 +63,11 @@ template<typename individual, typename fitness_value,
     typename crossover_operator, typename mutation_operator,
     typename parent_selection_operator,
     typename survival_selection_operator = default_survival_selection_operator<
-    individual, fitness_value>,
+        individual, fitness_value>,
     typename elitism_operator = default_elitism_operator<individual,
-    fitness_value>,
+                                                         fitness_value>,
     typename migration_operator = default_migration_operator<individual,
-    fitness_value>>
+                                                             fitness_value>>
 using island_single_machine_runner = single_machine_runner<island_model_single_machine<individual,
                                                                                        fitness_value,
                                                                                        fitness_evaluation_operator,

@@ -141,7 +141,7 @@ inline auto make_shared_config(Args &&... args) {
 template<typename A>
 inline void show_model_info(A &&self, const system_properties &props) {
   log(self, "** PGA info **");
-  log(self, "-- Model: ", constants::PGA_MODEL_MAP[to_underlying(props.model)]);
+  log(self, "-- Model: ", strings::PGA_MODEL_MAP[to_underlying(props.model)]);
   log(self, "-- Generations: ", props.generations_number);
   switch (props.model) {
     case pga_model::ISLAND:log(self, "-- Total initial population size: ", props.total_population_size);

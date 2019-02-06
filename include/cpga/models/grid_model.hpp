@@ -52,10 +52,10 @@ template<typename individual, typename fitness_value,
     typename elitism_operator>
 behavior grid_model_worker(
     stateful_actor<
-        grid_model_worker_state<individual, fitness_value,
-                                fitness_evaluation_operator, crossover_operator, mutation_operator,
-                                parent_selection_operator, survival_selection_operator,
-                                elitism_operator>> *self,
+    grid_model_worker_state<individual, fitness_value,
+                            fitness_evaluation_operator, crossover_operator, mutation_operator,
+                            parent_selection_operator, survival_selection_operator,
+                            elitism_operator>> *self,
     const shared_config &config) {
   self->state = grid_model_worker_state<individual, fitness_value,
                                         fitness_evaluation_operator, crossover_operator, mutation_operator,
@@ -209,8 +209,8 @@ template<typename individual, typename fitness_value,
     typename fitness_evaluation_operator>
 behavior grid_model_executor(
     stateful_actor<
-        grid_model_executor_state<individual, fitness_value,
-                                  initialization_operator, fitness_evaluation_operator>> *self,
+    grid_model_executor_state<individual, fitness_value,
+                              initialization_operator, fitness_evaluation_operator>> *self,
     const shared_config &config,
     const actor &dispatcher) {
   self->state =

@@ -85,16 +85,16 @@ auxiliary data used by custom genetic operators defined for this problem (in `ex
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   //...
   user_properties user_props{
-      {constants::STABLE_REQUIRED_KEY, size_t{10}},
-      {constants::MINIMUM_AVERAGE_KEY, 0.9},
-      {constants::CSV_FILE, "../log4j-trainset.csv"s},
-      {constants::N_ROWS, 244},
-      {constants::N_COLS, 9},
-      {constants::N_FOLDS, 5},
-      {constants::RANGE_C, std::make_pair(8.0, 32000.0)},
-      {constants::RANGE_GAMMA, std::make_pair(1e-6, 1e-2)},
-      {constants::MUTATION_RANGE_C, 200.0},
-      {constants::MUTATION_RANGE_GAMMA, 1e-4}
+      {strings::STABLE_REQUIRED_KEY, size_t{10}},
+      {strings::MINIMUM_AVERAGE_KEY, 0.9},
+      {strings::CSV_FILE, "../log4j-trainset.csv"s},
+      {strings::N_ROWS, 244},
+      {strings::N_COLS, 9},
+      {strings::N_FOLDS, 5},
+      {strings::RANGE_C, std::make_pair(8.0, 32000.0)},
+      {strings::RANGE_GAMMA, std::make_pair(1e-6, 1e-2)},
+      {strings::MUTATION_RANGE_C, 200.0},
+      {strings::MUTATION_RANGE_GAMMA, 1e-4}
   };
 }
 ```
@@ -102,7 +102,7 @@ This is mapping from `std::string` to `std::any`, meaning you have to be careful
 the types of data you pass (notice explicit construction of `size_t{10}` - if you passed just `10` that
 would default to `int` and cause a `std::bad_any_cast` to be thrown in one of the genetic operator classes.
 Please see documentation for the fault detection problem genetic operator classes for additional parameter reference.
-The `constants` namespace defines the string key values for convenience.
+The `strings` namespace defines the string key values for convenience.
 
 We are now ready to start the actual algorithm:
 ```cpp

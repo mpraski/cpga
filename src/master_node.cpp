@@ -136,8 +136,8 @@ void master_node_driver::perform(scoped_actor &self) {
 
   auto &system = self->system();
   auto &middleman = system.middleman();
-  auto node_group = system.groups().get_local(constants::NODE_GROUP);
-  auto message_bus_group = system.groups().get_local(constants::MESSAGE_BUS_GROUP);
+  auto node_group = system.groups().get_local(strings::NODE_GROUP);
+  auto message_bus_group = system.groups().get_local(strings::MESSAGE_BUS_GROUP);
   auto executor =
       self->spawn<detached>(master_node_executor,
                             system_props,

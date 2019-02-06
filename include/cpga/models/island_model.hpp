@@ -70,10 +70,10 @@ template<typename individual, typename fitness_value,
     typename migration_operator>
 behavior island_model_worker(
     stateful_actor<
-        island_model_worker_state<individual, fitness_value,
-                                  fitness_evaluation_operator, initialization_operator,
-                                  crossover_operator, mutation_operator, parent_selection_operator,
-                                  survival_selection_operator, elitism_operator, migration_operator>> *self,
+    island_model_worker_state<individual, fitness_value,
+                              fitness_evaluation_operator, initialization_operator,
+                              crossover_operator, mutation_operator, parent_selection_operator,
+                              survival_selection_operator, elitism_operator, migration_operator>> *self,
     const shared_config &config) {
   message_handler main_behavior{
       [self](init_population) {
