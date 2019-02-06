@@ -14,7 +14,8 @@ Exemplary genetic operators (for one-max and code fault detection problems) are 
 
 - [x] Add documentation for user-facing classes
 - [X] Add namespaces to separate packages
-- [ ] Extract headers to a dedicated directory for including as a library
+- [X] Extract headers to a dedicated directory for including as a library
+- [ ] Provide CMake configuration for the library
 - [ ] Write unit tests (leverage CAF testing DSL for actor code)
 - [ ] Provide benchmarks
 

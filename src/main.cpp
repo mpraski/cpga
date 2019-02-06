@@ -1,6 +1,6 @@
-#include <examples/components_fault/components_fault.hpp>
-#include <models.hpp>
-#include <operators.hpp>
+#include <cpga/examples/components_fault/components_fault.hpp>
+#include <cpga/models.hpp>
+#include <cpga/operators.hpp>
 
 using namespace std::string_literals;
 
@@ -78,18 +78,19 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                                                   system_props,
                                                                                                   user_props);*/
 
-  island_single_machine_runner<rbf_params, double,
-                               svm_fitness_evaluation,
-                               svm_initialization,
-                               svm_crossover,
-                               svm_mutation,
-                               roulette_wheel_parent_selection<rbf_params, double>,
-                               roulette_wheel_survival_selection<rbf_params, double>,
-                               best_individual_elitism<rbf_params, double>,
-                               ring_best_migration<rbf_params, double >>::run(system,
-                                                                              system_props,
-                                                                              user_props);
+  island_single_machine_runner < rbf_params, double,
+      svm_fitness_evaluation,
+      svm_initialization,
+      svm_crossover,
+      svm_mutation,
+      roulette_wheel_parent_selection < rbf_params, double >,
+      roulette_wheel_survival_selection < rbf_params, double >,
+      best_individual_elitism < rbf_params, double >,
+      ring_best_migration < rbf_params, double >> ::run(system,
+                                                        system_props,
+                                                        user_props);
 }
 
-CLUSTER_CONFIG(rbf_params, double)
+CLUSTER_CONFIG(rbf_params,
+double)
 CAF_MAIN(io::middleman)
