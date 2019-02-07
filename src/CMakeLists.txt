@@ -4,7 +4,7 @@ link_directories(${genetic_actor_SOURCE_DIR}/src)
 file(GLOB cgpa_sources "*.cpp")
 list(REMOVE_ITEM cgpa_sources "main.cpp")
 
-add_library(cpga ${cgpa_sources} ../test/test_main.cpp)
+add_library(cpga ${cgpa_sources} ../test/main_test.cpp)
 target_link_libraries(cpga libcaf_core.so)
 target_link_libraries(cpga libcaf_io.so)
 
