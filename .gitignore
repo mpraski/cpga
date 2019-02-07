@@ -34,7 +34,6 @@
 Debug/
 *.log
 *.csv
-*.txt
 
 cmake-build-debug/
 cmake-build-debug-gcc7/
