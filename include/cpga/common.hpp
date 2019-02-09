@@ -101,7 +101,7 @@ constexpr auto is_size_constructible() noexcept {
 }
 
 template<typename T, typename V = typename T::value_type>
-auto join(const T &elements, const char *const delimiter) {
+auto join(const T &elements, const char *const delimiter = ",") {
   std::ostringstream os;
   auto b = std::begin(elements), e = std::end(elements);
 

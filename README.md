@@ -2,21 +2,15 @@
 
 #### Overview
 
-The basic classes and definitions are found in common.(hpp|cpp) and /core/*.(hpp|cpp) files.
-
-Particular PGA models (and their cluster implementations) are defined in the `/models` directory.
-
-Commonly used genetic operators are defined in `/operators` directory.
-
-Exemplary genetic operators (for one-max and code fault detection problems) are defined in `/example` directory.
+A framework for designing, running and benchmarking genetic algorithms as actor systems.
 
 #### To-Do
 
 - [x] Add documentation for user-facing classes
 - [X] Add namespaces to separate packages
 - [X] Extract headers to a dedicated directory for including as a library
-- [ ] Provide CMake configuration for the library
-- [ ] Write unit tests (leverage CAF testing DSL for actor code)
+- [X] Provide CMake configuration for the library
+- [X] Write unit tests (leverage CAF testing DSL for actor code)
 - [ ] Provide benchmarks
 
 #### Example
@@ -31,6 +25,12 @@ First, let's define the main method with few required tweaks:
 #include <example/components_fault/components_fault.hpp>
 
 using namespace std::string_literals;
+
+using namespace cpga;
+using namespace cpga::core;
+using namespace cpga::models;
+using namespace cpga::operators;
+using namespace cpga::examples;
 
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
     //...

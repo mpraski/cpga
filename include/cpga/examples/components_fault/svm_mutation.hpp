@@ -33,10 +33,6 @@ class svm_mutation : public base_operator {
   static inline auto make_range(double a) {
     return std::uniform_real_distribution<double>{-a, a};
   }
-
-  inline auto from_range(std::tuple<double, double> range) {
-    return std::uniform_real_distribution<double>{std::get<0>(range), std::get<1>(range)};
-  }
  public:
   svm_mutation() = default;
   svm_mutation(const shared_config &config, island_id island_no);
