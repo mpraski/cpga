@@ -37,63 +37,78 @@ shared_config_builder &shared_config_builder::withTotalPopulationSize(size_t pop
   system_props.population_size = population_size;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withPopulationSize(size_t population_size) {
   system_props.population_size = population_size;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withIndividualSize(size_t individual_size) {
   system_props.individual_size = individual_size;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withIslandsNumber(size_t islands_number) {
   system_props.islands_number = islands_number;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withGenerationsNumber(size_t generations_number) {
   system_props.generations_number = generations_number;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withElitistsNumber(size_t elitists_number) {
   system_props.elitists_number = elitists_number;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withMigrationPeriod(size_t migration_period) {
   system_props.migration_period = migration_period;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withMigrationQuota(size_t migration_quota) {
   system_props.migration_quota = migration_quota;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withElitism(bool active) {
   system_props.is_elitism_active = active;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withSurvivalSelection(bool active) {
   system_props.is_survival_selection_active = active;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withMigration(bool active) {
   system_props.is_migration_active = active;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::repeatingIndividualElements(bool active) {
   system_props.can_repeat_individual_elements = active;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::addingIslandNosToSeed(bool active) {
   system_props.add_island_no_to_seed = active;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withCrossoverProbability(double probability) {
   system_props.crossover_probability = probability;
   return *this;
 }
+
 shared_config_builder &shared_config_builder::withMutationProbability(double probability) {
   system_props.mutation_probability = probability;
   return *this;
 }
 
-cpga::core::shared_config shared_config_builder::build() const {
+cpga::core::shared_config shared_config_builder::build() {
+  system_props.compute_population_size();
   return cpga::core::make_shared_config(system_props, user_props, cpga::core::message_bus{});
 }

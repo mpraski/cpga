@@ -41,7 +41,7 @@ class shared_config_builder {
     return *this;
   }
 
-  cpga::core::shared_config build() const;
+  cpga::core::shared_config build();
 };
 
 #endif //GENETIC_ACTOR_SHARED_CONFIG_BUILDER_H

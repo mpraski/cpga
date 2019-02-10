@@ -30,6 +30,21 @@ class population_helper {
                          [&](const auto &val) { return std::find(b, e, val) != e; });
     });
   }
+
+  template<typename Ind, typename FitVal, typename Cons = typename Ind::value_type>
+  static bool can_be_offspring_of(const cpga::population<Ind, FitVal> &pop,
+                                  const cpga::wrapper_pair<Ind, FitVal> &couple) {
+    return std::all_of(std::begin(pop), std::end(pop), [&](const auto &wrapper) {
+      return std::all_of(std::begin(wrapper.first),
+                         std::end(wrapper.first),
+                         [&](const auto &val) {
+                           return std::find(std::begin(couple.first.first), std::end(couple.first.first), val)
+                               != std::end(couple.first.first)
+                               || std::find(std::begin(couple.second.first), std::end(couple.second.first), val)
+                                   != std::end(couple.second.first);
+                         });
+    });
+  }
 };
 
 #endif //GENETIC_ACTOR_POPULATION_HELPER_H
