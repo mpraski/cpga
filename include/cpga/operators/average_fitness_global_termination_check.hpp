@@ -4,6 +4,7 @@
 #include "../core.hpp"
 
 namespace cpga {
+using namespace core;
 namespace operators {
 /**
  * @brief Genetic operator determining whether a stopping condition has been reached.

@@ -31,7 +31,6 @@ struct system_properties {
   size_t elitists_number;
   size_t migration_period;
   size_t migration_quota;
-  bool is_grid_model;
   bool is_elitism_active;
   bool is_survival_selection_active;
   bool is_migration_active;

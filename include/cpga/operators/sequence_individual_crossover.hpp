@@ -6,6 +6,7 @@
 #include "../core.hpp"
 
 namespace cpga {
+using namespace core;
 namespace operators {
 /**
  * @brief Genetic operator performing crossover for a population of 'sequence' individuals.

@@ -5,6 +5,7 @@
 #include "../core.hpp"
 
 namespace cpga {
+using namespace core;
 namespace operators {
 /**
  * @brief Genetic operator performing parent selection for crossover using roulette-wheel method.

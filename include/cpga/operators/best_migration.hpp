@@ -11,6 +11,7 @@
 #include "../utilities/population_sorter.hpp"
 
 namespace cpga {
+using namespace core;
 using namespace utilities;
 namespace operators {
 /**

@@ -27,9 +27,7 @@ static inline T max(T x, T y) { return (x > y) ? x : y; }
 
 template<class T>
 static inline void swap(T &x, T &y) {
-  T t = x;
-  x = y;
-  y = t;
+  std::swap(x, y);
 }
 
 template<class S, class T>

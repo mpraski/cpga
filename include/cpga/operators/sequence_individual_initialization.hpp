@@ -6,6 +6,7 @@
 #include "../core.hpp"
 
 namespace cpga {
+using namespace core;
 namespace operators {
 /**
  * @brief Genetic operator performing initialisation of a population of 'sequence' individuals.

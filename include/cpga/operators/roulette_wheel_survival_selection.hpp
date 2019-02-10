@@ -5,6 +5,7 @@
 #include "../core.hpp"
 
 namespace cpga {
+using namespace core;
 namespace operators {
 template<typename individual, typename fitness_value>
 class roulette_wheel_survival_selection : public base_operator {

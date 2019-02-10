@@ -7,6 +7,7 @@
 #include "../utilities/population_sorter.hpp"
 
 namespace cpga {
+using namespace core;
 using namespace utilities;
 namespace operators {
 /**
@@ -31,7 +32,7 @@ class best_individual_elitism : public base_operator {
                   population<individual, fitness_value> &elitists) const {
     population_sorter<individual, fitness_value>::sort(main);
 
-    auto end = std::next(main.begin(), config->system_props.elitists_number);
+    auto end = std::next(main.begin(), std::min(main.size(), config->system_props.elitists_number));
 
     elitists.insert(
         elitists.end(),

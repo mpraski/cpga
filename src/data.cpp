@@ -8,8 +8,7 @@ namespace cpga {
 namespace core {
 system_properties::system_properties() : total_population_size{0},
                                          population_size{0},
-                                         islands_number{0},
-                                         is_grid_model{false} {}
+                                         islands_number{0} {}
 
 configuration::configuration(const system_properties &system_props,
                              const user_properties &user_props,

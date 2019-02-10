@@ -6,6 +6,7 @@
 #include "../core.hpp"
 
 namespace cpga {
+using namespace core;
 namespace operators {
 /**
  * @brief Genetic operator producing a migration payload for a given island.

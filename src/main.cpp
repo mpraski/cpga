@@ -47,7 +47,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   user_properties user_props{
       {strings::STABLE_REQUIRED_KEY, size_t{10}},
       {strings::MINIMUM_AVERAGE_KEY, 0.9},
-      {strings::CSV_FILE, "../log4j-trainset.csv"s},
+      {strings::CSV_FILE, "../../log4j-trainset.csv"s},
       {strings::N_ROWS, 244},
       {strings::N_COLS, 9},
       {strings::N_FOLDS, 5},
@@ -79,19 +79,18 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                                                                                   system_props,
                                                                                                   user_props);*/
 
-  island_single_machine_runner < rbf_params, double,
-      svm_fitness_evaluation,
-      svm_initialization,
-      svm_crossover,
-      svm_mutation,
-      roulette_wheel_parent_selection < rbf_params, double >,
-      roulette_wheel_survival_selection < rbf_params, double >,
-      best_individual_elitism < rbf_params, double >,
-      ring_best_migration < rbf_params, double >> ::run(system,
-                                                        system_props,
-                                                        user_props);
+  island_single_machine_runner<rbf_params, double,
+                               svm_fitness_evaluation,
+                               svm_initialization,
+                               svm_crossover,
+                               svm_mutation,
+                               roulette_wheel_parent_selection<rbf_params, double>,
+                               roulette_wheel_survival_selection<rbf_params, double>,
+                               best_individual_elitism<rbf_params, double>,
+                               ring_best_migration<rbf_params, double >>::run(system,
+                                                                              system_props,
+                                                                              user_props);
 }
 
-CLUSTER_CONFIG(rbf_params,
-double)
+CLUSTER_CONFIG(rbf_params, double)
 CAF_MAIN(io::middleman)
