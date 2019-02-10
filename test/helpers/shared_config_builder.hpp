@@ -37,7 +37,7 @@ class shared_config_builder {
 
   template<typename T>
   shared_config_builder &withUserProperty(std::string key, T &&prop) {
-    user_props[key] = std::forward<T>(prop);
+    user_props.emplace(key, std::forward<T>(prop));
     return *this;
   }
 

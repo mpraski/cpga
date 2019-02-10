@@ -24,7 +24,7 @@ TEST_CASE("population sorter sorts population in ascending order", "[population_
   SECTION("sorting population arranged in ascending order by fitness value") {
     cpga::utilities::population_sorter<int, int>::sort(pop);
 
-    REQUIRE(pop.size() == 10);
+    REQUIRE(pop.size() == sz);
     REQUIRE(pop[0].second == sz * 2);
     REQUIRE(std::is_sorted(std::begin(pop), std::end(pop), comparator));
   }
