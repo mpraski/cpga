@@ -13,3 +13,12 @@ target_link_libraries(cpga-test Catch2::Catch2)
 
 enable_testing()
 add_test(NAME Test COMMAND cpga-test)
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage ${TEST_TARGET} coverage)
+
+    SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+    SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+endif()
+
