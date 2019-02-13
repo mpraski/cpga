@@ -15,7 +15,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
-        .withUserProperty(cpga::strings::POSSIBLE_VALUES_KEY, constituents)
+        .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
     cpga::operators::sequence_individual_initialization<bool, int> initialization{config, cpga::island_0};
@@ -35,7 +35,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
-        .withUserProperty(cpga::strings::POSSIBLE_VALUES_KEY, constituents)
+        .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
     cpga::operators::sequence_individual_initialization<int, int> initialization{config, cpga::island_0};
@@ -55,7 +55,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
-        .withUserProperty(cpga::strings::POSSIBLE_VALUES_KEY, constituents)
+        .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
     cpga::operators::sequence_individual_initialization<std::string, int> initialization{config, cpga::island_0};
@@ -75,7 +75,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
-        .withUserProperty(cpga::strings::POSSIBLE_VALUES_KEY, constituents)
+        .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
     cpga::operators::sequence_individual_initialization<int, int, std::list<int>>

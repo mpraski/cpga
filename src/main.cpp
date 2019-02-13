@@ -11,7 +11,7 @@ using namespace cpga::operators;
 using namespace cpga::examples;
 
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
-
+  (void) cluster_props;
   system_properties system_props;
   // core settings
   system_props.island_model();
@@ -45,8 +45,8 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   system_props.compute_population_size();
 
   user_properties user_props{
-      {strings::STABLE_REQUIRED_KEY, size_t{10}},
-      {strings::MINIMUM_AVERAGE_KEY, 0.9},
+      {strings::STABLE_REQUIRED, size_t{10}},
+      {strings::MINIMUM_AVERAGE, 0.9},
       {strings::CSV_FILE, "../../log4j-trainset.csv"s},
       {strings::N_ROWS, 244},
       {strings::N_COLS, 9},
@@ -87,9 +87,9 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
                                roulette_wheel_parent_selection<rbf_params, double>,
                                roulette_wheel_survival_selection<rbf_params, double>,
                                best_individual_elitism<rbf_params, double>,
-                               ring_best_migration<rbf_params, double >>::run(system,
-                                                                              system_props,
-                                                                              user_props);
+                               ring_best_migration<rbf_params, double>>::run(system,
+                                                                             system_props,
+                                                                             user_props);
 }
 
 CLUSTER_CONFIG(rbf_params, double)

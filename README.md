@@ -85,8 +85,8 @@ auxiliary data used by custom genetic operators defined for this problem (in `ex
 void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   //...
   user_properties user_props{
-      {strings::STABLE_REQUIRED_KEY, size_t{10}},
-      {strings::MINIMUM_AVERAGE_KEY, 0.9},
+      {strings::STABLE_REQUIRED, size_t{10}},
+      {strings::MINIMUM_AVERAGE, 0.9},
       {strings::CSV_FILE, "../log4j-trainset.csv"s},
       {strings::N_ROWS, 244},
       {strings::N_COLS, 9},

@@ -42,9 +42,9 @@ using inserter = std::back_insert_iterator<population<individual, fitness_value>
 
 // Commonly used data
 namespace strings {
-const constexpr char POSSIBLE_VALUES_KEY[] = "possible_initialization_values";
-const constexpr char STABLE_REQUIRED_KEY[] = "stable_required";
-const constexpr char MINIMUM_AVERAGE_KEY[] = "minimum_average";
+const constexpr char POSSIBLE_VALUES[] = "possible_initialization_values";
+const constexpr char STABLE_REQUIRED[] = "stable_required";
+const constexpr char MINIMUM_AVERAGE[] = "minimum_average";
 const constexpr char CSV_FILE[] = "csv_file";
 const constexpr char N_ROWS[] = "n_rows";
 const constexpr char N_COLS[] = "n_cols";
