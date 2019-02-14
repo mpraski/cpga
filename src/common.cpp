@@ -38,7 +38,7 @@ std::tuple<actor, actor, actor> bind_remote_reporters(actor_system &system, cons
       if (auto reporter{system.middleman().remote_actor(host, port)}; reporter) {
         return *reporter;
       }
-      throw std::runtime_error("Cannot connect to remote reporter on port " + port);
+      throw std::runtime_error(str("Cannot connect to remote reporter on port: ", port));
     }
     return actor{nullptr};
   };

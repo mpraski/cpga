@@ -77,7 +77,7 @@ behavior master_node_executor(stateful_actor<base_state> *self,
         auto[generation_reporter, individual_reporter, system_reporter] = bind_remote_reporters(system, reporter_info);
         auto workers = bind_remote_workers(system, workers_info);
 
-        auto sys_props{system_props};
+        auto sys_props = system_props;
         if (workers.size() != system_props.islands_number) {
           system_message(self,
                          "Actual number of islands/workers (",

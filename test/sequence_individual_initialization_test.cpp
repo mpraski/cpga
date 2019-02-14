@@ -15,6 +15,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
+        .repeatingIndividualElements(true)
         .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
@@ -35,6 +36,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
+        .repeatingIndividualElements(true)
         .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
@@ -55,6 +57,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
+        .repeatingIndividualElements(true)
         .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
@@ -75,6 +78,7 @@ TEST_CASE("sequence_individual_initialization exhibits correct behaviour", "[seq
     auto config = shared_config_builder(cpga::pga_model::GLOBAL)
         .withPopulationSize(10)
         .withIndividualSize(10)
+        .repeatingIndividualElements(true)
         .withUserProperty(cpga::strings::POSSIBLE_VALUES, constituents)
         .build();
 
