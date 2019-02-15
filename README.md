@@ -11,6 +11,7 @@ A framework for designing, running and benchmarking genetic algorithms as actor 
 - [X] Extract headers to a dedicated directory for including as a library
 - [X] Provide CMake configuration for the library
 - [X] Write unit tests (leverage CAF testing DSL for actor code)
+- [X] Added CMake target for generating Doxygen documentation
 - [ ] Provide benchmarks
 
 #### Example

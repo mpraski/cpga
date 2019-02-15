@@ -1,0 +1,13 @@
+PROJECT_NAME           = "@CMAKE_PROJECT_NAME@"
+PROJECT_NUMBER         = @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
+STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@ \
+                         @PROJECT_BINARY_DIR@
+INPUT                  = @PROJECT_SOURCE_DIR@/README.md \
+                         @PROJECT_SOURCE_DIR@ \
+                         @PROJECT_BINARY_DIR@
+FILE_PATTERNS          = *.hpp \
+                         *.cpp
+EXCLUDE                = @PROJECT_SOURCE_DIR@/include/cpga/examples/components_fault/vendor/libsvm/svm.hpp \
+                         @PROJECT_SOURCE_DIR@/src/svm.cpp
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = README.md
