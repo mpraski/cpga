@@ -1,5 +1,5 @@
-include_directories(${genetic_actor_SOURCE_DIR}/include)
-link_directories(${genetic_actor_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+link_directories(${CMAKE_SOURCE_DIR}/src)
 
 file(GLOB cgpa_sources "*.cpp")
 list(REMOVE_ITEM cgpa_sources "main.cpp")

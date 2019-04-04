@@ -5,8 +5,8 @@ find_package(Catch2 REQUIRED)
 
 message(STATUS "Tests included")
 
-include_directories(${genetic_actor_SOURCE_DIR}/include)
-include_directories(${genetic_actor_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 file(GLOB cgpa_test_sources "*.cpp" "helpers/*.cpp")
 
