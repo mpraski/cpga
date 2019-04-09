@@ -195,6 +195,8 @@ class cluster_properties : public actor_system_config {
   uint16_t worker_range_start;
   size_t expected_worker_nodes;
   std::string _mode;
+  size_t core_number = 1;
+  std::string file_path = "/";
 
   cluster_properties();
 
@@ -206,7 +208,9 @@ class cluster_properties : public actor_system_config {
                                                         reporter_range_start{props.reporter_range_start},
                                                         worker_range_start{props.worker_range_start},
                                                         expected_worker_nodes{props.expected_worker_nodes},
-                                                        _mode{props._mode} {}
+                                                        _mode{props._mode},
+                                                        core_number{props.core_number},
+                                                        file_path{props.file_path} {}
   cluster_properties &operator=(cluster_properties &&props) {
     master_node_host = std::move(props.master_node_host);
     this_node_host = std::move(props.this_node_host);
@@ -216,6 +220,8 @@ class cluster_properties : public actor_system_config {
     worker_range_start = props.worker_range_start;
     expected_worker_nodes = props.expected_worker_nodes;
     _mode = std::move(props._mode);
+    core_number = props.core_number;
+    file_path = std::move(props.file_path);
     return *this;
   }
 
@@ -257,7 +263,9 @@ cluster_properties::cluster_properties() { \
       .add(reporter_range_start, "reporter-range-start,rrs", "set the port range start for reporter actors") \
       .add(worker_range_start, "worker-range-start,rrs", "set the port range start for worker actors") \
       .add(expected_worker_nodes, "expected-worker-nodes,ewn", "set the expected number of worker nodes") \
-      .add(_mode, "mode,m", "set mode of operation (SERVER, WORKER or REPORTER)"); \
+      .add(_mode, "mode,m", "set mode of operation (SERVER, WORKER or REPORTER)") \
+      .add(core_number, "cores,j", "set number of cores used for computation on this machine") \
+      .add(file_path, "file,f", "the path to input data file"); \
 } \
 
 template<typename T, typename ... Ts>

@@ -16,7 +16,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   // core settings
   system_props.island_model();
   system_props.total_population_size = 200;
-  system_props.islands_number = recommended_worker_number();
+  system_props.islands_number = cluster_props.core_number;
   system_props.elitists_number = 2;
   system_props.generations_number = 50;
   system_props.migration_period = 30;
@@ -47,7 +47,7 @@ void caf_main(actor_system &system, const cluster_properties &cluster_props) {
   user_properties user_props{
       {strings::STABLE_REQUIRED, size_t{10}},
       {strings::MINIMUM_AVERAGE, 0.9},
-      {strings::CSV_FILE, "../../log4j-trainset.csv"s},
+      {strings::CSV_FILE, cluster_props.file_path},
       {strings::N_ROWS, 244},
       {strings::N_COLS, 9},
       {strings::N_FOLDS, 5},
