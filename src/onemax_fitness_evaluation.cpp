@@ -13,9 +13,7 @@ namespace examples {
  * @return Resulting fitness value
  */
 int onemax_fitness_evaluation::operator()(const std::vector<char> &ind) const noexcept {
-  int i{0};
-  for (auto b : ind) if (b) ++i;
-  return i;
+  return std::count_if(std::begin(ind), std::end(ind), [](auto b) { return b; });
 }
 }
 }
